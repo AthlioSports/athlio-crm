@@ -1,0 +1,74 @@
+<section class="student-free">
+    <div class="container-fluid">
+        <div class="main_heading">
+            <h3>Student Payment History</h3>
+        </div>
+        <!-- <div class="academies-listname">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h5>Student Fee</h5>
+                </div>
+                <div class="col-sm-6">
+                    <div class="addacademy">
+                        <a data-toggle="modal" data-target="#myModal-1">
+                            <button type="button"><i class="fa fa-plus" aria-hidden="true"></i> Create</button></a>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="studentDetails">
+                    <div>
+                        <label class="studentDetailsLabel">Name</label><span>: {{ userDetails.name }}</span>
+                    </div>
+                    <div>
+                        <label class="studentDetailsLabel">Sport</label><span>: {{ userDetails.sport }}</span>
+                    </div>
+                    <div>
+                        <label class="studentDetailsLabel">Batch</label><span>: {{ userDetails.level }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="back">
+                    <a routerLink="/Sidemenu/studentfree"><button type="button">Back</button></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-7">
+                <div class="listtabel">
+                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="style-3" class="table table-striped hover  scrollbar">
+                        <thead>
+                            <tr>
+                                <th class="paymentsty">Month of payment</th>
+                                <th class="amount V-align">Amount</th>
+                                <th class="amount V-align">Discount</th>
+                                <th class="amount">Recieved amount</th>
+                                <th class="paymentsty text-center">Status</th>
+                                <th class="paymentsty">Mode of payment</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="studentsPaymentHistory?.length == 0">
+                            <tr>
+                                <td colspan="8" class="text-center nodata">No data found</td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="studentsPaymentHistory?.length > 0">
+                            <tr *ngFor="let payment of studentsPaymentHistory">
+                                <td>{{ payment.paymentMonthName }}</td>
+                                <td class="text-right Pright">&#8377; {{ payment.amount }}/-</td>
+                                <td class="text-right Pright">&#8377; {{ payment.discountAmount }}/-</td>
+                                <td class="text-right Pright">&#8377; {{ payment.amountAfterDiscount }}/-</td>
+                                <td class="text-center">{{ payment.paymentStatus }}</td>
+                                <td>{{ payment.modeOfPayment }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

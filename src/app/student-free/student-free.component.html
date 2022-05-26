@@ -1,0 +1,166 @@
+<router-outlet (activate)="onActivate($event)"></router-outlet>
+<section class="search-filters">
+    <div class="container-fluid">
+        <div class="filters-options">
+            <h4>athilo search filters</h4>
+            <div class="search-1">
+                <label>Select Sport</label><br>
+                <select [(ngModel)]="filters.sport" name="sport">
+                    <option value="" disabled>Sport</option>
+                    <option value="">All</option>
+                    <option [value]="sport.id" *ngFor="let sport of allSports">{{ sport.name }}</option>
+                </select>
+            </div>
+            <div class="search-1">
+                <label>Select Batch</label><br>
+                <select name="batch" [(ngModel)]="filters.batch" name="batch">
+                    <option value="" disabled>Batch</option>
+                    <option [value]="batch.id" *ngFor="let batch of batchesList">{{batch.name}}</option>
+                </select>
+            </div>
+            <div class="search-1">
+                <label>Select Month</label><br>
+                <select name="academy" [(ngModel)]="filters.filterMonth" name="filterMonth">
+                    <option value="" disabled>month</option>
+                    <option *ngFor="let month of monthsArr" [value]="month.value">{{ month.name }}</option>
+                </select>
+            </div>
+            <div class="search-1">
+                <label> select Year</label><br>
+                <select [(ngModel)]="filters.filterYear" name="filterYear">
+                    <option value="" disabled>year</option>
+                    <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+                </select>
+            </div>
+            <div class="clearfix"></div>
+            <div class="search-btn">
+                <button type="button" (click)="getStudentsByFilters()">Search</button>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="student-free">
+    <div class="container-fluid">
+        <div class="main_heading">
+            <h3>Fee Payment</h3>
+        </div>
+        <div class="academies-listname">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h5>Student Fee</h5>
+                </div>
+                <div class="col-sm-6">
+                    <!-- <div class="addacademy">
+                        <a data-toggle="modal" data-target="#myModal-1">
+                            <button type="button"><i class="fa fa-plus" aria-hidden="true"></i> Create</button></a>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+
+        <div class="listtabel">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="style-3" class="table table-striped hover scrool-y scrollbar fullwidth">
+                <thead>
+                    <tr>
+                        <th>S.No.</th>
+                        <th class="stnwidth" style="width: 120px">Student name</th>
+                        <th class="levelwidth">Sport</th>
+                        <th class="levelwidth">Level</th>
+                        <th class="ttlamount">Total amount</th>
+                        <th class="ttlamount">Total discount</th>
+                        <th class="amountwidth">Amount Recieved</th>
+                        <th class="lstwidth">Last paid on</th>
+                        <th class="balancewidth">Balance Due</th>
+                        <th class="paystatus text-center" style="width: 90px;">Payment status</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="studentsPayments?.length == 0">
+                    <tr>
+                        <td colspan="10" class="text-center nodata">No data found</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="studentsPayments?.length > 0">
+                    <tr *ngFor="let payment of studentsPayments">
+                        <td>{{ payment.slNo }}</td>
+                        <td (click)="getStudentPaymentHistory(payment)" class="studentname" [ngClass]="{'disableClick' : payment.studentName === 'Total'}" matTooltip="View Payment History" matTooltipPosition="above">{{ payment.studentName }}</td>
+                        <td>{{ payment.sportName }}</td>
+                        <td>{{ payment.levelName }}</td>
+                        <td class="text-right Pright"> &#8377; {{ payment.totalDue }}</td>
+                        <td class="text-right Pright"> &#8377; {{ payment.totalDiscount }}</td>
+                        <td class="text-right Pright">&#8377; {{ payment.amountPaid }}</td>
+                        <td>{{ payment.lastPaidDate }}</td>
+                        <td class="text-right Pright">&#8377; {{ payment.amountToPay }}</td>
+                        <td class="paybutton">
+                            <span *ngIf="payment.unPaidAmount > 0 && payment.studentName !== 'Total'"><button class="pay"
+                                    (click)="openPayment(payment)" data-toggle="modal"
+                                    data-target="#myModal-1">Pay</button></span>
+                            <span *ngIf="payment.unPaidAmount == 0 && payment.studentName !== 'Total'"><button class="paid disablePointer">Paid</button></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- Modal -->
+<div id="myModal-1" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content mdlcnt1">
+            <div class="modal-header mdl-head">
+                <button type="button" class="close cls-1" data-dismiss="modal" (click)="removePayment()" #closeAddExpenseModal>&times;</button>
+                <h4 class="modal-title">Payment</h4>
+            </div>
+            <div class="modal-body">
+                <div class="payment_fields">
+                    <p>name</p>
+                    <b>:</b>
+                    <span><input type="text" name="name" [(ngModel)]="feePayment.studentName" disabled> </span>
+                </div>
+                <div class="payment_fields">
+                    <p>sport</p>
+                    <b>:</b>
+                    <span><input type="text" name="sport" [(ngModel)]="feePayment.sportName" disabled> </span>
+                </div>
+                <div class="payment_fields">
+                    <p>Level</p>
+                    <b>:</b>
+                    <span><input type="text" name="level" [(ngModel)]="feePayment.levelName" disabled> </span>
+                </div>
+                <div class="payment_fields">
+                    <p>Total Due</p>
+                    <b>:</b>
+                    <span><input type="text" name="totalDue" [(ngModel)]="feePayment.amountToPay" disabled> </span>
+                </div>
+                <div class="payment_fields">
+                    <p>Mode of payment</p>
+                    <b>:</b>
+                    <span><select name="modeOfPayment" [(ngModel)]="feePayment.modeOfPayment">
+                            <option value="Cash">Cash</option>
+                            <option value="Cheque">Cheque</option>
+                            <option value="Debit card">Debit card</option>
+                            <option value="Credit card">Credit card</option>
+                        </select> </span>
+                </div>
+                <div class="payment_fields">
+                    <p>Date of payment</p>
+                    <b>:</b>
+                    <!-- <span> -->
+                    <h5 class="dateformat">
+                        <mat-form-field>
+                            <input matInput [matDatepicker]="picker" [max]='currentDate' (click)="picker.open()" placeholder="Date of payment" name="dateOfPayment" [(ngModel)]="feePayment.dateOfPayment" readonly>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </h5>
+                    <!-- </span> -->
+                </div>
+                <div class="submitsty">
+                    <button type="button" (click)="payBalanceDue()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

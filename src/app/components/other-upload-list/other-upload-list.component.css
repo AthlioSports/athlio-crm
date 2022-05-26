@@ -1,0 +1,110 @@
+.coach-list {
+    background-color: #fff;
+    margin: 10px 0px;
+    padding: 0px 10px 10px 10px;
+    border-radius: 4px;
+}
+
+.coach-listmain h5 {
+    text-transform: capitalize;
+    font-weight: 600;
+}
+
+.addcoach {
+    float: right;
+    margin-top: 14px;
+}
+
+.addcoach button {
+    text-transform: capitalize;
+    padding: 8px 30px;
+    border: none;
+    border-radius: 36px;
+    background-color: #ff0000;
+    color: #fff;
+}
+
+.addcoach a button:hover {
+    background-color: #da0808;
+}
+
+.coach-listmain {
+    margin-bottom: 10px;
+}
+
+.hovereffect img {
+    width: 100%;
+    object-fit: cover;
+    height: 100px;
+}
+
+.listtable {
+    /* height: 410px; */
+    overflow-y: scroll;
+}
+
+.listtable thead {
+    background-color: #fff;
+    color: #000;
+}
+
+.listtable thead th {
+    font-weight: normal;
+    border: none;
+}
+
+.scrool-y {
+    /* height: 400px;
+    display: block; */
+    overflow-y: scroll;
+    width: 100% !important;
+}
+
+.type {
+    width: 110px;
+}
+
+.subject {
+    width: 420px !important;
+}
+
+.startDt {
+    width: 110px;
+}
+
+.EndDt {
+    width: 110px;
+}
+
+.Action {
+    width: 170px;
+}
+
+.previewstyles-2 {
+    font-size: 12px;
+}
+
+.previewstyles-2 p {
+    width: 21%;
+    float: left;
+    text-transform: capitalize;
+    font-weight: 600;
+}
+
+.previewstyles-2 b {
+    width: 2%;
+    float: left;
+}
+
+.previewstyles-2 span {
+    width: 77%;
+    float: left;
+    text-transform: capitalize;
+    word-break: break-word;
+}
+
+.updimages {
+    font-weight: 600;
+    margin-top: 0px;
+    margin-left: 10px;
+}

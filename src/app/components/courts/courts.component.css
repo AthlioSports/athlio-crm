@@ -1,0 +1,101 @@
+.courts {
+    background-color: #fff;
+    margin: 10px 0px;
+    padding: 0px 10px 10px 10px;
+    border-radius: 4px;
+}
+
+.courts-list h5 {
+    font-family: Gotham-Bold;
+    font-weight: 600;
+}
+
+.courts-list {
+    margin-bottom: 10px;
+}
+
+.addcourts {
+    margin-top: 20px;
+}
+
+.addsportname {
+    width: 65%;
+    float: left;
+    margin-top: 20px;
+}
+
+.addbtn {
+    width: 35%;
+    float: left;
+    margin-top: 20px;
+}
+
+.addbtn button {
+    padding: 6px 15px;
+    border: none;
+    border-radius: 20px;
+    margin-right: 10px;
+    color: #fff;
+    text-transform: capitalize;
+}
+
+.update {
+    background-color: #0e900e;
+}
+
+.update:hover {
+    background-color: #0c790c;
+}
+
+.cancel-1 {
+    background-color: #c33939;
+}
+
+.cancel-1:hover {
+    background-color: #bb1b1b;
+}
+
+.addsport {
+    background-color: #85bd18;
+}
+
+.addsport:hover {
+    background-color: #71a50c;
+}
+
+.courtslistview table thead {
+    background-color: #fff;
+    color: #000;
+}
+
+.courtslistview table thead th {
+    border: none;
+}
+
+.courtslistview table tbody {
+    border: 1px solid #ccc;
+}
+
+.scrool-courts {
+    /* display: block; */
+    max-height: 346px;
+    overflow-y: scroll;
+    width: 100% !important;
+}
+
+.courtslistview table thead tr th {
+    font-weight: normal;
+}
+
+.disableEit {
+    cursor: no-drop;
+}
+
+
+/* .crt_name {
+    width: 160px !important;
+}
+
+.crt_name-1 {
+    width: 210px !important;
+} */

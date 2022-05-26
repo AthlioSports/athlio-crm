@@ -1,0 +1,75 @@
+<router-outlet (activate)="onActivate($event)"></router-outlet>
+<section class="sports">
+    <div class="container-fluid">
+        <div class="main_heading">
+            <h3>Batches</h3>
+        </div>
+        <div class="sports-list">
+            <h5>List of Batches </h5>
+            <div class="row">
+                <div class="col-sm-7">
+                    <form #aF="ngForm">
+                        <div class="addsports">
+                            <mat-form-field>
+                                <input class="captilize" matInput (keypress)="alphabetsAndSpaceOnly($event)" maxlength="25" placeholder="Enter Batch Name *" [autocomplete]="'off'" [(ngModel)]='batchName' name='batchName'>
+                            </mat-form-field>
+                        </div>
+                        <div class="addbtn">
+                            <button *ngIf="!showsportEdit" type="button" class="addsport" appDebounceClick (debounceClick)='addSportbatches()' [debounceTime]="1000">Submit</button>
+                            <button *ngIf="showsportEdit" type="button" class="update" appDebounceClick (debounceClick)='updatebatchSport(dtSportsList.id)' [debounceTime]="1000">Update</button>
+                            <button *ngIf="showsportEdit" type="button" class="cancel-1" (click)="batchName='';showsportEdit=false">Cancel</button>
+                        </div>
+                    </form>
+                    <div class="sportslistview">
+                        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="style-3" class="row-border table-striped hover scrool-spt sports_view scrollbar fullwidth">
+                            <thead>
+                                <tr>
+                                    <th class="sno">S.No</th>
+                                    <th class="spt_name">Sport Name</th>
+                                    <th class="spt_name text-center">Added On</th>
+                                    <th class="spt_name">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="dtSportsList?.length == 0">
+                                <tr>
+                                    <td colspan="4" class="nodata">No data found</td>
+                                </tr>
+                            </tbody>
+                            <tbody *ngIf="dtSportsList?.length != 0">
+                                <tr *ngFor="let sport of dtSportsList">
+                                    <td>{{ sport.slNo }}</td>
+                                    <td class="captilize wrd-brk" style="width: 170px;">{{ sport.name }}</td>
+                                    <td class="captilize text-center">{{ sport.created_date | date:'dd-MMM-yyyy'}}</td>
+                                    <td><span class="editicon"><i class="fa fa-pencil" aria-hidden="true" matTooltip="Edit"
+                        matTooltipPosition="above" (click)="edidSport(sport._id)"></i></span>
+                                        <span class="delete"><i class="fa fa-trash-o" aria-hidden="true" matTooltip="Delete"
+                      (click)="deleteId = sport._id"  data-toggle="modal" data-target="#myModal2" matTooltipPosition="above"></i></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal 2-->
+<div id="myModal2" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content mdl_content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title title-1">Are you sure you want delete this file</h4>
+            </div>
+            <div class="modal-body model-bdy">
+                <button type="button" class="yes" data-dismiss="modal" (click)="deletebatchsport(deleteId)">Yes</button>
+                <button type="button" class="no" data-dismiss="modal">No</button>
+            </div>
+        </div>
+
+    </div>
+</div>

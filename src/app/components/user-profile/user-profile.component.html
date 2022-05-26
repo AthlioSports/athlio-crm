@@ -1,0 +1,138 @@
+<div class="coach-list">
+    <div class="conatiner-fluid">
+        <div class="main_heading">
+            <h3>Account Details</h3>
+        </div>
+        <div class="coach-listmain">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h5>My Profile</h5>
+                </div>
+                <button class="editProfileSubmit" [disabled]=disableSubmit (click)='updateData()' *ngIf="isEdit">Save & Continue</button>
+                <button class="cancelProfile" *ngIf="isEdit" (click)="cancelEdit()">Cancel</button>
+                <button class="editProfile" *ngIf="!isEdit" (click)="editProfile()">Edit</button>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div>
+                        <form class="example-form">
+                            <div class="row">
+                                <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="Name" name="name" (keypress)="alphabets_dot_space_only($event)" maxlength="20" [autocomplete]="'off'" [(ngModel)]="adminDetails.name" required [disabled]="!isEdit">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="Display Name" [autocomplete]="'off'" (keypress)="alphabets_dot_space_only($event)" maxlength="20" [(ngModel)]="adminDetails.display_name" name="display_name" value="" [disabled]="!isEdit">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="Mobile Number" maxlength="10" name="phone" [autocomplete]="'off'" [(ngModel)]="adminDetails.phone" value="" required (keypress)="mobileNumberOnly($event)" [disabled]="!isEdit">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="Alternate Mobile Number" maxlength="10" [autocomplete]="'off'" [(ngModel)]="adminDetails.alternate_phone" name="alternate_phone" value="" (keypress)="mobileNumberOnly($event)" [disabled]="!isEdit">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                            <mat-form-field class="example-full-width">
+                                                <input matInput placeholder="Email ID" [(ngModel)]="adminDetails.email" [autocomplete]="'off'" name="email" value="" required [disabled]="!isEdit">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                            <a class="changeProfileImg">
+                                                <h4 data-toggle="modal" data-target="#myModal"><u>Change Password</u></h4>
+                                            </a>
+                                            <br />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="profilrpic">
+                                        <img class="profilrpic" *ngIf="!qImgLocalPath" class="img-responsive qImg" src="../../assets/images/default_student.png" alt="profilr image">
+                                        <img class="profilrpic" class="img-responsive qImg" *ngIf="qImgLocalPath" [src]="qImgLocalPath" alt="profile image">
+
+                                        <div class="uplbtns" *ngIf="isEdit">
+                                            <div class="file-upload">
+                                                <label for="upload" class="file-upload__label">Upload</label>
+                                                <input id="upload" class="file-upload__input" type="file" (change)="uploadProfilePic($event)" name="logo" id="logo" accept=".jpeg,.jpg,.png" #fileUpload>
+                                                <p class="imgformat">(JPG, PNG...)</p>
+                                            </div><br>
+                                            <button type="button" data-toggle="modal" data-target="#myModal2" *ngIf="qImgLocalPath">Remove</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content model-width">
+            <div class="modal-header mdl-head">
+                <button type="button" (click)="cancelPasswordChange()" class="close cls-1" data-dismiss="modal" #closeAddExpenseModal>&times;</button>
+                <h4 class="modal-title title">change Password</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="chabge_pswd">
+                        <label>old Password <b class="astric">*</b></label>
+                        <span><b>:</b></span>
+                        <input type="password" name="oldpassword" [autocomplete]="'off'" [(ngModel)]="Password.oldpassword" autocomplete="off" required #old>
+                        <i id="eyeIcon" class="viewicon fa" [ngClass]="{'fa-eye': oldPasswordEye, 'fa-eye-slash' : !oldPasswordEye}" (click)="showPassword(old, 'OLD')"></i>
+                    </div>
+                    <div class="chabge_pswd">
+                        <label>new Password <b class="astric">*</b></label>
+                        <span><b>:</b></span>
+                        <input type="password" name="newpassword" [autocomplete]="'off'" [(ngModel)]="Password.newpassword" autocomplete="off" required #new>
+                        <i id="eyeIcon" class="viewicon-1 fa" [ngClass]="{'fa-eye': newPasswordEye, 'fa-eye-slash' : !newPasswordEye}" (click)="showPassword(new, 'NEW')"></i>
+                    </div>
+                    <div class="chabge_pswd">
+                        <label>confirm password <b class="astric">*</b></label>
+                        <span><b>:</b></span>
+                        <input type="password" name="confirmpassword" [autocomplete]="'off'" [(ngModel)]="Password.confirmpassword" autocomplete="off" required #confirm>
+                        <i id="eyeIcon" class="viewicon-2 fa" [ngClass]="{'fa-eye': confirmPasswordEye, 'fa-eye-slash' : !confirmPasswordEye}" (click)="showPassword(confirm, 'CONFIRM')"></i>
+                    </div>
+                    <div class="update_pwd">
+                        <button type="button" class="btn btn-success" (click)="changePassword()">update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Modal 2-->
+<div id="myModal2" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content mdl_content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title title-1">Are you sure you want delete this file</h4>
+            </div>
+            <div class="modal-body model-bdy">
+                <button type="button" class="yes" data-dismiss="modal" (click)="removeFile()">Yes</button>
+                <button type="button" class="no" data-dismiss="modal">No</button>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,226 @@
+.academies-list {
+    background-color: #fff;
+    margin: 10px 0px;
+    padding: 0px 10px 10px 10px;
+    border-radius: 4px;
+}
+
+.academies-listname {
+    margin-bottom: 10px;
+}
+
+.academies-listname h5 {
+    text-transform: capitalize;
+    font-family: Aller_Bold;
+    padding-top: 10px;
+}
+
+.addacademy {
+    float: right;
+    margin-top: 14px;
+}
+
+.addacademy button {
+    text-transform: capitalize;
+    padding: 8px 30px;
+    border: none;
+    border-radius: 36px;
+    background-color: #ff0000;
+    color: #fff;
+}
+
+.addacademy a button:hover {
+    background-color: #da0808;
+}
+
+.addacademy a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.listtabel thead {
+    background-color: #fff;
+}
+
+.acd_list {
+    height: 540px;
+    display: block;
+    overflow-y: scroll;
+}
+
+
+/* new */
+
+.listtabel table {
+    width: 100% !important;
+}
+
+.listtabel table thead th {
+    color: #000;
+    font-weight: 400;
+    border: none;
+}
+
+.sport {
+    /* background: white; */
+    color: black;
+    padding: 3px;
+    text-align: center;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    list-style: none;
+    float: left;
+}
+
+.scrool-y {
+    overflow-y: scroll;
+    /* display: block; */
+    max-height: 400px;
+}
+
+.sportslist ul {
+    padding: 0px;
+}
+
+
+/* .sportslist{
+    width: 348px;
+  } */
+
+
+/* .academyImages {
+    width: 33%;
+    padding: 4px;
+    float: left; 
+    height: 110px;
+    object-fit: cover;
+    width: 100%;
+    margin: 5px 0px;
+} */
+
+.acdgallaryimages {
+    background-color: #f3eeee;
+    height: 150px;
+    position: relative;
+    margin: 5px 0px;
+    overflow: hidden;
+}
+
+.acdgallaryimages img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.academy_gallery p {
+    font-size: 18px;
+}
+
+.imagenot p {
+    font-size: 14px;
+}
+
+.user_edit {
+    text-align: right;
+}
+
+.user_edit button {
+    padding: 6px 30px;
+    border: none;
+    border-radius: 20px;
+    margin-right: 10px;
+    color: #fff;
+    background-color: #3F51B5;
+    margin: 10px 0px;
+}
+
+.actn_1 {
+    width: 116px;
+    vertical-align: middle;
+}
+
+.actn_2 {
+    width: 30px;
+    vertical-align: middle;
+}
+
+.fontfmily {
+    text-transform: none;
+}
+
+.actionwidth {
+    width: 150px;
+}
+
+.acd_name {
+    width: 200px !important;
+}
+
+.acd_sport {
+    width: 250px !important;
+}
+
+.cnt_person {
+    width: 150px !important;
+}
+
+.texthidden {
+    white-space: nowrap;
+    width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.previewstyles-1 {
+    font-size: 12px;
+}
+
+.previewstyles-1 p {
+    width: 14%;
+    float: left;
+    text-transform: capitalize;
+    font-family: Aller_Bold;
+}
+
+.previewstyles-1 b {
+    width: 2%;
+    float: left;
+}
+
+.previewstyles-1 span {
+    width: 84%;
+    float: left;
+    text-transform: capitalize;
+    word-break: break-word;
+}
+
+.videoLibrary {
+    width: 100%;
+}
+
+.rejectReason {
+    width: 100%;
+    border-radius: 3px;
+    padding: 3px;
+}
+
+.rejectedStatus {
+    background-color: #f41d1d;
+    padding: 6px;
+    color: white;
+    border-radius: 2px;
+}
+
+.approvedStatus {
+    background-color: #108210d6;
+    padding: 6px;
+    color: white;
+    border-radius: 2px;
+}
+
+.heading {
+    width: 260px !important;
+}

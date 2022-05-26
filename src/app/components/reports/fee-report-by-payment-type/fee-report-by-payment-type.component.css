@@ -1,0 +1,28 @@
+.scrool-y {
+    overflow-y: scroll;
+    display: block;
+    /* height: 360px; */
+    width: 100% !important;
+}
+
+.tblsty thead {
+    background-color: #fff;
+    color: #000;
+}
+
+.mtop50 {
+    margin-top: 50px;
+}
+
+.tblsty thead th {
+    font-weight: normal;
+    border: none;
+}
+
+.mtop {
+    margin-top: 30px;
+}
+
+.mbtm {
+    margin-bottom: 20px;
+}

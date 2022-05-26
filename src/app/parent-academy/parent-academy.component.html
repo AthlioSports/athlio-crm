@@ -1,0 +1,354 @@
+<router-outlet (activate)="onActivate($event)"></router-outlet>
+<!-- <section class="search-filters" *ngIf="!parentAcademyLogin">
+    <div class="container-fluid">
+        <div class="filters-options">
+            <h4>athilo search filters</h4>
+            <div class="search-1">
+                <label>Sports</label><br>
+                <input type="text" name="" id="">
+            </div>
+            <div class="search-1">
+                <label>select coach</label><br>
+                <select>
+          <option value="">coach-1</option>
+          <option value="">coach-2</option>
+        </select>
+            </div>
+            <div class="search-1">
+                <label>select month</label><br>
+                <select>
+          <option value="">jan</option>
+          <option value="">feb</option>
+        </select>
+            </div>
+            <div class="search-1">
+                <label> select year</label><br>
+                <select>
+          <option value="">2018</option>
+          <option value="">2019</option>
+        </select>
+            </div>
+            <div class="clearfix"></div>
+            <div class="search-btn">
+                <button type="button">Search</button>
+            </div>
+        </div>
+    </div>
+</section> -->
+
+<section class="academies-list" *ngIf="!parentAcademyLogin">
+    <div class="container-fluid">
+        <div class="main_heading">
+            <h3>Parent Academies</h3>
+        </div>
+        <div class="academies-listname">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h5>Academies List</h5>
+                </div>
+                <div class="col-sm-6">
+                    <div class="addacademy">
+                        <a routerLink="/Sidemenu/parent-academy/create-parentAcademy"> <button type="button"><i class="fa fa-plus"
+                  aria-hidden="true"></i>
+                Add Academy</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="listtabel">
+            <table datatable [dtOptions]="dtOptions" [ngClass]="{'noDataDataTable' : parentAcademiesList?.length == 0}" [dtTrigger]="dtTrigger" id="style-3" class="table table-striped hover scrool-y scrollbar">
+                <thead>
+                    <tr>
+                        <th style="width: 20px;">S.No.</th>
+                        <th class="acd_name">Academy Name</th>
+                        <th class="cnt_person">Contact Person</th>
+                        <th>City</th>
+                        <th class="mbl_number mblnum">Phone</th>
+                        <th class="actionwidth">Action</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="parentAcademiesList?.length == 0">
+                    <tr>
+                        <td colspan="8" class="text-center nodata">No data found</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="parentAcademiesList?.length != 0">
+                    <tr *ngFor="let academy of parentAcademiesList">
+                        <td>{{ academy.slNo }}</td>
+                        <td class="captilize" style="width: 116px;">
+                            <div class="texthidden-1">{{ academy.name }}</div>
+                        </td>
+                        <td class="captilize">{{ academy.contactPerson }}</td>
+                        <td class="captilize">{{ academy.city }}</td>
+                        <td>{{ academy.mobile }}</td>
+                        <td class="actn_1">
+                            <span class="view" (click)=viewData(academy._id)><i class="fa fa-eye" aria-hidden="true" matTooltip="View"
+                  matTooltipPosition="above" data-toggle="modal" data-target="#academyDetails"></i></span>
+                            <span class="editicon" (click)=editData(academy._id)><i class="fa fa-pencil" aria-hidden="true"
+                  matTooltip="Edit" matTooltipPosition="above"></i></span>
+                            <span class="delete"><i class="fa fa-trash-o" aria-hidden="true" matTooltip="Delete"
+                  matTooltipPosition="above" data-toggle="modal" (click)="storeDeleteParentAcademyId(academy._id)"
+                  data-target="#myModal2"></i></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="academies-list acd_list scrollbar" id="style-3" *ngIf="parentAcademyLogin">
+    <div class="container-fluid">
+        <div class="main_heading">
+            <h3>Academies</h3>
+        </div>
+        <div>
+
+            <!-- Modal content-->
+            <div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class="modal-title">Academy Details</h4>
+                    </div>
+                    <div class="col-sm-6 user_edit">
+                        <button type="button" (click)=editData(academyDetails._id)>Edit</button>
+                    </div>
+                </div>
+                <p></p>
+                <div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="previewstyles">
+                                <p>Name</p>
+                                <b>:</b>
+                                <span>{{academyDetails.name}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="previewstyles">
+                                <p>Display Name</p>
+                                <b>:</b>
+                                <span>{{academyDetails.displayName}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="previewstyles">
+                                <p>Email</p>
+                                <b>:</b>
+                                <span class="fontfmily">{{academyDetails.email}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="previewstyles">
+                                <p>Mobile</p>
+                                <b>:</b>
+                                <span>{{academyDetails.mobile}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="previewstyles">
+                                <p>Established on</p>
+                                <b>:</b>
+                                <span>{{academyDetails.establishedOn | date : 'dd-MMM-yyyy'}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="previewstyles">
+                                <p>contact person</p>
+                                <b>:</b>
+                                <span>{{academyDetails.contactPerson}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="previewstyles">
+                                <p>Contact Email</p>
+                                <b>:</b>
+                                <span>{{ academyDetails.contactEmail }}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="previewstyles">
+                                <p>Contact Mobile</p>
+                                <b>:</b>
+                                <span>{{ academyDetails.contactNumber }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="previewstyles">
+                                <p>City</p>
+                                <b>:</b>
+                                <span>{{academyDetails.city}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="previewstyles">
+                                <p>Locality</p>
+                                <b>:</b>
+                                <span>{{academyDetails.locality}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="previewstyles">
+                                <p>Pincode</p>
+                                <b>:</b>
+                                <span>{{academyDetails.pinCode}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="previewstyles-1">
+                                <p>Address</p>
+                                <b>:</b>
+                                <span>{{academyDetails.address}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="academyDetails" class="modal fade" role="dialog">
+    <div class="modal-dialog mdl-dilg">
+
+        <!-- Modal content-->
+        <div class="modal-content mdl-cnt">
+            <div class="modal-header mdl-head">
+                <button type="button" class="close cls-1" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Academy Details</h4>
+            </div>
+            <div class="modal-body mdl-bdy fixheight scrollbar" id="style-3">
+                <div class="outer-border">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Name</p>
+                                <b>:</b>
+                                <span>{{academyDetails.name}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Email</p>
+                                <b>:</b>
+                                <span class="fontfmily">{{academyDetails.email}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Mobile</p>
+                                <b>:</b>
+                                <span>{{academyDetails.mobile}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Alternate Number</p>
+                                <b>:</b>
+                                <span>{{academyDetails.alternate_number}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Established on</p>
+                                <b>:</b>
+                                <span>{{academyDetails.establishedOn | date : 'dd-MMM-yyyy'}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Number of branches</p>
+                                <b>:</b>
+                                <span>{{academyDetails.numberOfBranches}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>contact person</p>
+                                <b>:</b>
+                                <span>{{academyDetails.contactPerson}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>City</p>
+                                <b>:</b>
+                                <span>{{academyDetails.city}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Locality</p>
+                                <b>:</b>
+                                <span>{{academyDetails.locality}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Pincode</p>
+                                <b>:</b>
+                                <span>{{academyDetails.pinCode}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-sm-12">
+                            <div class="about-academy">
+                                <p>Display Name</p>
+                                <b>:</b>
+                                <span>{{academyDetails.display_name}}</span>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="about-academy">
+                                <p>Address</p>
+                                <b>:</b>
+                                <span>{{academyDetails.address}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 2-->
+<div id="myModal2" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content mdl_content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title title-1">Are you sure you want delete this Parent academy</h4>
+            </div>
+            <div class="modal-body model-bdy">
+                <button type="button" class="yes" data-dismiss="modal" (click)="deleteParentAcademy()">Yes</button>
+                <button type="button" class="no" data-dismiss="modal">No</button>
+            </div>
+        </div>
+
+    </div>
+</div>

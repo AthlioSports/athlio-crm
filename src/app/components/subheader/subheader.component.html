@@ -1,0 +1,119 @@
+<section class="subheader">
+    <div class="">
+        <div class="main_subheader">
+            <!-- <p>Welcome Athlio</p>
+      <a routerLink=""><img src="../../assets/images/Logo_black_text.png" alt="Logo"></a> -->
+
+            <nav id="myNavbar" class="navbar navbar-default" role="navigation">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+                        <!-- <a class="navbar-brand" href="#">Brand</a> -->
+                    </div>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                        <ul class="nav navbar-nav navbar-right Mright10">
+                            <li class="notification" (click)="navigateToNotifications()" *ngIf="academyLogin"><span class="count">{{ newNotificationsCount }}</span><i class="fa fa-bell-o" aria-hidden="true"></i></li>
+                            <li class="dropdown captilize">
+                                <a href="#" data-toggle="dropdown" class="dropdown-toggle loginname">Welcome to <span *ngIf = "this.userDetails && this.userDetails.type && (this.userDetails.type.toLowerCase() == 'academyadmin' || this.userDetails.type.toLowerCase() == 'parentacademy')" class="user_name">{{userDetails.display_name? userDetails.display_name: userDetails.name}}</span><span *ngIf = "!this.userDetails.type">Athlio</span>
+                                    <img *ngIf = !userDetails.profile_pic src="../../assets/images/Logo_black_text.png"
+                                        alt="Logo">
+                                    <img *ngIf = "userDetails.profile_pic" [src]=userDetails.profile_pic
+                                        alt="Logo"> <b class="caret logoutdrp"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li *ngIf="!academyLogin && !parentAcademyLogin"><a routerLink='userProfile'>Profile</a></li>
+                                    <li *ngIf="academyLogin"><a class="logout" data-toggle="modal" data-target="#myModal99">Change Profile Pic</a></li>
+                                    <li *ngIf="academyLogin || parentAcademyLogin"><a class="logout" data-toggle="modal" data-target="#changePassword">Change Password</a></li>
+                                    <li><a (click)=logout() class="logout">Logout</a></li>
+
+
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </div>
+            </nav>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- Modal -->
+<div id="myModal99" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content modelcnt">
+            <div class="modal-header mdl-head">
+                <button type="button" class="close cls-1" data-dismiss="modal" #closeAddExpenseModal>&times;</button>
+                <h4 class="modal-title">Change Profile Photo</h4>
+            </div>
+            <div class="modal-body">
+                <figure class="profilrpic-1">
+                    <img [src]="qImgLocalPath" alt="default_student" *ngIf="qImgLocalPath">
+                    <img src="../../../assets/images/default_student.png" alt="default_student" *ngIf="!qImgLocalPath">
+                </figure>
+
+                <div class="uplbtns profilrpic">
+                    <div class="file-upload">
+                        <label for="upload" class="file-upload__label">Upload</label>
+                        <input id="upload" class="file-upload__input" (change)="uploadProfilePic($event)" type="file" name="logo" accept=".jpeg,.jpg,.png" #fileUpload>
+                        <p class="imgformat">(JPG, PNG, GIF...)</p>
+                    </div><br>
+                    <button type="button btn btn-success" (click)="updateAcademyProfilePic()">Submit</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!--  Change passwod -->
+<div id="changePassword" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content mdl-content-4">
+            <div class="modal-header mdl-head">
+                <button type="button" class="close cls-1" data-dismiss="modal" (click)="cancelPasswordChange()" #closeAddExpenseModal2>&times;</button>
+                <h4 class="modal-title">Change Password</h4>
+            </div>
+            <div class="modal-body">
+                <div class="chabge_pswd">
+                    <label>Old Password <b class="astric">*</b></label>
+                    <span><b>:</b></span>
+                    <input type="password" name="oldpassword" placeholder="Enter Old Password" [autocomplete]="'off'" [(ngModel)]="Password.oldPassword" autocomplete="off" required #old>
+                    <i id="eyeIcon" class="viewicon fa" [ngClass]="{'fa-eye': oldPasswordEye, 'fa-eye-slash' : !oldPasswordEye}" (click)="showPassword(old, 'OLD')"></i>
+                </div>
+                <div class="chabge_pswd">
+                    <label>New Password <b class="astric">*</b></label>
+                    <span><b>:</b></span>
+                    <input type="password" name="newpassword" placeholder="Enter New Password" [autocomplete]="'off'" [(ngModel)]="Password.newPassword" autocomplete="off" required #new>
+                    <i id="eyeIcon" class="viewicon-1 fa" [ngClass]="{'fa-eye': newPasswordEye, 'fa-eye-slash' : !newPasswordEye}" (click)="showPassword(new, 'NEW')"></i>
+                </div>
+                <div class="chabge_pswd">
+                    <label>Conform Password <b class="astric">*</b></label>
+                    <span><b>:</b></span>
+                    <input type="password" name="conformpassword" placeholder="Enter Conform Password" [autocomplete]="'off'" [(ngModel)]="Password.confirmPassword" autocomplete="off" required #confirm>
+                    <i id="eyeIcon" class="viewicon-2 fa" [ngClass]="{'fa-eye': confirmPasswordEye, 'fa-eye-slash' : !confirmPasswordEye}" (click)="showPassword(confirm, 'CONFIRM')"></i>
+                </div>
+                <div class="send">
+                    <button type="button" (click)="updateChangepassword()" *ngIf="academyLogin">Update</button>
+                    <button type="button" (click)="updateParentAcademyPassword()" *ngIf="parentAcademyLogin">Update</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

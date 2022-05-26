@@ -1,0 +1,409 @@
+<ngx-spinner></ngx-spinner>
+<router-outlet (activate)="onActivate($event)"></router-outlet>
+<section class="courts" *ngIf="showCreateForm">
+    <div class="container-fluid">
+        <div class="main_heading">
+            <h3>Other Uploads</h3>
+        </div>
+        <div class="others">
+            <form name="otherForm" #lF="ngForm">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h5>List of Others </h5>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="submitcnacel">
+                            <button appDebounceClick (debounceClick)='saveOtherUploads()' [debounceTime]="1000" class="sub">
+                                <div>Submit</div>
+                            </button>
+                            <a routerLink="/Sidemenu/others/othersList"> <button type="button" class="cancl">Cancel</button></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="row"> -->
+                <div class="col-sm-3 others_fields">
+                    <mat-form-field>
+                        <mat-label>Select Upload Type</mat-label>
+                        <mat-select name="type" [(ngModel)]="formData.type" (ngModelChange)="typeSelected($event)" [disabled]=academyLogin>
+                            <!-- <mat-option value="">Select Type</mat-option> -->
+                            <mat-option value="ads">Ads</mat-option>
+                            <!-- <mat-option value="blogs">Blogs</mat-option> -->
+                            <mat-option value="events">Events</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 others_fields">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Name" name="name" maxlength="25" (keypress)="alphabets_dot_space_only($event)" [autocomplete]="'off'" [(ngModel)]="formData.name" class="captilize" required="true">
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 others_fields">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Subject" name="subject" maxlength="50" class="captilize" [autocomplete]="'off'" [(ngModel)]="formData.subject" required="true">
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 others_fields">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="picker" (click)="picker.open()" placeholder="Start  date" (dateChange)="checkForDate(formData.start_date)" name="start_date" [(ngModel)]="formData.start_date" required="true" readonly>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-sm-3 others_fields">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="picker1" (click)="picker1.open()" placeholder="End date" name="end_date" [(ngModel)]="formData.end_date" [min]="formData.start_date" [disabled]="!formData.start_date" required="true" readonly>
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 others_fields" *ngIf="formData.type == 'events'">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="picker1" (click)="picker1.open()" placeholder="Registration Last date" name="last_date_to_register" [(ngModel)]="formData.last_date_to_register" readonly>
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 others_fields" *ngIf="formData.type == 'events'">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Entry Fee (Rs)" name="entry_fee" [autocomplete]="'off'" [(ngModel)]="formData.entry_fee" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 others_fields" *ngIf="formData.type == 'events'">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Max Entries" name="max_entries" [autocomplete]="'off'" [(ngModel)]="formData.max_entries" onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength="5">
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 others_fields" *ngIf="formData.type == 'events'">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Age group" name="age_group" [autocomplete]="'off'" [(ngModel)]="formData.age_group">
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 others_fields" *ngIf="formData.type == 'events'">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Type of game(Singles / Doubles)" class="captilize" name="game_type" [autocomplete]="'off'" [(ngModel)]="formData.game_type">
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 others_fields" *ngIf="formData.type == 'events'">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Competation Level" class="captilize" name="competation_level" [autocomplete]="'off'" [(ngModel)]="formData.competation_level">
+                    </mat-form-field>
+                </div>
+                <!-- </div> -->
+
+                <div class="row container-fluid" *ngIf="formData.type == 'events'">
+                    <div class="col-sm-3 others_fields">
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Address" class="captilize" maxlength="50" name="address" [autocomplete]="'off'" [(ngModel)]="formData.address" required="true">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-3 others_fields">
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Locality" class="captilize" maxlength="20" (keypress)="alphabets_dot_space_only($event)" name="locality" [autocomplete]="'off'" [(ngModel)]="formData.locality" required="true">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-3 others_fields">
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="City" class="captilize" maxlength="20" (keypress)="alphabets_dot_space_only($event)" name="city" [autocomplete]="'off'" [(ngModel)]="formData.city" required="true">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-3 others_fields">
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Pincode" name="pincode" [autocomplete]="'off'" [(ngModel)]="formData.pincode" onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength="6">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- <div class="row"> -->
+                <div class="col-sm-3 others_fields link" *ngIf="formData.type != 'events'">
+                    <mat-radio-group [(ngModel)]="formData.linkType" [ngModelOptions]="{standalone: true}" (change)="removeFileLinkOnChange()" name="linkType">
+                        <mat-radio-button [value]="'2'" class="fileup">File upload</mat-radio-button>
+                        <mat-radio-button [value]="'1'">Link</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <div class=" col-sm-3" *ngIf="formData.type != 'events' && formData.linkType == '2'">
+                    <div class="file-upload" [hidden]="formData.fileName">
+                        <label for="upload2" class="file-upload__label">Upload File</label>
+                        <input [disabled]=disableUpload id="upload2" class="file-upload__input" accept=".jpeg,.jpg,.png,.pdf,application/pdf" type="file" #fileUpload2 (change)="uploadFiles2($event)" />
+                        <p class="imgformat">(PDF/Images)</p>
+                    </div>
+                    <div class="file-upload" [hidden]="!formData.fileName">
+                        <label class="file-upload__label">{{ formData.fileName }}</label>
+                        <button (click)="removeFileLink()">Remove</button>
+                    </div>
+                </div>
+                <!-- <div class="clearfix" *ngIf="formData.linkType == '2'"></div> -->
+                <div class="col-sm-3 others_fields link" *ngIf="formData.type != 'events' && formData.linkType == '1'">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Link" name="link" [autocomplete]="'off'" [(ngModel)]="formData.link" required="true">
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 others_fields link" *ngIf="formData.type == 'events'">
+                    <mat-form-field>
+                        <mat-label>Select Academy</mat-label>
+                        <mat-select name="academy" [(ngModel)]="formData.academy" [disabled]="academyLogin" (ngModelChange)="academySelected($event)" required>
+                            <mat-option *ngFor="let academy of academiesList" [value]="academy._id">{{academy.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 others_fields link" *ngIf="formData.type == 'events'">
+                    <mat-form-field>
+                        <mat-label>Select Sport</mat-label>
+                        <mat-select name="sport" [(ngModel)]="formData.sport" required>
+                            <mat-option *ngFor="let sport of sportsList" [value]="sport.id">{{sport.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <!-- <div class="clearfix" *ngIf="formData.linkType == '2'"></div> -->
+                <div class="col-sm-3 others_fields">
+                    <mat-form-field class="example-full-width">
+                        <textarea matInput placeholder="Message" name="message" class="captilize cursor" maxlength="100" [(ngModel)]="formData.message" required="true"></textarea>
+                    </mat-form-field>
+                </div>
+                <!-- <div class="col-sm-3 others_fields fileupd">
+                    <input type="file" name="" id="">
+                    </div> -->
+                <div class=" col-sm-3">
+                    <div class="file-upload">
+                        <label for="upload1" class="file-upload__label">Upload Images</label>
+                        <input [disabled]=disableUpload id="upload1" class="file-upload__input" type="file" accept=".jpeg,.jpg,.png,.pdf" #fileUpload multiple (change)="uploadFiles($event)" />
+                        <p class="imgformat">(JPG, PNG...(W:500 X H:300))</p>
+                    </div>
+                </div>
+                <!-- </div> -->
+                <div class="clearfix"></div>
+                <div class="col-sm-3" *ngFor="let image of qFileLocalPath; let i = index">
+                    <div class="hovereffect">
+                        <img *ngIf="fileType[i] == 'image'" class="img-responsive acdmy_upload" [src]="image" alt="">
+                        <div class="overlay">
+                            <h2>{{fileName[i]}}</h2>
+                            <a class="info" (click)="removeFile(i)">Remove</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+
+
+<section class="courts" *ngIf="!showCreateForm">
+    <div class="container-fluid">
+        <div class="main_heading">
+            <h3>Other Uploads</h3>
+        </div>
+        <div class="others">
+            <form name="otherForm" #lF="ngForm">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h5>List of Others </h5>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="submitcnacel">
+                            <button type="button" class="editcourt" *ngIf="disableInputs" (click)="editData()">Edit</button>
+                            <button appDebounceClick (debounceClick)='updateOtherUploads()' [debounceTime]="1000" class="sub" *ngIf="!disableInputs">
+                                <div>Update</div>
+                            </button>
+                            <a routerLink="/Sidemenu/others/othersList"> <button type="button" class="cancl">Cancel</button></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="row"> -->
+                <div class="col-sm-3 others_fields">
+                    <mat-form-field>
+                        <mat-label>Select Upload Type</mat-label>
+                        <mat-select name="type" [(ngModel)]="updateDetails.type" (ngModelChange)="typeSelected($event)" [disabled]="academyLogin || disableInputs">
+                            <!-- <mat-option value="">Select Type</mat-option> -->
+                            <mat-option value="ads">Ads</mat-option>
+                            <mat-option value="blogs">Blogs</mat-option>
+                            <mat-option value="events">Events</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 others_fields">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Name" name="name" maxlength="25" (keypress)="alphabets_dot_space_only($event)" [autocomplete]="'off'" [disabled]="disableInputs" [(ngModel)]="updateDetails.name" class="captilize" required="true">
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 others_fields">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Subject" name="subject" maxlength="50" [autocomplete]="'off'" [disabled]="disableInputs" [(ngModel)]="updateDetails.subject" required="true">
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 others_fields">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="picker" (click)="picker.open()" (dateChange)="clearEndDate()" [disabled]="disableInputs" placeholder="Start  date" name="start_date" [(ngModel)]="updateDetails.start_date" readonly>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 others_fields ">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="picker1" (click)="picker1.open()" placeholder="End date" [disabled]="disableInputs" name="end_date" [min]="updateDetails.start_date" [disabled]="!updateDetails.start_date" [(ngModel)]="updateDetails.end_date" readonly>
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 others_fields" *ngIf="updateDetails.type == 'events'">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="picker1" (click)="picker1.open()" [disabled]="disableInputs" placeholder="Registration Last date" name="last_date_to_register" [(ngModel)]="updateDetails.last_date_to_register" readonly>
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 others_fields" *ngIf="updateDetails.type == 'events'">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Entry Fee (Rs)" name="entry_fee" [disabled]="disableInputs" [autocomplete]="'off'" [(ngModel)]="updateDetails.entry_fee">
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 others_fields" *ngIf="updateDetails.type == 'events'">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Max Entries" name="max_entries" [autocomplete]="'off'" [disabled]="disableInputs" [(ngModel)]="updateDetails.max_entries" onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength="5">
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 others_fields" *ngIf="updateDetails.type == 'events'">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Age group" name="age_group" [autocomplete]="'off'" [disabled]="disableInputs" [(ngModel)]="updateDetails.age_group">
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 others_fields" *ngIf="updateDetails.type == 'events'">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Type of game(Singles / Doubles)" class="captilize" [disabled]="disableInputs" name="game_type" [autocomplete]="'off'" [(ngModel)]="updateDetails.game_type">
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 others_fields" *ngIf="updateDetails.type == 'events'">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Competation Level" class="captilize" name="competation_level" [disabled]="disableInputs" [autocomplete]="'off'" [(ngModel)]="updateDetails.competation_level">
+                    </mat-form-field>
+                </div>
+                <!-- </div> -->
+
+                <div class="row" *ngIf="updateDetails.type == 'events'">
+                    <div class="col-sm-3 others_fields">
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Address" class="captilize" maxlength="50" name="address" [disabled]="disableInputs" [autocomplete]="'off'" [(ngModel)]="updateDetails.address">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-3 others_fields">
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Locality" class="captilize" maxlength="20" name="locality" (keypress)="alphabets_dot_space_only($event)" [disabled]="disableInputs" [autocomplete]="'off'" [(ngModel)]="updateDetails.locality">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-3 others_fields">
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="City" class="captilize" name="city" maxlength="20" (keypress)="alphabets_dot_space_only($event)" [disabled]="disableInputs" [autocomplete]="'off'" [(ngModel)]="updateDetails.city">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-3 others_fields">
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Pincode" name="pincode" [autocomplete]="'off'" [disabled]="disableInputs" [(ngModel)]="updateDetails.pincode" onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength="6">
+                        </mat-form-field>
+                    </div>
+
+                </div>
+
+                <div class="col-sm-3 others_fields link" *ngIf="updateDetails.type != 'events'">
+                    <mat-radio-group [(ngModel)]="updateDetails.linkType" [ngModelOptions]="{standalone: true}" [disabled]="disableInputs" (change)="removeFileLinkOnChangeUpdate()" name="linkType">
+                        <mat-radio-button [value]="'2'" class="fileup">File upload</mat-radio-button>
+                        <mat-radio-button [value]="'1'">Link</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <div class=" col-sm-3" *ngIf="updateDetails.type != 'events' && updateDetails.linkType == '2'">
+                    <div class="file-upload" [hidden]="updateDetails.fileName">
+                        <label for="upload2" class="file-upload__label">Upload Link File</label>
+                        <input [disabled]=disableUpload id="upload2" class="file-upload__input" [disabled]="disableInputs" accept=".jpeg,.jpg,.png,.pdf,application/pdf" type="file" #fileUpload2 (change)="uploadFiles2($event)" />
+                        <p class="imgformat">(PDF/Images)</p>
+                    </div>
+                    <div class="file-upload" [hidden]="!updateDetails.fileName">
+                        <label class="file-upload__label" [ngClass]="{'disableClick': disableInputs}">{{ updateDetails.fileName }}</label>
+                        <button (click)="removeFileLinkUpdate()" [disabled]="disableInputs">Remove</button>
+                    </div>
+                </div>
+                <div class="col-sm-3 others_fields link" *ngIf="updateDetails.type != 'events' && updateDetails.linkType == '1'">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Link" name="link" [autocomplete]="'off'" [disabled]="disableInputs" [(ngModel)]="updateDetails.link" required="true">
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 others_fields link" *ngIf="updateDetails.type == 'events'">
+                    <mat-form-field>
+                        <mat-label>Select Academy</mat-label>
+                        <mat-select name="academy" [(ngModel)]="updateDetails.academy" [disabled]=academyLogin [disabled]="disableInputs" (ngModelChange)="academySelected($event)">
+                            <mat-option *ngFor="let academy of academiesList" [value]="academy._id">{{academy.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 others_fields link" *ngIf="updateDetails.type == 'events'">
+                    <mat-form-field>
+                        <mat-label>Select Sport</mat-label>
+                        <mat-select name="sport" [(ngModel)]="updateDetails.sport" [disabled]="disableInputs">
+                            <mat-option *ngFor="let sport of sportsList" [value]="sport.id">{{sport.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 others_fields">
+                    <mat-form-field class="example-full-width">
+                        <textarea matInput placeholder="Message" [disabled]="disableInputs" class="cursor captilize" maxlength="100" name="message" [(ngModel)]="updateDetails.message"></textarea>
+                    </mat-form-field>
+                </div>
+                <!-- <div class="col-sm-3 others_fields fileupd">
+           <input type="file" name="" id="">
+          </div> -->
+                <div class=" col-sm-3 uplbtns">
+                    <div class="file-upload">
+                        <label for="upload1" class="file-upload__label">Upload Images</label>
+                        <input [disabled]="disableUpload || disableInputs" id="upload1" class="file-upload__input" type="file" accept=".jpeg,.jpg,.png,.pdf" #fileUpload multiple (change)="uploadFiles($event)" />
+                        <p class="imgformat">(JPG, PNG...(W:500 X H:300))</p>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-sm-3" *ngFor="let image of qFileLocalPath; let i = index">
+                    <div class="hovereffect">
+                        <img *ngIf="fileType[i] == 'image'" class="img-responsive acdmy_upload" [src]="image" alt="">
+                        <div class="overlay">
+                            <h2>{{fileName[i]}}</h2>
+                            <a class="info" (click)="removeFile(i)">Remove</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3" *ngFor="let file of updateDetails.files; let i = index" [ngClass]="{'disableClick': disableInputs}">
+                    <div class="hovereffect">
+                        <img *ngIf="file.type && file.type.indexOf('image') != -1" class="img-responsive acdmy_upload" [src]="file.path" alt="">
+                        <div class="overlay">
+                            <h2>{{file.name}}</h2>
+                            <a class="info" data-toggle="modal" data-target="#deleteConfirmation" (click)="currentImageIndex = i">Remove</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+
+
+<div id="deleteConfirmation" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content mdl_content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title title-1">Are you sure you want delete this file</h4>
+            </div>
+            <div class="modal-body model-bdy">
+                <button type="button" class="yes" data-dismiss="modal" (click)="removeUpdateImage(currentImageIndex)">Yes</button>
+                <button type="button" class="no" data-dismiss="modal">No</button>
+            </div>
+        </div>
+
+    </div>
+</div>

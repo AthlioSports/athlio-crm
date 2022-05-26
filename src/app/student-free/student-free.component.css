@@ -1,0 +1,211 @@
+.student-free {
+    background-color: #fff;
+    margin: 10px 0px;
+    padding: 0px 10px 10px 10px;
+    border-radius: 4px;
+}
+
+.academies-listname {
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+.academies-listname h5 {
+    text-transform: capitalize;
+    font-weight: 600;
+}
+
+.addacademy {
+    float: right;
+    margin-top: 14px;
+}
+
+.addacademy button {
+    text-transform: capitalize;
+    padding: 8px 30px;
+    border: none;
+    border-radius: 36px;
+    background-color: #ff0000;
+    color: #fff;
+}
+
+.addacademy a button:hover {
+    background-color: #da0808;
+}
+
+.addacademy a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.listtabel thead {
+    background-color: #fff;
+    color: #000;
+}
+
+.listtabel thead th {
+    font-weight: normal;
+    border: none;
+}
+
+.listtabel tbody td {
+    text-transform: capitalize;
+}
+
+.payment_fields p {
+    width: 30%;
+    float: left;
+    text-transform: capitalize;
+    font-weight: 600;
+}
+
+.payment_fields b {
+    width: 5%;
+    float: left;
+}
+
+.payment_fields span {
+    width: 65%;
+}
+
+.disablePointer {
+    cursor: not-allowed !important;
+}
+
+.disableClick {
+    pointer-events: none;
+    text-decoration: none !important;
+    color: #000 !important;
+}
+
+.payment_fields span input {
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 60%;
+}
+
+.payment_fields {
+    margin-bottom: 10px;
+}
+
+.mdlcnt1 {
+    width: 70%;
+    margin: auto;
+    margin-top: 6pc;
+}
+
+.submitsty {
+    text-align: center;
+}
+
+.submitsty button {
+    padding: 8px 20px;
+    background-color: #3f51b5;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+}
+
+.fullwidth {
+    width: 100% !important;
+}
+
+.fullwidth thead tr th {
+    text-transform: capitalize;
+}
+
+.paybutton {
+    text-align: center;
+}
+
+.paybutton button {
+    width: 50px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.payment_fields select {
+    width: 60%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.payment_fields h5 {
+    width: 60%;
+    float: left;
+    margin: 0px;
+}
+
+.studentname {
+    color: #3f51b5;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.studentname:hover {
+    color: #14268c;
+}
+
+.scrool-y {
+    overflow-y: scroll;
+    display: block;
+    height: 400px;
+}
+
+
+/* .stnwidth {
+    width: 120px !important;
+} */
+
+.levelwidth {
+    width: 100px;
+}
+
+.lstwidth {
+    width: 80px;
+}
+
+.ttlamount {
+    width: 74px;
+}
+
+.amountwidth {
+    width: 96px !important;
+}
+
+.balancewidth {
+    width: 70px;
+}
+
+
+/* .paystatus {
+    width: 90px !important;
+} */
+
+.Pright {
+    padding-right: 40px;
+}
+
+.pay {
+    color: #fff;
+    background-color: #8bc34a;
+    border: none;
+    border-radius: 10px;
+}
+
+.pay:hover {
+    background-color: #80b542;
+}
+
+.paid {
+    color: #fff;
+    background-color: #ee0d0d;
+    border: none;
+    border-radius: 10px;
+}
+
+.paid:hover {
+    background-color: #dc0e0e;
+}

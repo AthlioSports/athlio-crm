@@ -1,0 +1,234 @@
+.student-free {
+    background-color: #fff;
+    margin: 10px 0px;
+    padding: 0px 10px 10px 10px;
+    border-radius: 4px;
+}
+
+.academies-listname {
+    margin-bottom: 10px;
+}
+
+.academies-listname h5 {
+    text-transform: capitalize;
+    font-weight: 600;
+}
+
+.addacademy {
+    float: right;
+    margin-top: 14px;
+}
+
+.addacademy button {
+    text-transform: capitalize;
+    padding: 8px 30px;
+    border: none;
+    border-radius: 36px;
+    background-color: #ff0000;
+    color: #fff;
+}
+
+.addacademy a button:hover {
+    background-color: #da0808;
+}
+
+.addacademy a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.listtabel thead {
+    background-color: #fff;
+    color: #000;
+}
+
+.listtabel thead th {
+    font-weight: normal;
+    border: none;
+}
+
+.listtabel tbody td {
+    text-transform: capitalize;
+}
+
+.payment_fields p {
+    width: 30%;
+    float: left;
+    text-transform: capitalize;
+    font-weight: 600;
+}
+
+.payment_fields b {
+    width: 5%;
+    float: left;
+}
+
+.payment_fields span {
+    width: 65%;
+}
+
+.payment_fields span input {
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 60%;
+}
+
+.payment_fields span select {
+    padding: 6px 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 60%;
+    text-transform: capitalize;
+}
+
+.payment_fields span select option {
+    text-transform: capitalize;
+}
+
+.payment_fields {
+    margin-bottom: 10px;
+}
+
+.mdlcnt1 {
+    width: 70%;
+    margin: auto;
+    margin-top: 6pc;
+}
+
+.submitsty {
+    text-align: center;
+}
+
+.submitsty button {
+    padding: 8px 20px;
+    background-color: #3f51b5;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+}
+
+.scrool-y {
+    overflow-y: scroll;
+    display: block;
+    max-height: 400px;
+    width: 100% !important;
+}
+
+
+/* .sportwidth {
+    width: 84px !important;
+}
+
+.batchwidth {
+    width: 100px !important;
+} */
+
+.starttime {
+    width: 58px !important;
+}
+
+.endtime {
+    width: 52px !important;
+}
+
+.editicon i {
+    color: #e04545d9;
+    font-size: 18px;
+    padding-left: 10px;
+    cursor: pointer;
+}
+
+.disableEit {
+    cursor: no-drop;
+    background-color: bisque;
+}
+
+.addIcon {
+    width: 32px;
+    float: right;
+}
+
+.timingsTable {
+    width: 100%;
+}
+
+.search-2 {
+    width: 42%;
+    float: left;
+    text-transform: capitalize;
+    /* padding-top: 5px; */
+    padding-right: 10px;
+}
+
+.search-2 label {
+    color: #807c7c;
+    font-weight: 100;
+    padding-bottom: 5px;
+}
+
+.search-2 input {
+    padding: 4px 10px;
+    border-radius: 4px;
+    width: 240px;
+    border: 1px solid #eeeeee;
+    background-color: #eeeeee;
+}
+
+.search-2 select {
+    padding: 4px 10px;
+    height: 30px;
+    border-radius: 4px;
+    text-transform: capitalize;
+    border: 1px solid #eeeeee;
+    background-color: #eeeeee;
+    font-size: 12px;
+}
+
+.timingsSelect {
+    width: 40%;
+}
+
+.mdl_content2 {
+    width: 88%;
+    margin: auto;
+    margin-top: 10pc;
+}
+
+.batchTiming {
+    width: 32%;
+    float: left;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    padding: 4px 0px;
+    margin-right: 6px;
+    font-size: 12px;
+}
+
+.batchTiming span {
+    padding: 2px 6px;
+    border-radius: 14px;
+    background-color: #d21b1bb8;
+    color: #fff;
+    margin-left: 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.timing-add {
+    margin-top: 32px;
+    padding: 4px 20px;
+    border-radius: 4px;
+    border: none;
+    background-color: #ff0000;
+    color: #fff;
+}
+
+.batchfree-name span {
+    text-transform: uppercase;
+    padding-right: 20px;
+    font-size: 10px;
+    font-style: italic;
+}

@@ -1,0 +1,96 @@
+.sports {
+    background-color: #fff;
+    margin: 10px 0px;
+    padding: 0px 10px 10px 10px;
+    border-radius: 4px;
+}
+
+.sports-list h5 {
+    font-family: Gotham-Bold;
+    font-weight: 600;
+}
+
+.sports-list {
+    margin-bottom: 10px;
+}
+
+.mat-form-field {
+    width: 100%;
+}
+
+.addsports {
+    width: 70%;
+    float: left;
+    margin-top: 20px;
+}
+
+.addbtn {
+    width: 30%;
+    float: left;
+    margin-top: 20px;
+}
+
+.addbtn button {
+    padding: 6px 15px;
+    border: none;
+    border-radius: 20px;
+    margin-right: 10px;
+    color: #fff;
+    text-transform: capitalize;
+}
+
+.update {
+    background-color: #0e900e;
+}
+
+.update:hover {
+    background-color: #0c790c;
+}
+
+.cancel-1 {
+    background-color: #c33939;
+}
+
+.cancel-1:hover {
+    background-color: #bb1b1b;
+}
+
+.addsport {
+    background-color: #85bd18;
+}
+
+.addsport:hover {
+    background-color: #71a50c;
+}
+
+.scrool-spt {
+    display: block;
+    max-height: 400px;
+    overflow-y: scroll;
+}
+
+.sportslistview table thead th {
+    border: none;
+}
+
+.sportslistview table thead {
+    background-color: #fff;
+    color: #000;
+}
+
+.sportslistview table tbody {
+    border: 1px solid #ccc;
+}
+
+.spt_name {
+    width: 150px;
+    font-weight: normal;
+}
+
+.sno {
+    font-weight: normal;
+}
+
+.fullwidth {
+    width: 100% !important;
+}

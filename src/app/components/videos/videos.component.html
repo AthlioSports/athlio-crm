@@ -1,0 +1,186 @@
+<ngx-spinner></ngx-spinner>
+<section class="academies-list">
+    <div class="container-fluid">
+        <div class="main_heading">
+            <h3>Videos</h3>
+        </div>
+        <div class="academies-listname">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h5>Pending Videos List</h5>
+                </div>
+            </div>
+        </div>
+        <div class="listtabel">
+            <table datatable [dtOptions]="dtOptions[0]" [ngClass]="{'noDataDataTable' : videosList?.length == 0}" [dtTrigger]="dtTrigger1" id="style-3" class="table table-striped hover scrool-y scrollbar">
+                <thead>
+                    <tr>
+                        <th>S.No.</th>
+                        <th class="acd_name">video Name</th>
+                        <th class="acd_sport">Uploaded by</th>
+                        <th class="heading">Heading</th>
+                        <th class="cnt_person">Uploaded on</th>
+                        <th class="mbl_number mblnum">Actions</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="videosList?.length == 0">
+                    <tr>
+                        <td colspan="8" class="text-center nodata">No data found</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="videosList?.length != 0">
+                    <tr *ngFor="let video of videosList">
+                        <td>{{ video.slNo }}</td>
+                        <td class="captilize" style="width: 116px;">
+                            <div class="texthidden-1">{{ video.academyName }}</div>
+                        </td>
+                        <td class="sportslist captilize">
+                            <div class="texthidden">{{video.uploadedByName}}
+                            </div>
+                        </td>
+                        <td class="captilize">{{ video.heading }}</td>
+                        <td class="sportslist captilize">
+                            <div class="texthidden">{{video.createdDate | date: "dd/MM/yyyy"}}
+                            </div>
+                        </td>
+                        <td class="actn_1">
+                            <span class="view"><i class="fa fa-eye" aria-hidden="true" matTooltip="View" matTooltipPosition="above"
+                  data-toggle="modal" data-target="#videoDetails" (click)="viewVideo(video)"></i></span>
+                            <span class="editicon" (click)=getVideoApproveConfirmation(video)><i class="fa fa-check-circle"
+                  aria-hidden="true" matTooltip="Approve" matTooltipPosition="above" data-toggle="modal"
+                  data-target="#myModal2"></i></span>
+                            <span class="delete"><i class="fa fa-window-close" aria-hidden="true" matTooltip="Reject"
+                  matTooltipPosition="above" data-toggle="modal" (click)="getVideoRejectConfirmation(video)"
+                  data-target="#myModal3"></i>
+              </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="academies-listname">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h5>Approved/Rejected Videos List</h5>
+                </div>
+            </div>
+        </div>
+        <div class="listtabel">
+            <table datatable [dtOptions]="dtOptions[1]" [ngClass]="{'noDataDataTable' : videosList?.length == 0}" [dtTrigger]="dtTrigger2" id="style-3" class="table table-striped hover scrool-y scrollbar">
+                <thead>
+                    <tr>
+                        <th>S.No.</th>
+                        <th class="acd_name">video Name</th>
+                        <th class="acd_sport">Uploaded by</th>
+                        <th class="heading">Heading</th>
+                        <th class="cnt_person">Approved / Rejected on</th>
+                        <th class="mbl_number mblnum text-center">Status</th>
+                        <th class="mbl_number mblnum text-center">Delete</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="approvedAndRejectedVideosList?.length == 0">
+                    <tr>
+                        <td colspan="8" class="text-center nodata">No data found</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="approvedAndRejectedVideosList?.length != 0">
+                    <tr *ngFor="let video of approvedAndRejectedVideosList">
+                        <td>{{ video.slNo }}</td>
+                        <td class="captilize" style="width: 116px;">
+                            <div class="texthidden-1">{{ video.academyName }}</div>
+                        </td>
+                        <td class="sportslist captilize">
+                            <div class="texthidden">{{video.uploadedByName}}
+                            </div>
+                        </td>
+                        <td class="captilize">{{ video.heading }}</td>
+                        <td class="captilize">{{ (video.status === "APPROVED"? video.approvedOn: video.rejectedOn) | date: "dd/MM/yyyy hh:mm:ss" }}</td>
+                        <td class="actn_1 text-center"><span [ngClass]="{'rejectedStatus': video.status === 'REJECTED', 'approvedStatus': video.status === 'APPROVED'}">{{ video.status }}</span></td>
+                        <td class="actn_2 text-center">
+                            <span class="delete" *ngIf="video.status !== 'REJECTED'"><i class="fa fa-trash" aria-hidden="true" matTooltip="Delete"
+                                matTooltipPosition="above" data-toggle="modal" (click)="getVideoDeleteConfirmation(video)"
+                                data-target="#myModal4"></i>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- Modal -->
+<div id="videoDetails" class="modal fade" role="dialog" data-backdrop='static' data-keyboard="false">
+    <div class="modal-dialog mdl-dilg">
+
+        <!-- Modal content-->
+        <div class="modal-content mdl-cnt">
+            <div class="modal-header mdl-head">
+                <button type="button" class="close cls-1" data-dismiss="modal" (click)="closeVideo()" #closeAddExpenseModal2>&times;</button>
+                <h4 class="modal-title">Video</h4>
+            </div>
+            <video class="videoLibrary" controls preload="auto" [poster]="currentVideo?.thumbnailUrl" data-config="some-js-object-here" *ngIf="currentVideo.videoUrl">
+        <source [src]="currentVideo?.videoUrl" type='video/mp4'>
+      </video>
+            <div style="padding: 10px;">{{currentVideo.content}}</div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 2-->
+<div id="myModal2" class="modal fade" role="dialog" data-backdrop='static' data-keyboard="false">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content mdl_content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" #closeAcceptModel (click)="cancelApproveOrRejectOrDelete()">&times;</button>
+                <h4 class="modal-title title-1">Are you sure you want approve this video</h4>
+            </div>
+            <div class="modal-body model-bdy">
+                <button type="button" class="yes" data-dismiss="modal" (click)="approveVideo()">Yes</button>
+                <button type="button" class="no" (click)="cancelApproveOrRejectOrDelete()">No</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Modal 2-->
+<div id="myModal3" class="modal fade" role="dialog" data-backdrop='static' data-keyboard="false">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content mdl_content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" #closeRejectModel (click)="cancelApproveOrRejectOrDelete()">&times;</button>
+                <h4 class="modal-title title-1">Are you sure you want reject this video</h4>
+            </div>
+            <div class="modal-body model-bdy">
+                <textarea class="rejectReason" placeholder="Reason" name="reason" [(ngModel)]="currentVideo.reason" required></textarea>
+                <div>
+                    <button type="button" class="yes" (click)="rejectVideo()">Yes</button>
+                    <button type="button" class="no" (click)="cancelApproveOrRejectOrDelete()">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal-->
+<div id="myModal4" class="modal fade" role="dialog" data-backdrop='static' data-keyboard="false">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content mdl_content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" #closeDeleteModel (click)="cancelApproveOrRejectOrDelete()">&times;</button>
+                <h4 class="modal-title title-1">Are you sure you want delete this video</h4>
+            </div>
+            <div class="modal-body model-bdy">
+                <button type="button" class="yes" data-dismiss="modal" (click)="deleteVideo()">Yes</button>
+                <button type="button" class="no" (click)="cancelApproveOrRejectOrDelete()">No</button>
+            </div>
+        </div>
+
+    </div>
+</div>

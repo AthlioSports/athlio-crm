@@ -1,0 +1,257 @@
+<router-outlet (activate)="onActivate($event)"></router-outlet>
+<ngx-spinner></ngx-spinner>
+<section class="student-free">
+    <div class="container-fluid">
+        <div class="main_heading">
+            <h3>Batch Fees</h3>
+        </div>
+        <div class="academies-listname">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h5>Batches List</h5>
+                </div>
+                <div class="col-sm-6">
+                    <div class="addacademy">
+                        <a data-toggle="modal" data-target="#myModal-1">
+                            <button type="button"><i class="fa fa-plus" aria-hidden="true"></i> Create</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-7">
+                <div class="listtabel">
+                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="style-3" class="table table-striped hover scrool-y scrollbar">
+                        <thead>
+                            <tr>
+                                <th>S.No.</th>
+                                <th class="sportwidth" style="width: 120px"> Sport </th>
+                                <th class="batchwidth" style="width: 140px"> Batch</th>
+                                <!-- <th class="starttime">Start Time</th>
+                                <th class="endtime">End Time</th> -->
+                                <th>Batch Size</th>
+                                <th style="width: 30px;">Monthly Fee</th>
+                                <th class="adsportaction" style="width: 50px;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="academyStudentBatches?.length == 0">
+                            <tr>
+                                <td colspan="9" class="nodata">No data found</td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="academyStudentBatches?.length != 0">
+                            <tr *ngFor="let batch of academyStudentBatches">
+                                <td>{{ batch.slNo }}</td>
+                                <td>{{ batch.sport_name }}</td>
+                                <td>{{ batch.student_batch_name }}</td>
+                                <!-- <td>{{ batch.start_time }}</td>
+                                <td>{{ batch.end_time }}</td> -->
+                                <td class="text-right">{{ batch.count }}</td>
+                                <td class="text-right">&#8377; {{ batch.amount }}</td>
+                                <td>
+                                    <span class="delete" (click)="storeCurrentBatchFee(batch)"><i class="fa fa-clock-o" aria-hidden="true"
+                      matTooltip="Add timings" data-toggle="modal" data-target="#myModal4"
+                      matTooltipPosition="above"></i>
+                  </span>
+                                    <span class="editicon"><i class="fa fa-pencil" aria-hidden="true" matTooltip="Edit"
+                      matTooltipPosition="above" (click)="openEditBox(batch)" data-toggle="modal"
+                      data-target="#myModal-1"></i>
+                  </span>
+                                    <span class="delete"><i class="fa fa-trash-o" aria-hidden="true" matTooltip="Delete"
+                      (click)="openDeleteConfirmation(batch)" data-toggle="modal" data-target="#myModal3"
+                      matTooltipPosition="above"></i>
+                  </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div id="myModal3" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content mdl_content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title title-1">Are you sure you want delete this sport batch</h4>
+            </div>
+            <div class="modal-body model-bdy">
+                <button type="button" class="yes" data-dismiss="modal" (click)="removeSportBatch()">Yes</button>
+                <button type="button" class="no" data-dismiss="modal">No</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="myModal4" class="modal fade" role="dialog" data-backdrop='static' data-keyboard="false">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content mdl_content2">
+            <div class="modal-header mdl-head">
+                <button type="button" class="close cls-1" data-dismiss="modal" (click)="closeBatchTimings()">&times;</button>
+                <h4 class="modal-title title-1">Set Batch Timings</h4>
+                <div class="batchfree-name">
+                    <span>{{ this.currentBatchFee.sport_name }}</span>
+                    <span>{{ this.currentBatchFee.student_batch_name }}</span>
+                </div>
+            </div>
+            <div class="modal-body model-bdy">
+                <div *ngIf="currentBatchFeeTimings.length != 3">
+                    <div class="search-2">
+                        <label>Start time</label><br>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <select [(ngModel)]="batchTimings.startTimeHours" name="startTimeHours" (ngModelChange)="constructEndTimingsArr()">
+                            <option value="" disabled>Hours</option>
+                            <option [value]="time" *ngFor="let time of timingsListMasterArr">{{ time }}</option>
+                          </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <select [(ngModel)]="batchTimings.startTimeMinutes" name="startTimeMinutes">
+                            <option value="" disabled>Minutes</option>
+                            <option value="00">00</option>
+                            <option value="15">15</option>
+                            <option value="30">30</option>
+                            <option value="45">45</option>
+                          </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search-2">
+                        <label>End time</label>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <select [(ngModel)]="batchTimings.endTimeHours" name="endTimeHours" [disabled]="!batchTimings.startTimeMinutes">
+                            <option value="" disabled>End time</option>
+                            <option [value]="time" *ngFor="let time of endTimingsArr">{{ time }}</option>
+                          </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <select [(ngModel)]="batchTimings.endTimeMinutes" name="endTimeMinutes" [disabled]="!batchTimings.startTimeMinutes">
+                            <option value="" disabled>Minutes</option>
+                            <option value="00">00</option>
+                            <option value="15">15</option>
+                            <option value="30">30</option>
+                            <option value="45">45</option>
+                          </select>
+                            </div>
+                        </div>
+                    </div>
+                    <button appDebounceClick (debounceClick)='addBatchTimings()' [debounceTime]="1000" class="timing-add"><i class="fa fa-plus" aria-hidden="true"></i> Add</button>
+                </div>
+                <div class="clearfix"></div>
+                <div>
+                    <div *ngFor="let timing of currentBatchFeeTimings" class="batchTiming" appDebounceClick (debounceClick)='deleteBatchTimingsById(timing.id)' [debounceTime]="1000">{{ timing.startTime }}-{{ timing.endTime }} <span>&times;</span></div>
+                </div>
+                <div class="clearfix"></div>
+                <!-- <table class="timingsTable">
+        <thead>
+          <tr>
+            <th>Start time</th>
+            <th>End time</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let timing of currentBatchFeeTimings">
+            <td>{{ timing.startTime }}</td>
+            <td>{{ timing.endTime }}</td>
+            <td>
+              <span class="delete"><i class="fa fa-trash-o" aria-hidden="true" matTooltip="Delete"
+                  (click)="deleteBatchTiming(timing)" matTooltipPosition="above"></i>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table> -->
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="myModal-1" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content mdlcnt1">
+            <div class="modal-header mdl-head">
+                <button type="button" class="close cls-1" data-dismiss="modal" (click)="onTabClose()" #closeAddExpenseModal>&times;</button>
+                <h4 class="modal-title" *ngIf="!sportBatchEdit">Create Batch Fee</h4>
+                <h4 class="modal-title" *ngIf="sportBatchEdit">Update Batch Fee</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="payment_fields">
+                        <p>Select Sport </p>
+                        <b>:</b>
+                        <span>
+              <select name="sport" [(ngModel)]="academyBatchData.sport" (change)="getCoaches()"
+                [disabled]="sportBatchEdit" [ngClass]="{'disableEit': sportBatchEdit == true}">
+                <option [value]="''">Select sport</option>
+                <option [value]="sport.id" *ngFor="let sport of academySports">{{ sport.name }}</option>
+              </select>
+            </span>
+                    </div>
+                    <!-- <div class="payment_fields">
+                        <p>Select coach </p>
+                        <b>:</b>
+                        <span>
+                            <select name="coach" [(ngModel)]="academyBatchData.coach">
+                                <option [value]="''">Select coach</option>
+                                <option [value]="coach._id" *ngFor="let coach of coachesList">{{ coach.name }}</option>
+                            </select>
+                        </span>
+                    </div> -->
+                    <div class="payment_fields">
+                        <p>Select Batch</p>
+                        <b>:</b>
+                        <span>
+              <select name="student_batch" [(ngModel)]="academyBatchData.student_batch" [disabled]="sportBatchEdit"
+                [ngClass]="{'disableEit': sportBatchEdit == true}">
+                <option [value]="''">Select batch</option>
+                <option [value]="batch.id" *ngFor="let batch of batches">{{ batch.name }}</option>
+              </select>
+            </span>
+                    </div>
+                    <div class="payment_fields">
+                        <p>Batch Size</p>
+                        <b>:</b>
+                        <span><input type="text" placeholder="Enter Batch Size" name="count" [autocomplete]="'off'"
+                [(ngModel)]="academyBatchData.count" (keypress)="numberOnly($event)"> </span>
+                    </div>
+                    <!-- <div class="payment_fields">
+                        <p>Batch Start Time </p>
+                        <b>:</b>
+                        <span><input type="text" placeholder="Start Time" name="start_time" atp-time-picker
+                                [(ngModel)]="academyBatchData.start_time" [autocomplete]="'off'" readonly> </span>
+                    </div>
+                    <div class="payment_fields">
+                        <p>Batch End Time </p>
+                        <b>:</b>
+                        <span><input type="text" placeholder="End Time" name="end_time" atp-time-picker
+                                [(ngModel)]="academyBatchData.end_time" [autocomplete]="'off'" readonly> </span>
+                    </div> -->
+                    <div class="payment_fields">
+                        <p>Batch Fee</p>
+                        <b>:</b>
+                        <span><input type="text" placeholder="Enter Batch Fee" name="price" [autocomplete]="'off'"
+                [(ngModel)]="academyBatchData.price" (keypress)="numberOnly($event)"> </span>
+                    </div>
+
+                    <div class="submitsty">
+                        <button type="button" appDebounceClick (debounceClick)='createAcademyBastch()' [debounceTime]="1000" *ngIf="!sportBatchEdit">Submit</button>
+                        <button type="button" appDebounceClick (debounceClick)='updateSportBatch()' [debounceTime]="1000" *ngIf="sportBatchEdit">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

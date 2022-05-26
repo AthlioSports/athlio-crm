@@ -1,0 +1,209 @@
+.coach-list {
+    background-color: #fff;
+    margin: 10px 0px;
+    padding: 0px 10px 10px 10px;
+    border-radius: 4px;
+}
+
+.coach-listmain h5 {
+    text-transform: capitalize;
+    font-family: Aller_Bold;
+    padding-top: 10px;
+}
+
+.coach-listmain {
+    margin-bottom: 10px;
+}
+
+.addcoach {
+    float: right;
+    margin-top: 14px;
+}
+
+.addcoach button {
+    text-transform: capitalize;
+    padding: 8px 30px;
+    border: none;
+    border-radius: 36px;
+    background-color: #ff0000;
+    color: #fff;
+}
+
+.addcoach a button:hover {
+    background-color: #da0808;
+}
+
+.addcoach a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.coach-listview thead {
+    background-color: #fff;
+}
+
+.switch {
+    display: inline-block;
+    height: 10px;
+    position: relative;
+    width: 60px;
+    top: 8px;
+}
+
+.switch input {
+    display: none;
+}
+
+.slider {
+    background-color: #dc4040;
+    bottom: 0px;
+    cursor: pointer;
+    left: 14px;
+    position: absolute;
+    right: -2px;
+    top: -12px;
+    transition: .4s;
+}
+
+.slider:before {
+    background-color: #fff;
+    bottom: 4px;
+    content: "";
+    height: 14px;
+    left: 4px;
+    position: absolute;
+    transition: .4s;
+    width: 14px;
+}
+
+.enbledisable input:checked+.slider {
+    background-color: #85bd18;
+}
+
+.enbledisable input:checked+.slider:before {
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+
+/* new */
+
+.coach-listview table {
+    width: 100% !important;
+}
+
+.coach-listview table thead th {
+    color: #000;
+    font-weight: 400;
+    border: none;
+}
+
+.scrool-y {
+    overflow-y: scroll;
+    max-height: 600px;
+}
+
+.student_email {
+    word-break: break-word;
+    /* width: 140px; */
+}
+
+.wrd-brk {
+    word-break: break-word;
+}
+
+.studentprofile figure {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.studentprofile img {
+    width: 140px;
+    height: 140px;
+    border-radius: 8px;
+}
+
+.mRight10 {
+    margin-right: 10px;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+    background-color: #ccc;
+    margin-bottom: 10px;
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    cursor: inherit;
+    display: block;
+}
+
+.submt {
+    background-color: #4b5484;
+    color: #fff;
+    padding: 6px 16px;
+    border-radius: 4px;
+    border: 1px solid #4b5484;
+    margin-right: 10px;
+    margin-bottom: 20px;
+}
+
+.submt:hover {
+    background-color: #374176;
+}
+
+#over img {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    height: 50px;
+}
+
+.titl {
+    width: 52%;
+    float: left;
+    text-align: right;
+    margin-top: 12px;
+}
+
+.upldimg {
+    width: 70%;
+}
+
+.btn-file img {
+    width: 40px;
+}
+
+.mdlcontent {
+    margin: auto;
+    width: 66%;
+}
+
+.bulkUploadBtn {
+    background-color: #222 !important;
+}
+
+.texthidden-2 {
+    white-space: nowrap;
+    width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

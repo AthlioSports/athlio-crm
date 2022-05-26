@@ -1,0 +1,259 @@
+<router-outlet (activate)="onActivate($event)"></router-outlet>
+<div class="coach-list">
+    <div class="conatiner-fluid">
+        <div class="main_heading">
+            <h3>Other Uploads</h3>
+        </div>
+        <div class="coach-listmain">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h5>List of Other Uploads</h5>
+                </div>
+                <div class="col-sm-6">
+                    <div class="addcoach">
+                        <a routerLink="/Sidemenu/others/createOthers"><button type="button"><i class="fa fa-plus"
+                                    aria-hidden="true"></i> Create</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="coach-listview">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" [ngClass]="{'noDataDataTable' : dtOthersList?.length == 0}" class="row-border table-striped hover scrool-y listtable scrollbar " id="style-3">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th class="type">Type</th>
+                        <th class="type" style="width: 250px;">Name</th>
+                        <th class="subject">Subject</th>
+                        <th class="startDt">Start Date</th>
+                        <th class="EndDt">End Date</th>
+                        <th class="Action">Actions</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="dtOthersList?.length == 0">
+                    <tr>
+                        <td colspan="7" class="nodata">No data found</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="dtOthersList?.length != 0">
+                    <tr *ngFor="let other of dtOthersList">
+                        <td>{{ other.slNo }}</td>
+                        <td class="captilize wrd-brk">{{ other.type }}</td>
+                        <td class="captilize">{{ other.name }}</td>
+                        <td class="captilize">
+                            <div class="texthidden-1">{{ other.subject }}</div>
+                        </td>
+                        <td>{{ other.start_date | date : 'dd-MMM-yyyy'}}</td>
+                        <td class="other_email">{{ other.end_date | date : 'dd-MMM-yyyy'}}</td>
+                        <td>
+                            <span class="view" (click)=viewData(other._id) data-toggle="modal" data-target="#myModal"><i
+                                    class="fa fa-eye" aria-hidden="true" matTooltip="View" matTooltipPosition="above"
+                                    data-toggle="modal" data-target="#otherDetails"></i></span>
+                            <span class="editicon" (click)=editData(other._id)><i class="fa fa-pencil"
+                                    aria-hidden="true" matTooltip="Edit" matTooltipPosition="above"></i></span>
+                            <span matTooltip="Status" matTooltipPosition="above">
+                                <span class="delete"><i class="fa fa-trash-o" aria-hidden="true" matTooltip="Delete"
+                                        matTooltipPosition="above" data-toggle="modal" (click)="deleteId = other._id"
+                                        data-target="#myModal2"></i></span>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div id="myModal2" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content mdl_content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title title-1">Are you sure you want delete this file</h4>
+            </div>
+            <div class="modal-body model-bdy">
+                <button type="button" class="yes" data-dismiss="modal" (click)="deleteData(deleteId)">Yes</button>
+                <button type="button" class="no" data-dismiss="modal">No</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header mdl-head">
+                <button type="button" class="close cls-1" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Details View</h4>
+            </div>
+            <div class="modal-body mdl-bdy">
+                <div class="outer-border">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Type</p>
+                                <b>:</b>
+                                <span>{{details.type}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Name</p>
+                                <b>:</b>
+                                <span>{{details.name}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Start Date</p>
+                                <b>:</b>
+                                <span>{{details.start_date | date : 'dd-MMM-yyyy'}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>End Date</p>
+                                <b>:</b>
+                                <span>{{details.end_date | date : 'dd-MMM-yyyy'}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="details.type == 'events'">
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Registration Last Date</p>
+                                <b>:</b>
+                                <span>{{details.last_date_to_register | date : 'dd-MMM-yyyy'}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" *ngIf="details.type == 'events'">
+                            <div class="previewstyles">
+                                <p>Entry Fee</p>
+                                <b>:</b>
+                                <span>{{details.entry_fee}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="details.type == 'events'">
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Max Entries</p>
+                                <b>:</b>
+                                <span>{{details.max_entries}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" *ngIf="details.type == 'events'">
+                            <div class="previewstyles">
+                                <p>Age Group</p>
+                                <b>:</b>
+                                <span>{{details.age_group}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6" *ngIf="details.type == 'events'">
+                            <div class="previewstyles">
+                                <p>Competation Level</p>
+                                <b>:</b>
+                                <span>{{details.competation_level}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6" *ngIf="details.type == 'events'">
+                            <div class="previewstyles">
+                                <p>Locality</p>
+                                <b>:</b>
+                                <span>{{details.locality}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" *ngIf="details.type == 'events'">
+                            <div class="previewstyles">
+                                <p>City</p>
+                                <b>:</b>
+                                <span>{{details.city}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6" *ngIf="details.type == 'events'">
+                            <div class="previewstyles">
+                                <p>Pincode</p>
+                                <b>:</b>
+                                <span>{{details.pincode}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" *ngIf="details.type == 'events'">
+                            <div class="previewstyles">
+                                <p>Academy</p>
+                                <b>:</b>
+                                <span>{{details.academy_name}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6" *ngIf="details.type == 'events'">
+                            <div class="previewstyles">
+                                <p>Sport</p>
+                                <b>:</b>
+                                <span>{{details.sport_name}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Subject</p>
+                                <b>:</b>
+                                <span>{{details.subject}}</span>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="previewstyles-2">
+                                <p>Message</p>
+                                <b>:</b>
+                                <span>{{details.message}}</span>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12" *ngIf="details.type != 'events'">
+                            <div class="previewstyles-2">
+                                <p>Link</p>
+                                <b>:</b>
+                                <span>{{details.link}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="previewstyles-2" *ngIf="details.type == 'events'">
+                                <p>Address</p>
+                                <b>:</b>
+                                <span>{{details.address}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="outer-border">
+                    <!-- <h5 class="updimages">Upload Images</h5> -->
+                    <div class="row">
+                        <h5 class="updimages">Uploaded Images</h5>
+                        <div class="col-sm-4" *ngFor="let file of details.files; let i = index">
+                            <div class="hovereffect">
+                                <img *ngIf="file.type && file.type.indexOf('image') != -1" class="img-responsive acdmy_upload" [src]="file.path" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

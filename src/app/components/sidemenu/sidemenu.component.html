@@ -1,0 +1,141 @@
+<section class="mainbg">
+    <div class="container-fuild">
+        <div class="row">
+            <div class="col-sm-2">
+                <div class="mainArea">
+                    <div class="sidebar">
+                        <div class="logoicon">
+                            <a routerLink="dashboard">
+                                <img src="../../../assets/images/Logo.png" alt="Logo_black_text">
+                            </a>
+                        </div>
+                        <div class="list-group panel">
+                            <a routerLink="dashboard" (click)="setTitle( 'Athlio Sports | Dashboard ')" routerLinkActive="active" class=" pleft25 list-group-item list-group-item-success" data-parent="#MainMenu">
+                                <img src='../../../assets/images/dashboard.png' class="subIcons"> Dashboard</a>
+                            <!-- <a href="#demo4" class="list-group-item list-group-item-success fsize18" data-toggle="collapse" data-parent="#MainMenu">
+                                <i class="fa fa-cog" aria-hidden="true"></i> Setup
+                                <i class="fa fa-caret-down"></i>
+                            </a> -->
+                            <!-- <div class="collapse in" id="demo4"> -->
+                            <a class=" pleft25 list-group-item list-group-item-success" routerLink="sports" (click)="setTitle( 'Athlio Sports | Sports ')" routerLinkActive="active">
+                                <!-- <i class="fa fa-tachometer" aria-hidden="true"></i> -->
+                                <img src='../../../assets/images/sports.png' class="subIcons"> Sports
+                            </a>
+                            <a class=" pleft25 list-group-item list-group-item-success" routerLink="academies-Sport-Batches" (click)="setTitle( 'Athlio Sports | Batch Fees')" routerLinkActive="active" *ngIf="academyLogin">
+                                <img src='../../../assets/images/student-batchs.png' class="subIcons"> Batch Fees</a>
+                            <a class=" pleft25 list-group-item list-group-item-success" routerLink="sport-batches" (click)="setTitle( 'Athlio Sports | Sport Batches')" routerLinkActive="active" *ngIf="!academyLogin && !parentAcademyLogin">
+                                <img src='../../../assets/images/student-batchs.png' class="subIcons"> Sport Batches</a>
+                            <a class=" pleft25 list-group-item list-group-item-success" routerLink="courts" (click)="setTitle( 'Athlio Sports | Courts')" routerLinkActive="active" *ngIf="!parentAcademyLogin">
+                                <img src='../../../assets/images/courts.png' class="subIcons"> Courts
+                            </a>
+                            <a class=" pleft25 list-group-item list-group-item-success" routerLink="parent-academy/parent-academy-list" (click)="setTitle( 'Athlio Sports | Parent Academy')" routerLinkActive="active" *ngIf="!academyLogin && !parentAcademyLogin">
+                                <img src='../../../assets/images/academies.png' class="subIcons"> Parent Academy
+                            </a>
+                            <a class=" pleft25 list-group-item list-group-item-success" routerLink="academies" (click)="setTitle( 'Athlio Sports | Academies')" routerLinkActive="active" *ngIf="!academyLogin">
+                                <img src='../../../assets/images/academies.png' class="subIcons"> Academies
+                            </a>
+                            <a class=" pleft25 list-group-item list-group-item-success" routerLink="academies" (click)="setTitle( 'Athlio Sports | Academy profile')" routerLinkActive="active" *ngIf="academyLogin">
+                                <img src='../../../assets/images/academies.png' class="subIcons"> Academy profile</a>
+                            <a class=" pleft25 list-group-item list-group-item-success" routerLink="parent-academy/parent-academy-list" (click)="setTitle( 'Athlio Sports | Profile')" routerLinkActive="active" *ngIf="parentAcademyLogin">
+                                <img src='../../../assets/images/profile.png' class="subIcons">Profile</a>
+                            <a class=" pleft25 list-group-item list-group-item-success" routerLink="coaches" (click)="setTitle( 'Athlio Sports | Coaches')" routerLinkActive="active">
+                                <img src='../../../assets/images/coaches.png' class="subIcons"> Coaches
+                            </a>
+                            <a class=" pleft25 list-group-item list-group-item-success" routerLink="students" (click)="setTitle( 'Athlio Sports | Students')" routerLinkActive="active">
+                                <img src='../../../assets/images/student-batchs.png' class="subIcons"> Students
+                            </a>
+                            <a class=" pleft25 list-group-item list-group-item-success" routerLink="amenities" (click)="setTitle( 'Athlio Sports | Amenities')" routerLinkActive="active" *ngIf="!academyLogin && !parentAcademyLogin">
+                                <img src='../../../assets/images/amenities.png' class="subIcons"> Amenities
+                            </a>
+                            <a routerLink="dashboard" routerLink="discount/create-discount" (click)="setTitle( 'Athlio Sports | Discount')" routerLinkActive="active" *ngIf="academyLogin && !parentAcademyLogin" class=" pleft25 list-group-item list-group-item-success" data-parent="#MainMenu">
+                                <img src='../../../assets/images/discounts.png' class="subIcons"> Discount
+                            </a>
+                            <!-- </div> -->
+                            <a href="#demo5" class="list-group-item list-group-item-success " data-toggle="collapse" data-parent="#MainMenu" *ngIf="!parentAcademyLogin">
+                                <img src='../../../assets/images/other-upoloads.png' class="subIcons">Uploads
+                                <i class="fa fa-caret-down"></i>
+                            </a>
+                            <div class="collapse" id="demo5">
+                                <a class="list-group-item plef30" routerLink="banners" (click)="setTitle( 'Athlio Sports | Banners')" routerLinkActive="active" *ngIf="!academyLogin">
+                                    <img src='../../../assets/images/banners.png' class="subIcons"> Banners
+                                </a>
+                                <a class="list-group-item plef30" routerLink="others" (click)="setTitle( 'Athlio Sports | Other Uploads')" routerLinkActive="active">
+                                    <img src='../../../assets/images/other-upoloads.png' class="subIcons"> Other Uploads</a>
+                                <a class="list-group-item plef30" routerLink="blogs" (click)="setTitle( 'Athlio Sports | Blogs')" routerLinkActive="active">
+                                    <img src='../../../assets/images/blogs.png' class="subIcons"> Blogs
+                                </a>
+                            </div>
+                            <a class=" pleft25 list-group-item list-group-item-success" routerLink="videos" (click)="setTitle( 'Athlio Sports | Videos')" routerLinkActive="active" *ngIf="!academyLogin && !parentAcademyLogin">
+                                <img src='../../../assets/images/videos-icon.png' class="subIcons"> Videos
+                            </a>
+                            <a href="#demo6" class="list-group-item list-group-item-success " data-toggle="collapse" data-parent="#MainMenu">
+                                <img src='../../../assets/images/reports.png' class="subIcons"> Reports
+                                <i class="fa fa-caret-down"></i>
+                            </a>
+                            <div class="collapse" id="demo6">
+                                <a class="list-group-item plef30" routerLink="studentfree" (click)="setTitle( 'Athlio Sports | Fee Report')" routerLinkActive="active" *ngIf="academyLogin">
+                                    <img src='../../../assets/images/fee-report.png' class="subIcons"> Fee Report</a>
+                                <a class="list-group-item plef30" routerLink="reports/feeSummary" (click)="setTitle( 'Athlio Sports | Fee Summary')" routerLinkActive="active">
+                                    <img src='../../../assets/images/fee-report.png' class="subIcons"> Fee Summary </a>
+                                <a class="list-group-item plef30" routerLink='reports/paymentSummary' (click)="setTitle( 'Athlio Sports | Payment Summary')" routerLinkActive="active">
+                                    <img src='../../../assets/images/fee-report.png' class="subIcons"> Payment Summary</a>
+                                <a class="list-group-item plef30" routerLink='reports/students' (click)="setTitle( 'Athlio Sports | Students Report')" routerLinkActive="active">
+                                    <img src='../../../assets/images/reports1.png' class="subIcons"> Students Report</a>
+                                <a class="list-group-item plef30" (click)="setTitle( 'Athlio Sports | Attendance Report')">
+                                    <img src='../../../assets/images/attendance.png' class="subIcons"> Attendance Report</a>
+                            </div>
+
+
+                            <a href="#demo7" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu" *ngIf="!academyLogin && !parentAcademyLogin">
+                                <img src='../../../assets/images/documents.png' class="subIcons"> Documents
+                                <i class="fa fa-caret-down"></i>
+                            </a>
+                            <div class="collapse" id="demo7">
+                                <a class="list-group-item plef30" routerLink="/terms-and-coditions" (click)="setTitle( 'Athlio Sports | Terms')" routerLinkActive="active" target="_blank">
+                                    <img src='../../../assets/images/Terms and Conditions Icon.png' class="subIcons"> Terms </a>
+                                <a class="list-group-item plef30" routerLink='/privacy-policy' (click)="setTitle( 'Athlio Sports | Privacy Policy')" routerLinkActive="active" target="_blank">
+                                    <img src='../../../assets/images/privacy-policy.png' class="subIcons"> Privacy Policy</a>
+                                <a class="list-group-item plef30" routerLink='/about' (click)="setTitle( 'Athlio Sports | About')" routerLinkActive="active" target="_blank">
+                                    <img src='../../../assets/images/About Us Icon.png' class="subIcons"> About
+                                </a>
+                            </div>
+                            <a routerLink="contact-us" (click)="setTitle( 'Athlio Sports | Contact Us')" routerLinkActive="active" *ngIf="!academyLogin && !parentAcademyLogin" class=" pleft25 list-group-item list-group-item-success" data-parent="#MainMenu">
+                                <img src='../../../assets/images/contacts.png' class="subIcons"> Contact Us
+                            </a>
+                            <a routerLink="notifications" (click)="setTitle( 'Athlio Sports | Notifications')" routerLinkActive="active" *ngIf="academyLogin" class=" pleft25 list-group-item list-group-item-success" data-parent="#MainMenu">
+                                <img src='../../../assets/images/contacts.png' class="subIcons"> Notifications
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-10 fixedfooter scrollbar" id="style-3">
+                <app-subheader></app-subheader>
+                <router-outlet></router-outlet>
+                <!-- <app-footer></app-footer> -->
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<!-- Modal 2-->
+<div id="myModal2" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content mdl_content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title title-1">Are you sure you want delete this file</h4>
+            </div>
+            <div class="modal-body model-bdy">
+                <button type="button" class="yes" data-dismiss="modal">Yes</button>
+                <button type="button" class="no" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,149 @@
+<ngx-spinner></ngx-spinner>
+<router-outlet (activate)="onActivate($event)"></router-outlet>
+<section class="academies">
+    <div class=" container-fluid">
+        <div class="main_heading">
+            <h3 *ngIf="!disableInputs && !activatedRoute.snapshot.params.academyId"> Create Parent academy</h3>
+            <h3 *ngIf="!disableInputs && activatedRoute.snapshot.params.academyId">Parent academy Profile</h3>
+            <h3 *ngIf="disableInputs"> Parent academy Profile</h3>
+        </div>
+        <form #aF="ngForm">
+            <div class="create_academy">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h5 *ngIf="!disableInputs && !activatedRoute.snapshot.params.academyId">Create new parent academy</h5>
+                        <h5 *ngIf="!disableInputs && activatedRoute.snapshot.params.academyId">Update parent academy</h5>
+                        <h5 *ngIf="disableInputs"> Parent academy details</h5>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="submitcnacel">
+                            <button type="button" class="editcourt" *ngIf="activatedRoute.snapshot.params.academyId && disableInputs" (click)="editData()">Edit</button>
+                            <button type="button" class="sub" appDebounceClick (debounceClick)='createParentAcademy()' [debounceTime]="1000" *ngIf="!activatedRoute.snapshot.params.academyId && !disableInputs"><div>Submit</div></button>
+                            <button type="button" class="sub" appDebounceClick (debounceClick)='updateParentAcademy()' [debounceTime]="1000" *ngIf="activatedRoute.snapshot.params.academyId && !disableInputs"><div>Update</div></button>
+                            <a routerLink="/Sidemenu/parent-academy/parent-academy-list"> <button type="button" class="cancl">Cancel</button></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <input class="captilize" matInput maxlength="20" minlength="3" (keypress)="alphabets_dot_space_number_only($event)" placeholder="Academy Name" name="name" [disabled]="disableInputs" [autocomplete]="'off'" [(ngModel)]="formData.name" required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <input matInput placeholder="Email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [autocomplete]="'off'" [(ngModel)]="formData.email" required [autocomplete]="'off'" [disabled]="activatedRoute.snapshot.params.academyId">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <input matInput placeholder="Mobile" maxlength="10" minlength="10" name="mobile" [autocomplete]="'off'" [(ngModel)]="formData.mobile" required [disabled]="activatedRoute.snapshot.params.academyId" (keypress)="mobileNumberOnly($event)">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <input matInput placeholder="Alternate Mobile Number" minlength="10" maxlength="10" [disabled]="disableInputs" name="alternateMobile" [(ngModel)]="formData.alternateMobile" [autocomplete]="'off'" (keypress)="mobileNumberOnly($event)">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="example-container" style="margin-top: 20px;">
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="picker" placeholder="Established on" (click)="picker.open()" name="established_on" [disabled]="disableInputs" [(ngModel)]="formData.establishedOn" [max]="now" required readonly>
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3" style="margin-top: 20px;">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <input class="captilize" matInput maxlength="20" minlength="3" placeholder="Contact Person" (keypress)="alphabets_dot_space_only($event)" [disabled]="disableInputs" [(ngModel)]="formData.contactPerson" name="contact_person" [autocomplete]="'off'" required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <textarea id="address" class="adderssview captilize cursor" matInput placeholder="Address" [disabled]="disableInputs" [(ngModel)]="formData.address" name="address" [disabled]="!formData.address"></textarea>
+                                <button type="button" class="mapview" data-toggle="modal" data-target="#myModal2" [disabled]="disableInputs">
+                                <i class="fa fa-map-marker" aria-hidden="true"></i>Map View</button>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <input class="captilize" matInput id="city" (keypress)="alphabets_dot_space_only($event)" placeholder="City" name="city" [disabled]="disableInputs" [(ngModel)]="formData.city" [autocomplete]="'off'">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <input class="captilize" matInput id="locality" (keypress)="alphabets_dot_space_only($event)" placeholder="Locality" name="area" [disabled]="disableInputs" [(ngModel)]="formData.locality" [autocomplete]="'off'">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <input matInput placeholder="Pincode" name="pinCode" (keypress)="numberOnly($event)" minlength="6" [maxlength]="6" [(ngModel)]="formData.pinCode" [disabled]="disableInputs" [autocomplete]="'off'">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <input class="captilize" matInput placeholder="Total no. of branches" (keypress)="numberOnly($event)" [maxlength]="5" [disabled]="disableInputs" [(ngModel)]="formData.numberOfBranches" name="display_name" [autocomplete]="'off'" required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- Map View model  -->
+<div id="myModal2" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content mdl-cnt">
+            <div class="modal-header mdl-head">
+                <button type="button" class="close cls-1" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Select Location</h4>
+            </div>
+            <div class="clearfix"></div>
+            <div class="modal-body">
+                <div class="form-group searchloc">
+                    <input placeholder="search for location" type="text" class="form-control" #search id="locationSearch" [autocomplete]="'on'">
+                    <div class="location">
+                        <button (click)="clearMapDetails('CREATE')" data-dismiss="modal">Apply Location</button>
+                    </div>
+                </div>
+                <agm-map [latitude]="lat" [longitude]="lng" [zoom]=zoom (mapClick)="mapClicked($event)" (dragEnd)="markerDragEnd($event)">
+                    <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="true">
+                    </agm-marker>
+                </agm-map>
+            </div>
+        </div>
+
+    </div>
+</div>

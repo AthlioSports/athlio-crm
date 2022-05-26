@@ -1,0 +1,18 @@
+.about img{
+    width: 40%;
+}
+.about figure{
+    text-align: center;
+}
+.support{
+    text-align: center;
+}
+.support span{
+    color: #3f51b5;
+    font-weight: bold;
+    border-bottom: 2px solid #3f51b5;
+}
+
+
+
+

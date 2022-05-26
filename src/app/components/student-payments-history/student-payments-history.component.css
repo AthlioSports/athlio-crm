@@ -1,0 +1,66 @@
+.student-free {
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 10px 0px;
+}
+
+.listtabel {
+    margin-top: 30px;
+}
+
+.listtabel thead {
+    color: #000;
+}
+
+.listtabel thead tr th {
+    text-transform: capitalize;
+    font-weight: normal;
+}
+
+.scrool-y {
+    overflow-y: scroll;
+    display: block;
+    height: 400px;
+    width: 100% !important;
+}
+
+.paymentsty {
+    width: 140px !important;
+}
+
+.studentDetails {
+    margin-left: 0px;
+}
+
+.studentDetailsLabel {
+    width: 40px;
+}
+
+.amount {
+    width: 60px !important;
+}
+
+.Pright {
+    padding-right: 30px;
+}
+
+.back {
+    text-align: right;
+    margin-top: 16px;
+}
+
+.back button {
+    background-color: #403f3f;
+    color: #fff;
+    padding: 6px 20px;
+    border: none;
+    border-radius: 20px;
+}
+
+.studentDetails {
+    text-transform: capitalize;
+}
+
+.V-align {
+    vertical-align: middle;
+}

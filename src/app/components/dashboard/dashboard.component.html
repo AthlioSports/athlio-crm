@@ -1,0 +1,343 @@
+<router-outlet (activate)="onActivate($event)"></router-outlet>
+<div class="dashboard_mqain">
+    <div class="row marginBottom20" *ngIf="this.userDetails && this.userDetails.type && (this.userDetails.type.toLowerCase() == 'academyadmin' || this.userDetails.type.toLowerCase() == 'parentacademy')">
+        <div class="col-sm-3 ddd">
+            <a routerLink="/Sidemenu/academies/academiesList" class="dashboard_lists">
+                <div class="academies_count dtable">
+                    <div class="dtcell">
+                        <img src="../../../assets/images/stadium.png" style="margin: 8px;width: 32px;">
+                        <div>Total Academies</div>
+                    </div>
+                    <div class="verticalLine"></div>
+                    <div class="dtcell txtstyleofSPorts">
+                        <div class="marginLeft10">{{masterDataCounts.academies_count}}</div>
+
+                    </div>
+                    <!-- <i class="fa fa-arrow-circle-o-right icon" aria-hidden="true"></i> -->
+                </div>
+                <!-- <div class="borderwidth"></div> -->
+            </a>
+        </div>
+        <div class="col-sm-6 ddd2">
+            <a class="dashboard_lists">
+                <div class="academies_count dtable">
+                    <div class="dtcell">
+                        <img src="../../../assets/images/stadium.png" style="margin: 8px;width: 32px;">
+                        <div>View Academy</div>
+                    </div>
+                    <div class="verticalLine"></div>
+                    <div class="dtcell txtstyleofSPorts width699">
+                        <div class="marginLeft10 captilize" *ngIf="parentBranchAcademies.length === 0">
+                            {{userDetails.display_name? userDetails.display_name: userDetails.name}}
+                        </div>
+                        <select class="branchAcademiesDropDown" name="branchAcademy" [(ngModel)]="branchAcademy" (change)="getBranchAcademiesData()" *ngIf="parentBranchAcademies.length !== 0">
+              <option [value]="userDetailsMasterData.id">
+                {{userDetailsMasterData.display_name? userDetailsMasterData.display_name: userDetailsMasterData.name}}
+                (Parent)</option>
+              <option *ngFor="let branch of parentBranchAcademies" [value]="branch._id">{{ branch.name }} (Branch)
+              </option>
+            </select>
+                    </div>
+                    <!-- <i class="fa fa-arrow-circle-o-right icon" aria-hidden="true"></i> -->
+                </div>
+                <!-- <div class="borderwidth"></div> -->
+            </a>
+        </div>
+        <div class="col-sm-3">
+            <div class="row">
+                <div class="col-sm-6 ddd5 paddingRight0" [ngClass]="{ 'disableClick2' : parentacademy }">
+                    <a routerLink="/Sidemenu/students/addstudent" class="dashboard_lists">
+                        <div class="academies_count dtable" [ngClass]="{ 'disableClick' : parentacademy }">
+                            <div class="dtcell">
+                                <div class="img-container">
+                                    <img src="../../../assets/images/Add Students Icon.png" style="margin: 8px;width: 32px;">
+                                </div>
+                                <div>Add Student</div>
+                            </div>
+                            <!-- <i class="fa fa-arrow-circle-o-right icon" aria-hidden="true"></i> -->
+                        </div>
+                        <!-- <div class="borderwidth"></div> -->
+                    </a>
+                </div>
+                <div class="col-sm-6 ddd5 paddingRight0">
+                    <a class="dashboard_lists">
+                        <div class="academies_count dtable disableClick">
+                            <div class="dtcell">
+                                <div class="img-container">
+                                    <img src="../../../assets/images/Attendance Report Icon.png" style="margin: 8px;width: 32px;">
+                                </div>
+                                <div>Attendance Report</div>
+                            </div>
+                            <!-- <i class="fa fa-arrow-circle-o-right icon" aria-hidden="true"></i> -->
+                        </div>
+                        <!-- <div class="borderwidth"></div> -->
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3 ddd" *ngIf="this.userDetails && !this.userDetails.type">
+            <a routerLink="/Sidemenu/academies/academiesList" class="dashboard_lists">
+                <div class="academies_count dtable">
+                    <div class="dtcell">
+                        <img src="../../../assets/images/stadium.png" style="margin: 8px;width: 32px;">
+                        <div>Total Academies</div>
+                    </div>
+                    <div class="verticalLine"></div>
+                    <div class="dtcell txtstyleofSPorts">
+                        <div class="marginLeft10">{{masterDataCounts.academies_count}}</div>
+
+                    </div>
+                    <!-- <i class="fa fa-arrow-circle-o-right icon" aria-hidden="true"></i> -->
+                </div>
+                <!-- <div class="borderwidth"></div> -->
+            </a>
+        </div>
+        <div class="col-sm-3 ddd2">
+            <a routerLink="/Sidemenu/students/studentList" class="dashboard_lists">
+                <div class="academies_count dtable">
+                    <div class="dtcell">
+                        <i class="fa fa-users" aria-hidden="true" style="color:	#9ABC6C;font-size: 28px;padding: 10px; "></i>
+                        <div>Students</div>
+                    </div>
+                    <div class="verticalLine"></div>
+                    <div class="dtcell txtstyleofSPorts">
+                        <div class="marginLeft10">{{masterDataCounts.students_count}}</div>
+                    </div>
+                </div>
+                <!-- <div class="borderwidth2"></div> -->
+            </a>
+        </div>
+        <div class="col-sm-3 ddd1">
+            <a routerLink="/Sidemenu/coaches/coachList" class="dashboard_lists">
+                <div class="academies_count dtable">
+                    <div class="dtcell">
+                        <img src="../../../assets/images/whistle.png">
+                        <div>Coaches</div>
+                    </div>
+                    <div class="verticalLine"></div>
+                    <div class="dtcell txtstyleofSPorts">
+                        <div class="marginLeft10">{{masterDataCounts.coaches_count}}</div>
+                    </div>
+                </div>
+                <!-- <div class="borderwidth1"></div> -->
+            </a>
+        </div>
+        <div class="col-sm-3 ddd3">
+            <a routerLink="/Sidemenu/sports" class="dashboard_lists">
+                <div class="academies_count dtable">
+                    <div class="dtcell">
+                        <img src="../../../assets/images/rugby.png" style="width: 35px;margin: 6px;">
+                        <div>Sports</div>
+                    </div>
+                    <div class="verticalLine"></div>
+                    <div class="dtcell txtstyleofSPorts">
+                        <div class="marginLeft10">{{masterDataCounts.sports_count}}</div>
+                    </div>
+                </div>
+                <!-- <div class="borderwidth3"></div> -->
+            </a>
+        </div>
+        <div class="col-sm-3 ddd1" *ngIf="this.userDetails && this.userDetails.type && (this.userDetails.type.toLowerCase() == 'academyadmin' || this.userDetails.type.toLowerCase() == 'parentacademy')">
+            <a class="dashboard_lists">
+                <div class="academies_count dtable">
+                    <div class="dtcell">
+                        <img src="../../../assets/images/Cash Icon.png" style="margin: 8px;width: 32px;">
+                        <div>Total Earnings</div>
+                    </div>
+                    <div class="verticalLine"></div>
+                    <div class="dtcell txtstyleofSPorts">
+                        <div class="marginLeft10">{{masterDataCounts.totalAmount}}</div>
+
+                    </div>
+                    <!-- <i class="fa fa-arrow-circle-o-right icon" aria-hidden="true"></i> -->
+                </div>
+                <!-- <div class="borderwidth"></div> -->
+            </a>
+        </div>
+    </div>
+
+
+    <div class="row martopbtm">
+        <div class="col-sm-3 studentssportslevel" style="padding-left: 0px;">
+            <div class="bg-clor">
+                <div class="graphHeading">
+                    <!-- <h5>Students per sport </h5> -->
+                    Students per Sport by Batch
+                </div>
+                <div>
+                    <select class="yearsDropDown" name="filterYear" [(ngModel)]="filterYear" (change)="getStudentsPerBatchPerSport()">
+            <option value="" disabled>year</option>
+            <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+          </select>
+                    <select class="yearsDropDown" name="filterMonth" [(ngModel)]="filterMonth" (change)="getStudentsPerBatchPerSport()">
+            <option value="" disabled>month</option>
+            <option *ngFor="let month of monthsArr" [value]="month.value">{{ month.name }}</option>
+          </select>
+                    <span class="yearsDropDown upTo">Upto</span>
+                </div>
+                <div style="margin-top: 20px;"></div>
+                <ngx-charts-bar-vertical-stacked [view]="view" [results]="results" (window:resize)="onResize1($event)" [gradient]="gradient" [xAxis]="showXAxis" [class]="'dark'" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel"
+                    [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [yScaleMax]="yScaleMax" [barPadding]="barPadding" [legendPosition]="'below'" [scheme]="colorScheme">
+                </ngx-charts-bar-vertical-stacked>
+            </div>
+        </div>
+        <div class="col-sm-3 studentssportslevel">
+            <div class="bg-clor">
+                <div class="graphHeading">
+                    Students per Sport by Gender
+                </div>
+                <div>
+                    <select class="yearsDropDown" name="studentsPerSportByGenderFilterYear" [(ngModel)]="studentsPerSportByGenderFilterYear" (change)="getStudentsPerSportByGender()">
+            <option value="" disabled>year</option>
+            <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+          </select>
+                    <select class="yearsDropDown" name="studentsPerSportByGenderFilterMonth" [(ngModel)]="studentsPerSportByGenderFilterMonth" (change)="getStudentsPerSportByGender()">
+            <option value="" disabled>month</option>
+            <option *ngFor="let month of monthsArr" [value]="month.value">{{ month.name }}</option>
+          </select>
+                    <span class="yearsDropDown upTo">Upto</span>
+                </div>
+                <div style="margin-top: 20px;"></div>
+                <ngx-charts-bar-vertical-stacked [view]="view" [results]="graphByGenderData" (window:resize)="onResize1($event)" [gradient]="gradient" [xAxis]="showXAxis" [class]="'dark'" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel"
+                    [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [yScaleMax]="graphByGenderyScaleMax" [barPadding]="barPadding" [legendPosition]="'below'" [scheme]="graph2Options.colorScheme">
+                </ngx-charts-bar-vertical-stacked>
+            </div>
+        </div>
+        <div class="col-sm-3  studentssportslevel">
+            <div class="bg-clor-2">
+                <div class="graphHeading">
+                    <!-- <h5>Average students per sport</h5> -->
+                    Students per Sport
+                </div>
+                <div>
+                    <select class="yearsDropDown" name="doughNutChartFilterYear" [(ngModel)]="doughNutChartFilterYear" (change)="getDoughNutChartData()">
+            <option value="" disabled>year</option>
+            <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+          </select>
+                    <select class="yearsDropDown" name="doughNutChartFilterMonth" [(ngModel)]="doughNutChartFilterMonth" (change)="getDoughNutChartData()">
+            <option value="" disabled>month</option>
+            <option *ngFor="let month of monthsArr" [value]="month.value">{{ month.name }}</option>
+          </select>
+                    <span class="yearsDropDown upTo">Upto</span>
+                </div>
+                <!-- <ngx-charts-advanced-pie-chart class="piechart" [view]="pieChartOptions.view" [scheme]="pieChartOptions.colorScheme"
+          [results]="pieChartGraphData" [gradient]="pieChartOptions.gradient">
+        </ngx-charts-advanced-pie-chart> -->
+                <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels" [chartType]="'doughnut'" [colors]="doughNutChartColors" [options]='doughNutChartOptions'>
+        </canvas>
+            </div>
+        </div>
+        <div class="col-sm-3 studentssportslevel" style="padding-left: 0px;">
+            <div class="bg-clor">
+                <div class="graphHeading">
+                    <!-- <h5>Students per sport </h5> -->
+                    Students by Age group
+                </div>
+                <div>
+                    <select class="yearsDropDown" name="ageGroupFilterYear" [(ngModel)]="ageGroupFilterYear" (change)="getStudentsDataByAgeGroup()">
+            <option value="" disabled>year</option>
+            <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+          </select>
+                    <select class="yearsDropDown" name="ageGroupFilterMonth" [(ngModel)]="ageGroupFilterMonth" (change)="getStudentsDataByAgeGroup()">
+            <option value="" disabled>month</option>
+            <option *ngFor="let month of monthsArr" [value]="month.value">{{ month.name }}</option>
+          </select>
+                    <span class="yearsDropDown upTo">Upto</span>
+                </div>
+                <div style="margin-top: 20px;"></div>
+                <ngx-charts-bar-vertical [view]="view" [results]="ageGroupData" (window:resize)="onResize1($event)" [gradient]="gradient" [xAxis]="showXAxis" [class]="'dark'" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel"
+                    [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [barPadding]="barPadding" [legendPosition]="'below'" [scheme]="colorScheme" [roundEdges]="false">
+                </ngx-charts-bar-vertical>
+            </div>
+        </div>
+    </div>
+    <div class="row marbottom">
+
+        <!-- <div class="col-sm-6 studentssportslevel padlr">
+      <div class="row">
+        <h5 class="hsty"> New Joinees Per Month</h5>
+      </div>
+      <div class="bg-clor-1">
+        <select class="yearsDropDown" name="selectedYear" [(ngModel)]='selectedYear'
+          (change)="getStudentsPerBatchPerMonth()">
+          <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+        </select>
+        <ngx-charts-bar-vertical-stacked [view]="graph2Options.view" [results]="graph2Results"
+          (window:resize)="onResize2($event)" [gradient]="graph2Options.gradient" [xAxis]="showXAxis"
+          [yAxis]="graph2Options.showYAxis" [legend]="graph2Options.showLegend"
+          [showXAxisLabel]="graph2Options.showXAxisLabel" [showYAxisLabel]="graph2Options.showYAxisLabel"
+          [xAxisLabel]="graph2Options.xAxisLabel" [yAxisLabel]="graph2Options.yAxisLabel"
+          [yScaleMax]="graph2Options.yScaleMax" [barPadding]="graph2Options.barPadding" [legendPosition]="'below'"
+          [scheme]="graph2Options.colorScheme">
+        </ngx-charts-bar-vertical-stacked>
+      </div>
+    </div> -->
+        <div class="col-sm-6 studentssportslevel padlr">
+            <div class="row">
+                <h5 class="hsty"> Revenue per sport</h5>
+            </div>
+            <div class="bg-clor-1">
+                <select class="yearsDropDown" name="selectedYear" [(ngModel)]='selectedYear' (change)="getRevenuePerSport()">
+          <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+        </select>
+                <select class="yearsDropDown" name="revenuePerSportFilterMonth" [(ngModel)]="revenuePerSportFilterMonth" (change)="getRevenuePerSport()">
+          <option value="" disabled>month</option>
+          <option *ngFor="let month of monthsArr" [value]="month.value">{{ month.name }}</option>
+        </select>
+                <ngx-charts-bar-vertical [view]="graph2Options.view" [results]="graph2Results" (window:resize)="onResize2($event)" [gradient]="graph2Options.gradient" [xAxis]="showXAxis" [yAxis]="graph2Options.showYAxis" [legend]="graph2Options.showLegend" [showXAxisLabel]="graph2Options.showXAxisLabel"
+                    [showYAxisLabel]="graph2Options.showYAxisLabel" [xAxisLabel]="graph2Options.xAxisLabel" [yAxisLabel]="'Revenue'" [yScaleMax]="graph2Options.yScaleMax" [barPadding]="graph2Options.barPadding" [legendPosition]="'below'" [scheme]="graph2Options.colorScheme"
+                    [roundEdges]="false">
+                </ngx-charts-bar-vertical>
+            </div>
+        </div>
+        <div class="col-sm-6 padright">
+            <div class="row">
+                <h5 class="hsty">New Joinees / Total Students</h5>
+            </div>
+            <div class="bg-clor-3">
+                <!-- <h5>Revenue By Sport</h5> -->
+                <select class="yearsDropDown" name="selectedYear2" [(ngModel)]='selectedYear2' (change)="getStudentsPerMonthByYear()">
+          <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+        </select>
+                <ngx-charts-line-chart [results]="graph3Results" [view]="graph2Options.view" (window:resize)="onResize2($event)" [gradient]="graph2Options.gradient" [xAxis]="true" [yAxis]="graph2Options.showYAxis" [legend]="graph2Options.showLegend" [showXAxisLabel]="graph2Options.showXAxisLabel"
+                    [showYAxisLabel]="graph2Options.showYAxisLabel" [xAxisLabel]="graph2Options.xAxisLabel" [yAxisLabel]="'Total Students'" [yScaleMax]="grap3YScaleMax" [legendPosition]="'below'" [scheme]="graph2Options.colorScheme">
+                </ngx-charts-line-chart>
+            </div>
+        </div>
+        <div class="col-sm-6 mbtm" *ngIf="!userDetails?.type">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h5 class="hsty"> students Report</h5>
+                </div>
+                <div class="col-sm-6" *ngIf="!userDetails?.type">
+                    <mat-form-field>
+                        <mat-select [(ngModel)]="academyFilterOfStudentsReport" name="academyFilterOfStudentsReport" (ngModelChange)="getStudentsReport()">
+                            <mat-option value='' disabled>Select Academy</mat-option>
+                            <mat-option [value]="'ALL'">All</mat-option>
+                            <mat-option *ngFor="let academy of academiesList" [value]="academy._id">
+                                {{academy.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <table datatable [dtOptions]="dtOptions[0]" [ngClass]="{'noDataDataTable' : dtStudentsList?.length == 0}" [dtTrigger]="dtTrigger1" id="style-1" class="table table-striped hover scrool-y scrollbar tblsty stdreport" #dtElement1>
+                <thead>
+                    <tr>
+                        <th>S.No.</th>
+                        <th class="studt_name-3" style="width:270px;">Academy</th>
+                        <th class="studt_spt-3" style=" width: 80px">Sport</th>
+                        <th class="student_level-3" style="width: 112px">Level</th>
+                        <th>Count</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="dtStudentsList?.length == 0">
+                    <tr>
+                        <td colspan="5" class="nodata">No data found</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>

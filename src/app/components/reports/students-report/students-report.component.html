@@ -1,0 +1,112 @@
+<router-outlet (activate)="onActivate($event)"></router-outlet>
+<div class="main_heading">
+    <h3> Students Report</h3>
+</div>
+
+<!-- <section class="search-filters">
+    <div class="container-fluid">
+        <div class="filters-options">
+            <h4>athilo search filters</h4>
+            <div class="search-1">
+                <label>Sports</label><br>
+                <input type="text" name="" id="">
+            </div>
+            <div class="search-1">
+                <label>select coach</label><br>
+                <select>
+            <option value="">coach-1</option>
+            <option value="">coach-2</option>
+        </select>
+            </div>
+            <div class="search-1">
+                <label>select month</label><br>
+                <select>
+            <option value="">jan</option>
+            <option value="">feb</option>
+          </select>
+            </div>
+            <div class="search-1">
+                <label> select year</label><br>
+                <select>
+          <option value="">2018</option>
+          <option value="">2019</option>
+        </select>
+            </div>
+            <div class="clearfix"></div>
+            <div class="search-btn">
+                <button type="button">Search</button>
+            </div>
+        </div>
+    </div>
+</section> -->
+
+<section class="table-style">
+    <div class="mbtm">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="example-container">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="picker1" (click)="picker1.open()" placeholder="Start Date" name="startDate" [(ngModel)]="reportByAcademy.startDate" readonly required (dateChange)="clearDate()">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="example-container">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="picker2" (click)="picker2.open()" placeholder="End Date" name="endDate" [(ngModel)]="reportByAcademy.endDate" readonly required (dateChange)="getReportData()" [min]="reportByAcademy.startDate">
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-sm-3" *ngIf="!userDetails?.type">
+                <mat-form-field>
+                    <mat-select [(ngModel)]="academyFilterOfStudentReport" name="academyFilterOfStudentReport" (ngModelChange)="getReportData()">
+                        <mat-option value='' disabled>Select Academy</mat-option>
+                        <mat-option [value]="'ALL'">All</mat-option>
+                        <mat-option *ngFor="let academy of academiesList" [value]="academy._id">
+                            {{academy.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <table datatable [dtOptions]="dtOptions[0]" [dtTrigger]="dtTrigger1" id="style-2" class="table table-striped hover scrool-y scrollbar tblsty  nowrap" #dtElement2>
+            <thead>
+                <tr>
+                    <th>S.No.</th>
+                    <th class="studt_name-3">Name</th>
+                    <th class="studt_name-3">Email</th>
+                    <th class="studt_name-3">Mobile</th>
+                    <th class="studt_name-3">Academy</th>
+                    <th class="studt_name-3">Coach</th>
+                    <th class="studt_name-3">Batch</th>
+                    <th class="studt_spt-3">Sport</th>
+                    <th class="studt_spt-3">Gender</th>
+                    <th class="student_level-3">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- <tbody *ngIf="studentPaymentsPerAcademyPerSport?.length != 0">
+        <tr *ngFor="let student of studentPaymentsPerAcademyPerSport; let i= index;">
+          <td>{{student.slNo}}</td>
+          <td class="captilize" style="width: 108px;">{{student.academyName}}</td>
+          <td class="student_email">{{student.sportName}}</td>
+          <td>{{student.paid}}</td>
+          <td class="captilize">{{student.pending}}</td>
+          <th>{{student.totalAmount}}</th>
+        </tr>
+        <tr>
+          <td></td>
+          <td>Total</td>
+          <td></td>
+          <td>{{ studentPaymentsPerAcademyPerSportTotals?.paidTotals }}</td>
+          <td>{{ studentPaymentsPerAcademyPerSportTotals?.pendingTotals }}</td>
+          <td>{{ studentPaymentsPerAcademyPerSportTotals?.totalTotals }}</td>
+        </tr>
+      </tbody> -->
+        </table>
+    </div>
+</section>

@@ -1,0 +1,110 @@
+<router-outlet (activate)="onActivate($event)"></router-outlet>
+<div class="main_heading">
+    <h3> Fee report by Payment Type</h3>
+</div>
+
+<!-- <section class="search-filters">
+    <div class="container-fluid">
+        <div class="filters-options">
+            <h4>athilo search filters</h4>
+            <div class="search-1">
+                <label>Sports</label><br>
+                <input type="text" name="" id="">
+            </div>
+            <div class="search-1">
+                <label>select coach</label><br>
+                <select>
+              <option value="">coach-1</option>
+              <option value="">coach-2</option>
+          </select>
+            </div>
+            <div class="search-1">
+                <label>select month</label><br>
+                <select>
+              <option value="">jan</option>
+              <option value="">feb</option>
+            </select>
+            </div>
+            <div class="search-1">
+                <label> select year</label><br>
+                <select>
+            <option value="">2018</option>
+            <option value="">2019</option>
+          </select>
+            </div>
+            <div class="clearfix"></div>
+            <div class="search-btn">
+                <button type="button">Search</button>
+            </div>
+        </div>
+    </div>
+</section> -->
+
+<section class="table-style">
+    <div class="col-sm-8 mtop mbtm">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="example-container">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="picker3" (click)="picker3.open()" placeholder="Start Date" name="startDate" [(ngModel)]="reportByPaymentType.startDate" readonly required (dateChange)="clearDate()">
+                        <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                        <mat-datepicker #picker3></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="example-container">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="picker4" (click)="picker4.open()" placeholder="End Date" name="endDate" [(ngModel)]="reportByPaymentType.endDate" readonly required (dateChange)="getReportData()" [min]="reportByPaymentType.startDate">
+                        <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                        <mat-datepicker #picker4></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-sm-4" *ngIf="!userDetails?.type">
+                <mat-form-field>
+                    <mat-select [(ngModel)]="academyFilterOfPaymentSummaryReport" name="academyFilterOfPaymentSummaryReport" (ngModelChange)="getReportData()">
+                        <mat-option value='' disabled>Select Academy</mat-option>
+                        <mat-option [value]="'ALL'">All</mat-option>
+                        <mat-option *ngFor="let academy of academiesList" [value]="academy._id">
+                            {{academy.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <table datatable [dtOptions]="dtOptions[0]" [dtTrigger]="dtTrigger1" id="style-3" class="table table-striped hover scrool-y scrollbar tblsty">
+            <thead>
+                <tr>
+                    <th>S.No.</th>
+                    <th class="studt_name-3" style="width:270px;">Academy</th>
+                    <th class="studt_spt-3" style=" width: 80px">Sport</th>
+                    <th class="student_level-3 text-center" style="width: 112px">Online Payments</th>
+                    <th>Offline Payments</th>
+                    <th>Discount</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- <tbody *ngIf="superAdminFeeReportByPaymentMethod?.length != 0">
+      <tr *ngFor="let student of superAdminFeeReportByPaymentMethod; let i= index;">
+        <td>{{student.slNo}}</td>
+        <td class="captilize" style="width: 108px;">{{student.academyName}}</td>
+        <td class="student_email">{{student.sportName}}</td>
+        <td>{{student.paidInOnline}}</td>
+        <td class="captilize">{{student.paidInOffline}}</td>
+        <th>{{student.totalAmount}}</th>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Total</td>
+        <td></td>
+        <td>{{ superAdminFeeReportByPaymentMethodTotals?.onlineTotals }}</td>
+        <td>{{ superAdminFeeReportByPaymentMethodTotals?.offlineTotals }}</td>
+        <td>{{ superAdminFeeReportByPaymentMethodTotals?.totalTotals }}</td>
+      </tr>
+    </tbody> -->
+        </table>
+    </div>
+    <div class="clearfix"></div>
+</section>

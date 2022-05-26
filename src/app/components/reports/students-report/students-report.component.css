@@ -1,0 +1,37 @@
+.scrool-y {
+    display: block;
+    overflow-y: scroll;
+    max-height: 600px;
+}
+
+.tblsty thead {
+    width: 100%;
+    background-color: #fff;
+    color: #000;
+}
+
+.mtop50 {
+    margin-top: 50px;
+}
+
+.tblsty thead th {
+    font-weight: normal;
+    border: none;
+}
+
+.mtop {
+    margin-top: 30px;
+}
+
+.mbtm {
+    margin-bottom: 20px;
+}
+
+
+/* .table-striped {
+    border-radius: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+} */

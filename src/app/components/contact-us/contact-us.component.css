@@ -1,0 +1,44 @@
+.courts {
+    background-color: #fff;
+    margin: 10px 0px;
+    padding: 0px 10px 10px 10px;
+    border-radius: 4px;
+}
+
+.courts-list h5 {
+    font-family: Gotham-Bold;
+    font-weight: 600;
+}
+
+.courts-list {
+    margin-bottom: 10px;
+}
+
+.courtslistview table thead {
+    background-color: #fff;
+    color: #000;
+}
+
+.courtslistview table tbody {
+    border: 1px solid #ccc;
+}
+
+.courtslistview table thead tr th {
+    font-weight: normal;
+    border: none;
+}
+
+.scrool-courts {
+    max-height: 380px;
+    overflow-y: scroll;
+    width: 100% !important;
+    display: block;
+}
+
+.cont_name {
+    width: 100px;
+}
+
+.cont_name-1 {
+    width: 130px;
+}

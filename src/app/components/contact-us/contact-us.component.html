@@ -1,0 +1,50 @@
+<router-outlet (activate)="onActivate($event)"></router-outlet>
+<section class="courts">
+    <div class="container-fluid">
+        <div class="main_heading">
+            <h3>Contact Us</h3>
+        </div>
+        <div class="courts-list">
+            <h5>List of Contacts </h5>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="courtslistview">
+                        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="style-3" class="row-border table-striped hover scrool-courts scrollbar">
+                            <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th class="cont_name-1">Name</th>
+                                    <th class="cont_name-1">Email</th>
+                                    <th class="cont_name">Mobile</th>
+                                    <th class="cont_name-1">Academy</th>
+                                    <th class="cont_name">City</th>
+                                    <th class="cont_name">source</th>
+                                    <th class="cont_name text-center"> Date</th>
+                                    <th class="cont_name">Message</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="dtcontactList?.length == 0">
+                                <tr>
+                                    <td colspan="9" class="nodata">No data found</td>
+                                </tr>
+                            </tbody>
+                            <tbody *ngIf="dtcontactList?.length != 0">
+                                <tr *ngFor="let contact of dtcontactList">
+                                    <td>{{contact.slNo}}</td>
+                                    <td class="captilize wrd-brk fontfmily">{{contact.name}}</td>
+                                    <td class=" ">{{contact.email}}</td>
+                                    <td class="captilize">{{contact.mobile}}</td>
+                                    <td class="captilize">{{contact.academy}}</td>
+                                    <td class="captilize">{{contact.city}}</td>
+                                    <td class="captilize">{{contact.from}}</td>
+                                    <td class="captilize text-center">{{contact.created_date | date:'dd-MMM-yyyy'}}</td>
+                                    <td class="captilize">{{contact.message}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

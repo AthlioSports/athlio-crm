@@ -1,0 +1,365 @@
+<router-outlet (activate)="onActivate($event)"></router-outlet>
+<section class="search-filters">
+    <div class="container-fluid">
+        <div class="filters-options">
+            <h4>athilo search filters</h4>
+            <div class="search-1">
+                <label>Select City</label><br>
+                <select [(ngModel)]="filters.filterCity" name="filterCity" [ngClass]="{'disable-click':this.userDetails?.type?.toLowerCase() == 'academyadmin'}" [disabled]="this.userDetails?.type?.toLowerCase() == 'academyadmin'">
+          <option value="" disabled>City</option>
+          <option value="">All</option>
+          <option [value]="city" *ngFor="let city of allAcademyCities">{{ city }}</option>
+        </select>
+            </div>
+            <div class="search-1">
+                <label>Select Sport</label><br>
+                <select [(ngModel)]="filters.sport" name="sport">
+          <option value="" disabled>Sport</option>
+          <option value="">All</option>
+          <option [value]="sport.id" *ngFor="let sport of allSports">{{ sport.name }}</option>
+        </select>
+            </div>
+            <div class="search-1">
+                <label>Select Academy </label><br>
+                <select [ngClass]="{'disable-click':this.userDetails?.type?.toLowerCase() == 'academyadmin'}" [(ngModel)]="filters.academy" name="academy" [disabled]="this.userDetails?.type?.toLowerCase() == 'academyadmin'">
+          <option value="" disabled>Academy</option>
+          <option value="">All</option>
+          <option [value]="academy._id" *ngFor="let academy of allAcademies">{{ academy.name }}</option>
+        </select>
+            </div>
+            <div class="search-1">
+                <label> Certification</label><br>
+                <select [(ngModel)]="filters.certification" name="academy">
+          <option value="" disabled>Certification</option>
+          <option value="">All</option>
+          <option [value]="certification" *ngFor="let certification of allCertifications">{{ certification }}</option>
+        </select>
+            </div>
+            <div class="clearfix"></div>
+            <div class="search-btn">
+                <button type="button" (click)="getCoachesByFilters()">Search</button>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="coach-list">
+    <div class="conatiner-fluid">
+        <div class="main_heading">
+            <h3>Coaches</h3>
+        </div>
+        <div class="coach-listmain">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h5>List of Coaches</h5>
+                </div>
+                <div class="col-sm-6" *ngIf="!parentAcademyLogin">
+                    <div class="addcoach">
+                        <a routerLink="/Sidemenu/coaches/addcoaches"><button type="button"><i class="fa fa-plus"
+                  aria-hidden="true"></i> Add
+                Coach</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="coach-listview">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" [ngClass]="{'noDataDataTable' : dtCoachesList?.length == 0}" id="style-3" class=" table table-striped hover scrool-y scrollbar">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th style="width: 20px;">Chief coach</th>
+                        <th class="coach_name wrd-brk">Name</th>
+                        <th>Mobile</th>
+                        <th class="coach_acd wrd-brk">Academy</th>
+                        <th style="width: 40px;">Gender</th>
+                        <th class="coach_sport word-break">Sport</th>
+                        <th class="coach_level word-break">Level</th>
+                        <th class="coach_mail wrd-brk" style="width: 82px;">certification</th>
+                        <th *ngIf="!parentAcademyLogin">Actions</th>
+                        <!-- <th>Status</th> -->
+                    </tr>
+                </thead>
+                <tbody *ngIf="dtCoachesList?.length == 0">
+                    <tr>
+                        <td colspan="10" class="text-center nodata">No data found</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="dtCoachesList?.length != 0">
+                    <tr *ngFor="let coach of dtCoachesList">
+                        <td>{{ coach.slNo }}</td>
+                        <td class="text-center"><img src="../../../assets/images/icons8-star-64.png" class="chiefCoachIcon" *ngIf="coach.chief_coach == 'true'"></td>
+                        <td class="captilize wrd-brk">{{ coach.name }}</td>
+                        <td>{{ coach.phone }}</td>
+                        <td class="captilize" [matTooltip]="coach.academy_name" matTooltipPosition="above">
+                            <div class="texthidden-1">{{ coach.academy_name }}</div>
+                        </td>
+                        <td class="captilize">{{ coach.gender }}</td>
+                        <td class="captilize">{{ coach.sport_name }}</td>
+                        <td class="captilize">{{ coach.level_name }}</td>
+                        <td class="brk-all captilize">{{ coach.certification }}</td>
+                        <td *ngIf="!parentAcademyLogin" class="statuswidth">
+                            <span class="view" (click)=viewData(coach._id)><i class="fa fa-eye" aria-hidden="true" matTooltip="View"
+                                matTooltipPosition="above" data-toggle="modal" data-target="#coachDetails"></i></span>
+                            <span class="editicon" (click)=editData(coach._id)><i class="fa fa-pencil" aria-hidden="true"
+                                matTooltip="Edit" matTooltipPosition="above"></i></span>
+                            <span matTooltip="Status" matTooltipPosition="above">
+                            <span class="delete"><i class="fa fa-trash-o" aria-hidden="true" matTooltip="Delete"
+                                matTooltipPosition="above" data-toggle="modal" (click)="deleteId = coach._id"
+                                data-target="#myModal2"></i></span>
+                            <label class="switch m5">
+                                <input type="checkbox" [(ngModel)]="coach.chackValue"
+                                    (change)="changeValue(coach.chackValue?'Active':'InActive',coach._id)" [checked]="coach.chackValue">
+                                <small></small>
+                            </label>
+                            </span>
+                        </td>
+                        <!-- <td> <label class="switch m5">
+                            <input type="checkbox" [(ngModel)]="coach.chackValue"
+                              (change)="changeValue(coach.chackValue?'Active':'InActive',coach._id)" [checked]="coach.chackValue">
+                            <small></small>
+                          </label>
+                        </td> -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div id="coachDetails" class="modal fade" role="dialog">
+    <div class="modal-dialog mdl-dilg">
+
+        <!-- Modal content-->
+        <div class="modal-content mdl-cnt">
+            <div class="modal-header mdl-head">
+                <button type="button" class="close cls-1" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Coach Details</h4>
+            </div>
+            <div class="modal-body mdl-bdy  scrollbar" id="style-3">
+                <div class="outer-border">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Name</p>
+                                <b>:</b>
+                                <span>{{coachDetails.name}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Display Name</p>
+                                <b>:</b>
+                                <span>{{coachDetails.display_name}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Mobile 1</p>
+                                <b>:</b>
+                                <span>{{coachDetails.phone}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Mobile 2</p>
+                                <b>:</b>
+                                <span>{{coachDetails.alternate_number}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Email</p>
+                                <b>:</b>
+                                <span class="textnorml">{{coachDetails.email}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p> Date of birth</p>
+                                <b>:</b>
+                                <span>{{coachDetails.date_of_birth}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Certification</p>
+                                <b>:</b>
+                                <span>{{coachDetails.certification}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Gender</p>
+                                <b>:</b>
+                                <span>{{coachDetails.gender}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>academy</p>
+                                <b>:</b>
+                                <span>{{coachDetails.academy_name}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Sport</p>
+                                <b>:</b>
+                                <span>{{coachDetails.sport_name}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>level</p>
+                                <b>:</b>
+                                <span>{{coachDetails.level_name}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Experience</p>
+                                <b>:</b>
+                                <span>{{coachDetails.experience}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="about-academy">
+                                <p>batch</p>
+                                <b>:</b>
+                                <span>{{coachDetails.student_batch_name}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="about-academy">
+                                <p>About Coach</p>
+                                <b>:</b>
+                                <span>{{coachDetails.aboutcoach}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="outer-border">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="previewstyles">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="4" class="timing">Timings</th>
+                                        </tr>
+                                    </thead>
+                                    <thead>
+                                        <tr class="tbl-details">
+                                            <th>Day</th>
+                                            <th>Start Time</th>
+                                            <th>End Time</th>
+                                            <th>Batch</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngIf="coachDetails.timings?.length == 0">
+                                        <tr>
+                                            No Timings found.
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngIf="coachDetails.timings?.length != 0">
+                                        <tr *ngFor="let time of coachDetails.timings">
+                                            <td colspan="4">
+                                                <table class="table table-bordered">
+                                                    <tr>
+                                                        <td colspan="4">{{time.batch_name}}</td>
+                                                    </tr>
+                                                    <tr *ngFor="let indivTime of time.time">
+                                                        <td colspan="4">
+                                                            <table>
+                                                                <tr *ngFor="let indivDay of indivTime.time">
+                                                                    <td>{{indivTime.day}}</td>
+                                                                    <td>{{indivDay.start_time}}</td>
+                                                                    <td>{{indivDay.end_time}}</td>
+                                                                    <td>{{time.batch_name}}</td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div>
+                                    <div class="timing">Timings</div>
+                                    <div *ngIf="coachDetails.timings?.length == 0">
+                                        No timings found.
+                                    </div>
+                                    <div>
+                                        <div class="timeHeadDiv">Day</div>
+                                        <div class="timeHeadDiv">Start Time</div>
+                                        <div class="timeHeadDiv">End Time</div>
+                                        <div class="timeHeadDiv">Batch</div>
+                                    </div>
+                                    <div *ngIf="coachDetails.timings?.length != 0">
+                                        <div *ngFor="let time of coachDetails.timings">
+                                            <div *ngFor="let indivTime of time.time">
+                                                <div *ngFor="let indivDay of indivTime.time">
+                                                    <div class="timeDiv">{{indivTime.day}}</div>
+                                                    <div class="timeDiv">{{indivDay.start_time}}</div>
+                                                    <div class="timeDiv">{{indivDay.end_time}}</div>
+                                                    <div class="timeDiv">{{time.batch_name}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Modal 2-->
+<div id="myModal2" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content mdl_content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title title-1">Are you sure you want delete this file</h4>
+            </div>
+            <div class="modal-body model-bdy">
+                <button type="button" class="yes" data-dismiss="modal" (click)="deleteCoach(deleteId)">Yes</button>
+                <button type="button" class="no" data-dismiss="modal">No</button>
+            </div>
+        </div>
+
+    </div>
+</div>

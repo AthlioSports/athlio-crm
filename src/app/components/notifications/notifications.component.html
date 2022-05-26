@@ -1,0 +1,48 @@
+<router-outlet (activate)="onActivate($event)"></router-outlet>
+<section class="courts">
+    <div class="container-fluid">
+        <div class="main_heading">
+            <h3>Notifications</h3>
+        </div>
+        <div class="courts-list">
+            <h5>List of Payment Receipt Notifications </h5>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="courtslistview">
+                        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="style-3" class="row-border table-striped hover scrool-courts scrollbar">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">S.No</th>
+                                    <th class="W110 text-center">Date of Payment</th>
+                                    <th class="W170">Student</th>
+                                    <th class="W110">Sport</th>
+                                    <th class="W110">Batch</th>
+                                    <th class="W200">Academy</th>
+                                    <th class="W80 text-right pRight">Amount</th>
+                                    <th class="W110">Mode of Payment</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="notificationsList?.length == 0">
+                                <tr>
+                                    <td colspan="7" class="nodata">No data found</td>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr *ngFor = "let notification of notificationsList">
+                                    <td class="text-center">{{ notification.slNo }}</td>
+                                    <td class="text-center">{{ notification.dop | date: "dd/MM/yyyy" }}</td>
+                                    <td class="captilize">{{ notification.student }}</td>
+                                    <td class="captilize">{{ notification.sport }} </td>
+                                    <td class="captilize">{{ notification.batch }} </td>
+                                    <td class="captilize">{{ notification.academy }}</td>
+                                    <td class="captilize text-right pRight">&#x20B9; {{ notification.amount }} /-</td>
+                                    <td class="captilize">{{ notification.modeOfPayment }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

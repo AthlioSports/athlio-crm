@@ -1,0 +1,671 @@
+<router-outlet (activate)="onActivate($event)"></router-outlet>
+<section class="search-filters" *ngIf="!academyLogin">
+    <div class="container-fluid">
+        <div class="filters-options">
+            <h4>athilo search filters</h4>
+            <div class="search-1">
+                <label>Select City</label><br>
+                <select [(ngModel)]="filters.filterCity" name="filterCity">
+          <option value="" disabled>City</option>
+          <option value="">All</option>
+          <option [value]="city" *ngFor="let city of allAcademyCities">{{ city }}</option>
+        </select>
+            </div>
+            <div class="search-1">
+                <label>select Sport</label><br>
+                <select [(ngModel)]="filters.sport" name="sport">
+          <option value="" disabled>Sport</option>
+          <option value="">All</option>
+          <option [value]="sport.id" *ngFor="let sport of allSports">{{ sport.name }}</option>
+        </select>
+            </div>
+            <div class="search-1 added_on">
+                <label>Added On / Before</label><br>
+                <mat-form-field>
+                    <input matInput [matDatepicker]="picker" (click)="picker.open()" name="addedBefore" [(ngModel)]="filters.addedBefore" readonly>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="search-1">
+                <label> Amenities </label><br>
+                <select [(ngModel)]="filters.amenity" name="amenity">
+            <option value="" disabled>Amenity</option>
+            <option value="">All</option>
+            <option [value]="amenity.id" *ngFor="let amenity of allAmenities">{{ amenity.name }}</option>
+          </select>
+            </div>
+            <div class="clearfix"></div>
+            <div class="search-btn">
+                <button type="button" (click)="getAcademiesByFilters()">Search</button>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="academies-list" *ngIf="!academyLogin">
+    <div class="container-fluid">
+        <div class="main_heading">
+            <h3>Academies</h3>
+        </div>
+        <div class="academies-listname">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h5>Academies List</h5>
+                </div>
+                <div class="col-sm-6" *ngIf="!parentAcademyLogin">
+                    <div class="addacademy">
+                        <a routerLink="/Sidemenu/academies/addacademies"> <button type="button"><i class="fa fa-plus"
+                  aria-hidden="true"></i>
+                Add Academy</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="listtabel">
+            <table datatable [dtOptions]="dtOptions" [ngClass]="{'noDataDataTable' : dtAcademiesList?.length == 0}" [dtTrigger]="dtTrigger" id="style-3" class="table table-striped hover scrool-y scrollbar">
+                <thead>
+                    <tr>
+                        <th>S.No.</th>
+                        <th class="acd_name">Academy Name</th>
+                        <th class="acd_sport">Academy Sports</th>
+                        <th class="cnt_person">Contact Person</th>
+                        <th class="mbl_number mblnum">Phone</th>
+                        <!-- <th>Start Date</th> -->
+                        <!-- <th class="subend" style="width:124px;">End Date</th> -->
+                        <th class="actionwidth" *ngIf="!parentAcademyLogin">Action</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="dtAcademiesList?.length == 0">
+                    <tr>
+                        <td colspan="8" class="text-center nodata">No data found</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="dtAcademiesList?.length != 0">
+                    <tr *ngFor="let academy of dtAcademiesList">
+                        <td>{{ academy.slNo }}</td>
+                        <td class="captilize" style="width: 116px;">
+                            <div class="texthidden-1">{{ academy.name }}</div>
+                        </td>
+                        <td class="sportslist captilize">
+                            <div class="texthidden">{{academy.sport}}
+                            </div>
+                        </td>
+                        <td class="captilize">{{ academy.contact_person }}</td>
+                        <td>{{ academy.mobile }}</td>
+                        <!-- <td>{{ academy.subscription_start }}</td> -->
+                        <!-- <td class="text-center">{{ academy.subscription_end }}</td> -->
+                        <td class="actn_1" *ngIf="!parentAcademyLogin">
+                            <span class="view" (click)=viewData(academy._id)><i class="fa fa-eye" aria-hidden="true" matTooltip="View"
+                  matTooltipPosition="above" data-toggle="modal" data-target="#academyDetails"></i></span>
+                            <span class="editicon" (click)=editData(academy._id)><i class="fa fa-pencil" aria-hidden="true"
+                  matTooltip="Edit" matTooltipPosition="above"></i></span>
+                            <span class="delete"><i class="fa fa-trash-o" aria-hidden="true" matTooltip="Delete"
+                  matTooltipPosition="above" data-toggle="modal" (click)="deleteId = academy._id"
+                  data-target="#myModal2"></i></span>
+                            <span matTooltip="Status" matTooltipPosition="above">
+                <label class="switch m5">
+                  <!-- <input type="checkbox" checked=""> -->
+                  <!-- <input type="checkbox"  [(ngModel)]="academy.status" (change)="changeValue(academy.status?'Active':'InActive',academy._id)" [checked]="academy.status == 'Active'? true : false"> -->
+                  <input type="checkbox" [(ngModel)]="academy.chackValue"
+                    (change)="changeValue(academy.chackValue?'Active':'InActive',academy._id)"
+                    [checked]="academy.chackValue">
+                  <small></small>
+                </label>
+              </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+<section class="academies-list acd_list scrollbar" id="style-3" *ngIf="academyLogin">
+    <div class="container-fluid">
+        <div class="main_heading">
+            <h3>Academies</h3>
+        </div>
+        <div>
+
+            <!-- Modal content-->
+            <div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class="modal-title">Academy Details</h4>
+                    </div>
+                    <div class="col-sm-6 user_edit">
+                        <button type="button" (click)=editData(academyDetails._id)>Edit</button>
+                    </div>
+                </div>
+                <p></p>
+                <div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="previewstyles-1">
+                                <p>Parent academy</p>
+                                <b>:</b>
+                                <span>{{academyDetails?.parentAcademyData?.name}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="previewstyles">
+                                <p>Academy Name</p>
+                                <b>:</b>
+                                <span>{{academyDetails.name}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="previewstyles">
+                                <p>Display Name</p>
+                                <b>:</b>
+                                <span>{{academyDetails.display_name}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="previewstyles">
+                                <p>Email</p>
+                                <b>:</b>
+                                <span class="fontfmily">{{academyDetails.email}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="previewstyles">
+                                <p>Mobile</p>
+                                <b>:</b>
+                                <span>{{academyDetails.mobile}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="previewstyles">
+                                <p>Established on</p>
+                                <b>:</b>
+                                <span>{{academyDetails.established_on | date : 'dd-MMM-yyyy'}}</span>
+                            </div>
+                        </div>
+                        <!-- <div class="col-sm-4">
+              <div class="previewstyles">
+                <p>subscription type</p>
+                <b>:</b>
+                <span>{{ academyDetails.subscriptionType }}</span>
+              </div>
+            </div> -->
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="previewstyles">
+                                <p>contact person</p>
+                                <b>:</b>
+                                <span>{{academyDetails.contact_person}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="previewstyles">
+                                <p>Contact Email</p>
+                                <b>:</b>
+                                <span class="textnorml">{{ academyDetails.contactEmail }}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="previewstyles">
+                                <p>Contact Mobile</p>
+                                <b>:</b>
+                                <span>{{ academyDetails.contactNumber }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="previewstyles">
+                                <p>City</p>
+                                <b>:</b>
+                                <span>{{academyDetails.city}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="previewstyles">
+                                <p>Locality</p>
+                                <b>:</b>
+                                <span>{{academyDetails.locality}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="previewstyles">
+                                <p>Pincode</p>
+                                <b>:</b>
+                                <span>{{academyDetails.pincode}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="previewstyles-1">
+                                <p>Amenities</p>
+                                <b>:</b>
+                                <span *ngFor="let amenity of amenitiesDetails">{{amenity.name}} </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="previewstyles-1">
+                                <p>Batches</p>
+                                <b>:</b>
+                                <span>{{academyDetails.batchNamesList}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="previewstyles-1">
+                                <p>Sports</p>
+                                <b>:</b>
+                                <span>{{academyDetails.sport}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="previewstyles-1">
+                                <p>Address</p>
+                                <b>:</b>
+                                <span>{{academyDetails.address}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="previewstyles-1">
+                                <p>About Academy</p>
+                                <b>:</b>
+                                <span>{{academyDetails.about}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="academy_gallery">
+                                <p>Gallery :</p>
+                                <div class="imagenot" *ngIf="academyDetails.images?.length == 0 ">
+                                    <p>Images not Available</p>
+                                </div>
+                                <div class="" *ngIf="academyDetails.images?.length != 0 ">
+                                    <div class="col-sm-4" *ngFor="let image of academyDetails.images">
+                                        <figure class="acdgallaryimages">
+                                            <img class="academyImages img-responsive" [src]=image>
+                                        </figure>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="3" class="timing">Timings</th>
+                                        </tr>
+                                    </thead>
+                                    <thead>
+                                        <tr class="tbl-details">
+                                            <th>Day</th>
+                                            <th>Start Time</th>
+                                            <th>End Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngIf="academyDetails.academy_timeings?.length == 0 ">
+                                        <tr>
+                                            <td colspan="3" class="text-center nodata">No data found.</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngIf="academyDetails.academy_timeings?.length != 0 ">
+                                        <tr *ngFor="let time of academyDetails.academy_timeings; let i=index;">
+                                            <td>{{time.day}}</td>
+                                            <td>{{time.start_time}}</td>
+                                            <td>{{time.end_time}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="3" class="timing">Court Details</th>
+                                        </tr>
+                                    </thead>
+                                    <thead>
+                                        <tr class="tbl-details">
+                                            <th>Sport</th>
+                                            <th>Type</th>
+                                            <th>Number</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngIf="academyDetails.academy_court?.length == 0 ">
+                                        <tr>
+                                            <td colspan="3" class="text-center nodata">No data found.</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngIf="academyDetails.academy_court?.length != 0 ">
+                                        <tr *ngFor="let courts of academyDetails.academy_court; let i=index;">
+                                            <td>{{courts.sport_name}}</td>
+                                            <td>{{courts.court_type_name}}</td>
+                                            <td>{{courts.count}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal -->
+<div id="academyDetails" class="modal fade" role="dialog">
+    <div class="modal-dialog mdl-dilg">
+
+        <!-- Modal content-->
+        <div class="modal-content mdl-cnt">
+            <div class="modal-header mdl-head">
+                <button type="button" class="close cls-1" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Academy Details</h4>
+            </div>
+            <div class="modal-body mdl-bdy fixheight scrollbar" id="style-3">
+                <div class="outer-border">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="about-academy">
+                                <p>Parent academy</p>
+                                <b>:</b>
+                                <span>{{academyDetails?.parentAcademyData?.name}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Academy Name</p>
+                                <b>:</b>
+                                <span>{{academyDetails.name}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Email</p>
+                                <b>:</b>
+                                <span class="fontfmily">{{academyDetails.email}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Mobile</p>
+                                <b>:</b>
+                                <span>{{academyDetails.mobile}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Alternate Number</p>
+                                <b>:</b>
+                                <span>{{academyDetails.alternate_number}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Established on</p>
+                                <b>:</b>
+                                <span>{{academyDetails.established_on | date : 'dd-MMM-yyyy'}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Display Name</p>
+                                <b>:</b>
+                                <span>{{academyDetails.display_name}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- <div class="col-sm-6">
+              <div class="previewstyles">
+                <p>subscription Start</p>
+                <b>:</b>
+                <span>{{academyDetails.subscription_start | date : 'dd-MMM-yyyy'}}</span>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="previewstyles">
+                <p>subscription End</p>
+                <b>:</b>
+                <span>{{academyDetails.subscription_end | date : 'dd-MMM-yyyy'}}</span>
+              </div>
+            </div> -->
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>contact person</p>
+                                <b>:</b>
+                                <span>{{academyDetails.contact_person}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>City</p>
+                                <b>:</b>
+                                <span>{{academyDetails.city}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Contact Email</p>
+                                <b>:</b>
+                                <span class="fontfmily">{{academyDetails.contactEmail}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Contact Number</p>
+                                <b>:</b>
+                                <span>{{academyDetails.contactNumber}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Locality</p>
+                                <b>:</b>
+                                <span>{{academyDetails.locality}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <p>Pincode</p>
+                                <b>:</b>
+                                <span>{{academyDetails.pincode}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="about-academy">
+                                <p>Address</p>
+                                <b>:</b>
+                                <span>{{academyDetails.address}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="outer-border">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="about-academy-1">
+                                <p>Amenities</p>
+                                <b>:</b>
+                                <span *ngFor="let amenity of academyDetails.amenitiesDetails">{{amenity.name}},</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="outer-border">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="about-academy">
+                                <p>Sports</p>
+                                <b>:</b>
+                                <span>{{academyDetails.sport}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="outer-border">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="about-academy">
+                                <p>Batches</p>
+                                <b>:</b>
+                                <span>{{academyDetails.batchNamesList}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="outer-border">
+                    <div class="row">
+                        <div class="modal-ftr">
+                            <div class="about-academy">
+                                <p>About Academy</p>
+                                <b>:</b>
+                                <span>{{academyDetails.about}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="outer-border">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="academy_gallery">
+                                <p>Gallery :</p>
+                                <div class="imagenot" *ngIf="academyDetails?.images?.length == 0 ">
+                                    <p>Images not Available</p>
+                                </div>
+                                <div class="" *ngIf="academyDetails?.images?.length != 0 ">
+                                    <div class="col-sm-4" *ngFor="let image of academyDetails.images">
+                                        <figure class="acdgallaryimages">
+                                            <img class="academyImages img-responsive" [src]=image>
+                                        </figure>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="outer-border">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="3" class="timing">Timings</th>
+                                        </tr>
+                                    </thead>
+                                    <thead>
+                                        <tr class="tbl-details">
+                                            <th>Day</th>
+                                            <th>Start Time</th>
+                                            <th>End Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngIf="academyDetails.academy_timeings?.length == 0 ">
+                                        <tr>
+                                            <td colspan="3" class="text-center nodata">No data found.</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngIf="academyDetails.academy_timeings?.length != 0 ">
+                                        <tr *ngFor="let time of academyDetails.academy_timeings; let i=index;">
+                                            <td>{{time.day}}</td>
+                                            <td>{{time.start_time}}</td>
+                                            <td>{{time.end_time}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="previewstyles">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="3" class="timing">Court Details</th>
+                                        </tr>
+                                    </thead>
+                                    <thead>
+                                        <tr class="tbl-details">
+                                            <th>Sport</th>
+                                            <th>Type</th>
+                                            <th>Number</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngIf="academyDetails.academy_court?.length == 0 ">
+                                        <tr>
+                                            <td colspan="3" class="text-center nodata">No data found.</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngIf="academyDetails.academy_court?.length != 0 ">
+                                        <tr *ngFor="let courts of academyDetails.academy_court; let i=index;">
+                                            <td>{{courts.sport_name}}</td>
+                                            <td>{{courts.court_type_name}}</td>
+                                            <td>{{courts.count}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 2-->
+<div id="myModal2" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content mdl_content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title title-1">Are you sure you want delete this file</h4>
+            </div>
+            <div class="modal-body model-bdy">
+                <button type="button" class="yes" data-dismiss="modal" (click)="deleteAcademy(deleteId)">Yes</button>
+                <button type="button" class="no" data-dismiss="modal">No</button>
+            </div>
+        </div>
+
+    </div>
+</div>

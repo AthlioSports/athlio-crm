@@ -1,0 +1,298 @@
+.d-table {
+    display: table;
+}
+
+.d-tbcell {
+    display: table-cell;
+}
+
+.v-middle {
+    vertical-align: middle;
+}
+
+.profileImage {
+    width: 150px;
+    height: 150px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    padding: 10px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.coach-listmain h5 {
+    text-transform: capitalize;
+    font-weight: 600;
+}
+
+.changeProfileImg {
+    color: #444;
+    text-decoration: none;
+    margin: 5px;
+    display: block;
+}
+
+.removeBtn {
+    background: #000;
+    color: #fff;
+    border-radius: 22px;
+    -webkit-border-radius: 22px;
+    -moz-border-radius: 22px;
+    width: 140px;
+    height: 35px;
+    border: 1px solid #000;
+}
+
+.editProfileSubmit {
+    background-color: #84ba20;
+    border: 1px solid #84ba20;
+    color: #fff;
+    border-radius: 22px;
+    -webkit-border-radius: 22px;
+    -moz-border-radius: 22px;
+    width: 160px;
+    height: 35px;
+}
+
+.editProfileSubmit:hover {
+    background-color: #78a91c;
+    border: 1px solid #78a91c;
+}
+
+.editProfile {
+    background-color: #3f51b5;
+    border: 1px solid #3f51b5;
+    color: #fff;
+    border-radius: 22px;
+    -moz-border-radius: 22px;
+    width: 80px;
+    float: right;
+    height: 35px;
+    margin-top: 10px;
+    margin-right: 20px;
+}
+
+.editProfile:hover {
+    background-color: #0d1956;
+    border: 1px solid #0d1956;
+}
+
+.cancelProfile {
+    background-color: #252525;
+    border: 1px solid #252525;
+    color: #fff;
+    border-radius: 22px;
+    -moz-border-radius: 22px;
+    width: 80px;
+    float: right;
+    height: 35px;
+    margin-top: 10px;
+    margin-right: 20px;
+}
+
+.cancelProfile:hover {
+    background-color: #3e3d3d;
+    border: 1px solid #3e3d3d;
+}
+
+.previewText {
+    margin: 10px;
+    width: 300px;
+    font-size: 12px;
+}
+
+.profilepic_remove {
+    padding: 6px 40px;
+    border: none;
+    border-radius: 30px;
+    color: #fff;
+    background-color: #921209ed;
+}
+
+.changeProfileImg h4 {
+    cursor: pointer;
+}
+
+
+/* model pop styles */
+
+.title {
+    text-transform: capitalize;
+}
+
+.chabge_pswd label {
+    width: 40%;
+    float: left;
+    text-transform: capitalize;
+}
+
+.chabge_pswd span {
+    width: 10%;
+    float: left;
+}
+
+.chabge_pswd input {
+    width: 50%;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    padding: 4px 10px;
+}
+
+.model-width {
+    width: 70%;
+    margin: auto;
+    margin-top: 10pc;
+}
+
+.chabge_pswd {
+    margin-bottom: 10px;
+}
+
+.update_pwd {
+    text-align: center;
+}
+
+.update_pwd button {
+    text-transform: capitalize;
+}
+
+.editProfileSubmit {
+    float: right;
+    margin-top: 10px;
+    margin-right: 2pc;
+}
+
+.qImg {
+    width: 200px;
+    height: 200px;
+    border-radius: 100px;
+}
+
+.profilrpic {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.profilrpic figure {
+    margin-top: 2pc;
+}
+
+.profilrpic img {
+    width: 200px;
+    border-radius: 100px;
+    height: 200px;
+}
+
+.profilrpic p {
+    padding: 10px 0px;
+    margin: 0px;
+}
+
+.profilrpic p a {
+    text-decoration: none;
+    color: #171515;
+}
+
+.profilrpic button {
+    padding: 6px 40px;
+    border: none;
+    border-radius: 30px;
+    color: #fff;
+    background-color: #921209ed;
+}
+
+.profilrpic button:hover {
+    background-color: #ac170b;
+}
+
+.profilrpic input {
+    width: 100%;
+}
+
+
+/*****************************************
+upload button styles
+******************************************/
+
+.file-upload {
+    position: relative;
+    display: inline-block;
+}
+
+.file-upload__label {
+    display: block;
+    padding: 6px 44px;
+    color: #fff;
+    background: #222;
+    border-radius: 30px;
+    transition: background .3s;
+    font-weight: normal;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.file-upload__label:hover {
+    background-color: #000000;
+}
+
+.file-upload__input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    font-size: 1;
+    width: 0;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.uplbtns {
+    margin-right: 40px;
+}
+
+.astric {
+    color: #ea0808;
+    position: absolute;
+    margin-top: -5px;
+    margin-left: 5px;
+}
+
+.viewicon {
+    position: absolute;
+    right: 18px;
+    top: 20px;
+    color: #1f285b;
+    border: 1px solid #cccccc;
+    padding: 2px 4px;
+    border-radius: 4px;
+    background-color: #eaeaea;
+}
+
+.viewicon-1 {
+    position: absolute;
+    right: 18px;
+    top: 60px;
+    color: #1f285b;
+    border: 1px solid #cccccc;
+    padding: 2px 4px;
+    border-radius: 4px;
+    background-color: #eaeaea;
+}
+
+.viewicon-2 {
+    position: absolute;
+    right: 18px;
+    top: 100px;
+    color: #1f285b;
+    border: 1px solid #cccccc;
+    padding: 2px 4px;
+    border-radius: 4px;
+    background-color: #eaeaea;
+}

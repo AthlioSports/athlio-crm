@@ -1,0 +1,72 @@
+.footer {
+    padding-top: 14px;
+    background-color: #bc150b;
+    color: #fff;
+}
+
+.phone {
+    text-align: right;
+}
+
+.socialicons {
+    text-align: center;
+}
+
+.developed {
+    color: #fff;
+    font-size: 12px;
+    text-align: right;
+}
+
+.developed a {
+    color: #fff;
+}
+
+.phone p {
+    font-size: 12px;
+}
+
+.socialicons i {
+    padding: 0px 6px;
+}
+
+
+/* .socialicons i:hover {
+    color: #3F51B5;
+} */
+
+.developed img {
+    width: 12%;
+}
+
+.socialicons .fa-facebook {
+    color: #3b5998;
+    background-color: #fff;
+    padding: 4px 6px;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.socialicons .fa-twitter {
+    color: #00acee;
+    background-color: #fff;
+    padding: 4px 6px;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.socialicons .fa-instagram {
+    /* background: -webkit-radial-gradient(33% 100% circle, #FED373 4%, #F15245 30%, #D92E7F 62%, #9B36B7 85%, #515ECF);
+    background: radial-gradient(circle at 33% 100%, #FED373 4%, #F15245 30%, #D92E7F 62%, #9B36B7 85%, #515ECF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; */
+    color: #F15245;
+    background-color: #fff;
+    padding: 4px 6px;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.socialicons .fa-pinterest-p {
+    color: #c8232c;
+}

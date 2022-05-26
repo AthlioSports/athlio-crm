@@ -1,0 +1,316 @@
+<ngx-spinner></ngx-spinner>
+<router-outlet (activate)="onActivate($event)"></router-outlet>
+<section class="search-filters">
+  <div class="container-fluid">
+    <div class="filters-options">
+      <h4>athilo search filters</h4>
+      <div class="search-1">
+        <label>Select City</label><br>
+        <select [(ngModel)]="filters.filterCity" name="filterCity"
+          [ngClass]="{'disable-click':this.userDetails?.type?.toLowerCase() == 'academyadmin'}"
+          [disabled]="this.userDetails?.type?.toLowerCase() == 'academyadmin'" (ngModelChange) = "getAcademiesSportsAndAmenitiesByCity()">
+          <option value="" disabled>City</option>
+          <option value="">All</option>
+          <option [value]="city" *ngFor="let city of allAcademyCities">{{ city }}</option>
+        </select>
+      </div>
+      <div class="search-1">
+        <label>Select Academy</label><br>
+        <select [ngClass]="{'disable-click':this.userDetails?.type?.toLowerCase() == 'academyadmin'}"
+          [(ngModel)]="filters.academy" name="academy"
+          [disabled]="this.userDetails?.type?.toLowerCase() == 'academyadmin'" (ngModelChange) = "getSportsByAcademy()">
+          <option value="" disabled>Academy</option>
+          <option value="">All</option>
+          <option [value]="academy._id" *ngFor="let academy of allAcademies">{{ academy.name }}</option>
+        </select>
+      </div>
+      <div class="search-1">
+        <label>Select Sport</label><br>
+        <select [(ngModel)]="filters.sport" name="sport">
+          <option value="" disabled>Sport</option>
+          <option value="">All</option>
+          <option [value]="sport.id" *ngFor="let sport of allSports">{{ sport.name }}</option>
+        </select>
+      </div>
+      <div class="search-1">
+        <label> select Age Group</label><br>
+        <select [(ngModel)]="filters.ageGroup" name="ageGroup">
+          <option value="">All</option>
+          <option [value]="group.name" *ngFor="let group of ageGroups">{{ group.name }}</option>
+        </select>
+      </div>
+      <div class="clearfix"></div>
+      <div class="search-btn">
+        <button type="button" (click)="getStudentsByFilters()">Search</button>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="coach-list">
+  <div class="conatiner-fluid">
+    <div class="main_heading">
+      <h3>Students</h3>
+    </div>
+    <div class="coach-listmain">
+      <div class="row">
+        <div class="col-sm-6">
+          <h5>List of Students </h5>
+        </div>
+        <div class="col-sm-6" *ngIf="!parentAcademyLogin">
+          <div class="addcoach">
+            <a class="mRight10" data-toggle="modal" data-target="#myModal" *ngIf="!isAcademyLogin"><button
+                class="bulkUploadBtn"><i class="fa fa-plus" aria-hidden="true"></i> Upload Students</button></a>
+            <a routerLink="/Sidemenu/students/addstudent"><button type="button"><i class="fa fa-plus"
+                  aria-hidden="true"></i> Add
+                Student</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="coach-listview">
+      <table datatable [dtOptions]="dtOptions" [ngClass]="{'noDataDataTable' : dtStudentsList?.length == 0}"
+        [dtTrigger]="dtTrigger" id="style-3" class="table table-striped hover scrool-y scrollbar">
+        <thead>
+          <tr>
+            <th>S.No.</th>
+            <th style="width: 108px;" class="studt_name">Name</th>
+            <th class="studt_emil" style="width:200px;">Email</th>
+            <th class="mblnum">Mobile</th>
+            <th style="width: 120px;" class="studt_acdmy">Academy</th>
+            <th style="width: 100px;" class="studt_coach">Coach</th>
+            <th style="width: 100px;" class="studt_coach">Batch</th>
+            <th style="width:76px;" class="studt_sport">Sport</th>
+            <th>Gender</th>
+            <th class="stutaction" style="width: 116px;" *ngIf="!parentAcademyLogin">Actions</th>
+            <th class="stutaction" *ngIf="!parentAcademyLogin">Status</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="dtStudentsList?.length == 0">
+          <tr>
+            <td colspan="11" class="nodata">No data found</td>
+          </tr>
+        <tbody>
+        <tbody *ngIf="dtStudentsList?.length != 0">
+          <tr *ngFor="let student of dtStudentsList; let i= index;">
+            <td>{{student.slNo}}</td>
+            <td class="captilize" style="width: 108px;">{{student.name}}</td>
+            <td class="student_email">{{student.email}}</td>
+            <td>{{student.phone}}</td>
+            <td class="captilize">
+              <div class="texthidden-2" [matTooltip]="student.academy_name" matTooltipPosition="above">
+                {{student.academy_name}}</div>
+            </td>
+            <td class="captilize wrd-brk">{{student.coach_name}}</td>
+            <td class="captilize">{{student.batch_name}}</td>
+            <td class="captilize">{{student.sport_name}}</td>
+            <td class="captilize">{{student.gender}}</td>
+            <td *ngIf="!parentAcademyLogin">
+              <span class="view" (click)=viewData(student._id)><i class="fa fa-eye" aria-hidden="true" matTooltip="View"
+                  matTooltipPosition="above" data-toggle="modal" data-target="#coachDetails"></i></span>
+              <span class="editicon" (click)=editData(student._id)><i class="fa fa-pencil" aria-hidden="true"
+                  matTooltip="Edit" matTooltipPosition="above"></i></span>
+              <span>
+                <span class="delete"><i class="fa fa-trash-o" aria-hidden="true" matTooltip="Delete"
+                    matTooltipPosition="above" data-toggle="modal" data-target="#myModal2"
+                    (click)="deleteId = student._id"></i>
+                </span>
+              </span>
+            </td>
+            <td *ngIf="!parentAcademyLogin">
+              <label class="switch m5">
+                <input type="checkbox" [(ngModel)]="student.chackValue"
+                  (change)="changeValue(student.chackValue?'Active':'InActive',student._id)"
+                  [checked]="student.chackValue">
+                <small></small>
+              </label>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+<div id="coachDetails" class="modal fade" role="dialog">
+  <div class="modal-dialog mdl-dilg">
+
+    <!-- Modal content-->
+    <div class="modal-content mdl-cnt">
+      <div class="modal-header mdl-head">
+        <button type="button" class="close cls-1" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Student Details</h4>
+      </div>
+      <div class="modal-body mdl-bdy">
+        <div class="outer-border">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="studentprofile">
+                <figure>
+                  <img *ngIf=studentDetails.profile_pic [src]=studentDetails.profile_pic>
+                  <img *ngIf=!studentDetails.profile_pic src="../../../assets/images/default_student.png" alt="profile">
+                </figure>
+              </div>
+              <div class="previewstyles">
+                <p>Name</p>
+                <b>:</b>
+                <span>{{studentDetails.name}}</span>
+              </div>
+              <div class="clearfix"></div>
+              <div class="previewstyles">
+                <p>Display name </p>
+                <b>:</b>
+                <span>{{studentDetails.display_name}}</span>
+              </div>
+              <div class="clearfix"></div>
+              <div class="previewstyles">
+                <p>Email</p>
+                <b>:</b>
+                <span class="textnorml">{{studentDetails.email}}</span>
+              </div>
+              <div class="clearfix"></div>
+              <div class="previewstyles">
+                <p>Mobile </p>
+                <b>:</b>
+                <span>{{studentDetails.phone}}</span>
+              </div>
+              <div class="clearfix"></div>
+              <div class="previewstyles">
+                <p>date of birth</p>
+                <b>:</b>
+                <span>{{studentDetails.date_of_birth}}</span>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+            <div class="col-sm-6">
+              <div class="previewstyles">
+                <p>Gender</p>
+                <b>:</b>
+                <span>{{studentDetails.gender}}</span>
+              </div>
+              <div class="clearfix"></div>
+              <div class="previewstyles">
+                <p>academy</p>
+                <b>:</b>
+                <span>{{studentDetails && studentDetails.my_academies && studentDetails.my_academies[0]?.academy_name}}</span>
+              </div>
+              <div class="clearfix"></div>
+              <div class="previewstyles">
+                <p>Sport</p>
+                <b>:</b>
+                <span>{{studentDetails && studentDetails.my_academies && studentDetails.my_academies[0]?.sport_name}}</span>
+              </div>
+              <div class="clearfix"></div>
+              <div class="previewstyles">
+                <p>Batch</p>
+                <b>:</b>
+                <span>{{studentDetails && studentDetails.my_academies && studentDetails.my_academies[0]?.batch_name}}</span>
+              </div>
+              <div class="clearfix"></div>
+              <div class="previewstyles">
+                <p>coach</p>
+                <b>:</b>
+                <span>{{studentDetails && studentDetails.my_academies && studentDetails.my_academies[0]?.coach_name}}</span>
+              </div>
+              <div class="clearfix"></div>
+              <div class="previewstyles">
+                <p>joining date</p>
+                <b>:</b>
+                <span>{{studentDetails && studentDetails.my_academies && studentDetails.joining_date}}</span>
+              </div>
+              <div class="clearfix"></div>
+              <div class="previewstyles">
+                <p>Parent Name</p>
+                <b>:</b>
+                <span>{{studentDetails.parentName}}</span>
+              </div>
+              <div class="clearfix"></div>
+              <div class="previewstyles">
+                <p>Pin Code</p>
+                <b>:</b>
+                <span>{{studentDetails.pin_code}}</span>
+              </div>
+              <div class="clearfix"></div>
+              <div class="previewstyles">
+                <p>Locality</p>
+                <b>:</b>
+                <span>{{studentDetails.locality}}</span>
+              </div>
+              <div class="clearfix"></div>
+              <div class="previewstyles">
+                <p>City</p>
+                <b>:</b>
+                <span>{{studentDetails.city}}</span>
+              </div>
+              <div class="clearfix"></div>
+              <div class="previewstyles">
+                <p>Address</p>
+                <b>:</b>
+                <span>{{studentDetails.address}} </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal 2-->
+<div id="myModal2" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content mdl_content">
+      <div class="modal-header mdl-head">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title title-1">Are you sure you want delete this file</h4>
+      </div>
+      <div class="modal-body model-bdy">
+        <button type="button" class="yes" data-dismiss="modal" (click)="deleteStudent(deleteId)">Yes</button>
+        <button type="button" class="no" data-dismiss="modal">No</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content mdlcontent">
+      <div class="modal-header mdlhead mdl-head">
+        <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+        <h4 class="modal-title titl">Bulk Upload</h4>
+        <div class="upldimg">
+          <a href="../../assets/files/studentsBulkUploadTemplate.xlsx">
+            <div id="over">
+              <img src='../../../assets/images/downloadIcon.png' matTooltip="Download template"
+                matTooltipPosition="right">
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="modal-body text-center">
+        <span class="btn btn-file">Choose File To Upload <input type="file" #fileUpload (change)='onFileAdd($event)'
+            accept=".xls,.xlsx"><img src='../../../assets/images/uploadIcon.png'></span><br>
+        <div class="file_name" *ngIf='uploadedFile'>
+          <p>{{ uploadedFile.name }}</p>
+          <span class="fileDelete"><i class="fa fa-times-circle" aria-hidden="true" (click)='removeFile()'></i></span>
+        </div>
+        <!-- <span> </span><span class="fileDelete"><i class="fa fa-times-circle" aria-hidden="true"></i></span> -->
+      </div>
+      <div class="text-center">
+        <button type="button" class="submt" (click)='uploadFile()'>Submit</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)='cancelUpload()'
+          #closeAddExpenseModal>Cancel</button>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,119 @@
+<router-outlet (activate)="onActivate($event)"></router-outlet>
+<section class="courts">
+    <div class="container-fluid">
+        <div class="main_heading">
+            <h3>Amenities</h3>
+        </div>
+        <div class="courts-list">
+            <h5>List of Amenities </h5>
+            <div class="row">
+                <div>
+                    <form #aF="ngForm">
+                        <div class="col-sm-8">
+                            <div class="col-sm-12">
+                                <div class="addsportname">
+                                    <mat-form-field>
+                                        <input class="captilize" matInput placeholder="Enter Amenity Name *" maxlength="20" (keypress)="alphabetsAndSpaceOnly($event)" name="name" [autocomplete]="'off'" [(ngModel)]='name' name='name'>
+                                    </mat-form-field>
+                                </div>
+                                <div class="hovereffect sportImg" [hidden]="!hideImgUploadBtn">
+                                    <img class="profilrpic" class="img-responsive qImg" *ngIf="qImgLocalPath" [src]="qImgLocalPath" alt="profile image">
+                                    <div class="overlay">
+                                        <a class="info" data-toggle="modal" data-target="#myModal3">Remove</a>
+                                    </div>
+                                </div>
+                                <div class="file-upload" [hidden]="hideImgUploadBtn">
+                                    <label for="logo" class="file-upload__label">Upload</label>
+                                    <input class="file-upload__input" type="file" accept=".jpeg,.jpg,.png,.pdf" (change)="uploadProfilePic($event)" name="logo" id="logo" #fileUpload>
+                                    <p class="imgformat">(JPG, PNG...(W:500 X H:300))</p>
+                                </div>
+                                <div class="addbtn">
+                                    <button *ngIf="!showaeminityEdit" type="button" class="addsport" appDebounceClick (debounceClick)='addAmenity()' [debounceTime]="1000">Add</button>
+                                    <button *ngIf="showaeminityEdit" type="button" class="update" appDebounceClick (debounceClick)='updateamenity(dtAmenitysList.id)' [debounceTime]="1000">Update</button>
+                                    <button *ngIf="showaeminityEdit" type="button" class="cancel-1" (click)="cancelUpdate()">cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="courtslistview">
+                        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="style-3" class="row-border table-striped hover scrool-courts scrollbar">
+                            <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th class="crt_name" style=" width: 210px">Amenity Name</th>
+                                    <th class="spt_name spt_name_1 text-center">Image</th>
+                                    <th class="crt_name text-center">Added on</th>
+                                    <th class="crt_name" style="width: 210px">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="dtAmenitysList?.length == 0">
+                                <tr>
+                                    <td colspan="9" class="nodata">No data found</td>
+                                </tr>
+                            </tbody>
+                            <tbody *ngIf="dtAmenitysList?.length != 0">
+                                <tr *ngFor="let amenity of dtAmenitysList">
+                                    <td>{{ amenity.slNo }}</td>
+                                    <td class="captilize">{{amenity.name}}</td>
+                                    <td class="captilize wrd-brk text-center" style="width: 120px;">
+                                        <img class="profilrpic tableSportImg" [src]="amenity.imgUrl" alt="profile image">
+                                    </td>
+                                    <td class="captilize wrd-brk text-center" style="width: 120px;">{{amenity.created_date | date:'dd-MMM-yyyy'}}</td>
+                                    <td>
+                                        <span class="editicon"><i class="fa fa-pencil" aria-hidden="true" matTooltip="Edit" matTooltipPosition="above" (click)="edidAmenity(amenity._id)"></i></span>
+                                        <span class="delete"><i class="fa fa-trash-o" aria-hidden="true" matTooltip="Delete" data-toggle="modal" data-target="#myModal2"
+                        matTooltipPosition="above" (click) = "storeCurrentAmenityId(amenity._id)"></i></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Modal 2-->
+<div id="myModal2" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content mdl_content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title title-1">Are you sure you want delete this Amenity</h4>
+            </div>
+            <div class="modal-body model-bdy">
+                <button type="button" class="yes" data-dismiss="modal" (click)="deleteAmenity()">Yes</button>
+                <button type="button" class="no" data-dismiss="modal">No</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal 3-->
+<div id="myModal3" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content mdl_content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title title-1">Are you sure you want delete this file</h4>
+            </div>
+            <div class="modal-body model-bdy">
+                <button type="button" class="yes" data-dismiss="modal" (click)="removeSportImg()">Yes</button>
+                <button type="button" class="no" data-dismiss="modal">No</button>
+            </div>
+        </div>
+
+    </div>
+</div>

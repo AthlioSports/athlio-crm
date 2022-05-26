@@ -1,0 +1,128 @@
+<ngx-spinner></ngx-spinner>
+<router-outlet (activate)="onActivate($event)"></router-outlet>
+<section class="courts">
+    <div class="container-fluid">
+        <div class="main_heading">
+            <h3>Discount</h3>
+        </div>
+        <div class="courts-list">
+            <div class="row">
+                <h5 class="mBtm30">Setup Discount </h5>
+                <div>
+                    <form>
+                        <div class="col-sm-12 discounts-form">
+                            <div class="discountfields">
+                                <mat-form-field>
+                                    <input matInput [matDatepicker]="picker" placeholder="W.e.f date*" name="startDate" [(ngModel)]="studentsDiscount.startDate" (ngModelChange)="setDiscountMinEndDate()" [min]="discountMinStartDate" (click)="picker.open()" readonly>
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="discountfields">
+                                <mat-form-field>
+                                    <input matInput [matDatepicker]="picker1" placeholder="End date*" [min]="discountMinEndDate" name="endDate" [(ngModel)]="studentsDiscount.endDate" [disabled]="!studentsDiscount.startDate" (ngModelChange)="resetStudentsToAddDiscounts()" (click)="picker1.open()"
+                                        readonly>
+                                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker1></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="discountfields">
+                                <mat-form-field>
+                                    <mat-label>Select Type*</mat-label>
+                                    <mat-select name="type" [(ngModel)]="studentsDiscount.type" (ngModelChange)="resetDiscount()">
+                                        <mat-option value="" disabled> Select type </mat-option>
+                                        <mat-option value="PERCENTAGE"> Percentage </mat-option>
+                                        <mat-option value="AMOUNT"> Amount </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="discountfields">
+                                <mat-form-field>
+                                    <input class="captilize" matInput placeholder="Enter Discount *" name="discount" [(ngModel)]="studentsDiscount.discount" [autocomplete]="'off'" (blur)="getStudentsToAddDiscounts()" type="number" min="0">
+                                </mat-form-field>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="discountfields" *ngIf="isEditDiscount">
+                                <mat-form-field>
+                                    <input class="captilize" matInput name="studentName" [(ngModel)]="studentsDiscount.studentName" [autocomplete]="'off'" disabled>
+                                </mat-form-field>
+                            </div>
+                            <div class="discountfields-1" *ngIf="!isEditDiscount">
+                                <ng-select #select [items]="studentsToAddDiscounts" placeholder="Select students*" [multiple]="true" bindLabel="name" [(ngModel)]="selectedStudents" [closeOnSelect]="closeOnSelect" [disabled]="studentsToAddDiscounts.length === 0" name="selectedStudents">
+                                </ng-select>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="addbtn">
+                                <button type="button" class="addsport" *ngIf="!isEditDiscount" appDebounceClick (debounceClick)='createDiscountsForStudents()' [debounceTime]="1000">Submit </button>
+                                <button type="button" class="addsport" *ngIf="isEditDiscount" appDebounceClick (debounceClick)='saveEditedDiscount()' [debounceTime]="1000">Submit </button>
+                                <!-- <button type="button" class="update">Update</button> -->
+                                <button type="button" class="cancel-1" (click)="cancelCreatingDiscounts()">cancel</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <h5 class="mBtm30">Discounts List </h5>
+                <div class="col-sm-12">
+                    <div class="courtslistview">
+                        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="style-3" class="row-border table-striped hover scrool-courts scrollbar">
+                            <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th class="crt_name">Name</th>
+                                    <th class="crt_name text-center">From</th>
+                                    <th class="crt_name">To</th>
+                                    <th class="crt_name">Type</th>
+                                    <th class="crt_name">Discount</th>
+                                    <th class="crt_name">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="discountsList?.length == 0">
+                                <tr>
+                                    <td colspan="9" class="nodata">No data found</td>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr *ngFor="let discount of discountsList">
+                                    <td>{{ discount.slNo }}</td>
+                                    <td class="captilize">{{ discount.studentName }}</td>
+                                    <td class="captilize text-center">{{ discount.startDate | date: 'dd-MMM-yyyy' }}</td>
+                                    <td class="captilize">{{ discount.endDate | date: 'dd-MMM-yyyy' }}</td>
+                                    <td class="captilize">{{ discount.type === "PERCENTAGE"? "Percentage": "Amount" }}</td>
+                                    <td class="captilize">
+                                        {{ discount.type === "PERCENTAGE"?discount.discount+"%":discount.discount+"/-" }}</td>
+                                    <td>
+                                        <span class="editicon"><i class="fa fa-pencil" aria-hidden="true" matTooltip="Edit"
+                                            matTooltipPosition="above" (click) = "editDiscount(discount)"></i></span>
+                                        <span class="delete"><i class="fa fa-trash-o" aria-hidden="true" matTooltip="Delete"
+                                            data-toggle="modal" data-target="#myModal2" matTooltipPosition="above" (click) = "getDeleteConfirmation(discount)"></i></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Modal 2-->
+<div id="myModal2" class="modal fade" role="dialog" data-backdrop='static' data-keyboard="false">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content mdl_content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" (click)="closeDeleteModal()" #closeAddExpenseModal>&times;</button>
+                <h4 class="modal-title title-1">Are you sure you want delete this discount</h4>
+            </div>
+            <div class="modal-body model-bdy">
+                <button type="button" class="yes" appDebounceClick (debounceClick)='deleteDiscount()' [debounceTime]="1000">Yes</button>
+                <button type="button" class="no" (click)="closeDeleteModal()">No</button>
+            </div>
+        </div>
+    </div>
+</div>

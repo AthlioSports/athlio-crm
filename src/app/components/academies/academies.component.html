@@ -1,0 +1,941 @@
+<ngx-spinner></ngx-spinner>
+<router-outlet (activate)="onActivate($event)"></router-outlet>
+<section class="academies" *ngIf="showCreateForm">
+    <div class=" container-fluid">
+        <div class="main_heading">
+            <h3>Create academy</h3>
+        </div>
+        <form #aF="ngForm">
+            <div class="create_academy">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h5>create new academy</h5>
+                        <!-- <input placeholder="search for location" type="text" class="form-control" #search> -->
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="submitcnacel">
+                            <button type="button" appDebounceClick (debounceClick)='addAcademy()' [debounceTime]="1000" [disabled]=disableSubmit class="sub">
+                <div>Submit</div>
+              </button>
+                            <a routerLink="/Sidemenu/academies/academiesList"> <button type="button" class="cancl">Cancel</button></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <mat-select placeholder="Select Parent Academy" name="parentAcademy" [(ngModel)]="formData.parentAcademy" [disabled]="parentAcademies.length === 0">
+                                    <mat-option *ngFor="let parent of parentAcademies" [value]="parent._id">{{parent.name}} - {{parent.locality}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <input class="captilize" matInput placeholder="Academy Name" minlength="3" maxlength="25" name="name" (keypress)="alphabets_dot_space_number_only($event)" [autocomplete]="'off'" [(ngModel)]="formData.name" required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <input matInput placeholder="Email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" (blur)="checkForDuplicateAcademiesWithEmAilOrMobile('EMAIL', formData.email)" [autocomplete]="'off'" [(ngModel)]="formData.email" required [autocomplete]="'off'">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <input matInput placeholder="Mobile" minlength="10" maxlength="10" name="mobile" (blur)="checkForDuplicateAcademiesWithEmAilOrMobile('MOBILE', formData.mobile)" [autocomplete]="'off'" [(ngModel)]="formData.mobile" required (keypress)="mobileNumberOnly($event)">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <input matInput placeholder="Alternate Mobile Number" minlength="10" maxlength="10" name="alternate_number" [autocomplete]="'off'" [(ngModel)]="formData.alternate_number" (keypress)="mobileNumberOnly($event)">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="example-container" style="margin-top: 20px;">
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="picker" (click)="picker.open()" placeholder="Established on" name="established_on" [max]="now" [(ngModel)]="formData.established_on" (dateChange)="ClearSubscriptionDates()" required readonly>
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <!-- <div class="col-sm-3">
+            <div class="example-container">
+              <mat-form-field>
+                <mat-label>Subscription Type</mat-label>
+                <mat-select name="years" [(ngModel)]="formData.years" (ngModelChange)="subscriptionYearsChange($event)"
+                  required>
+                  <mat-option [value]=1>1 Year</mat-option>
+                  <mat-option [value]=2>2 Years</mat-option>
+                  <mat-option [value]=3>3 Years</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="example-container">
+              <mat-form-field>
+                <input matInput [matDatepicker]="picker1" (click)="picker1.open()"
+                  (ngModelChange)="subscriptionStartChange($event)" [min]="formData.established_on"
+                  [disabled]="!formData.established_on" placeholder="Subscription Start" name="subscription_start"
+                  [(ngModel)]="formData.subscription_start" required readonly>
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="example-container">
+              <mat-form-field>
+                <input matInput [matDatepicker]="picker2" (click)="picker2.open()" placeholder="Subscription End"
+                  name="subscription_end" [(ngModel)]="formData.subscription_end" disabled="true" required readonly>
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div> -->
+                    <div class="col-sm-3">
+                        <div class="example-container" style="margin-top: 20px;">
+                            <mat-form-field>
+                                <input class="captilize" matInput placeholder="Contact Person*" name="contact_person" minlength="3" maxlength="20" (keypress)="alphabets_dot_space_only($event)" [autocomplete]="'off'" [(ngModel)]="formData.contact_person">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <textarea id="address" class="adderssview captilize cursor" matInput placeholder="Address" name="address" [(ngModel)]="formData.address" required></textarea>
+                                <!-- <input matInput placeholder="Address" name="address" [(ngModel)]="formData.address"> -->
+                                <button type="button" class="mapview" data-toggle="modal" data-target="#myModal2">
+                  <i class="fa fa-map-marker" aria-hidden="true"></i>Map View</button>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <!-- <div class="col-sm-3">
+            <div class="example-container">
+              <mat-form-field>
+                <input matInput placeholder="Contact Email" name="contactEmail" [autocomplete]="'off'"
+                  [(ngModel)]="formData.contactEmail" required [autocomplete]="'off'">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="example-container">
+              <mat-form-field>
+                <input matInput placeholder="Contact Number" name="contactNumber" [autocomplete]="'off'"
+                  [(ngModel)]="formData.contactNumber" required [autocomplete]="'off'">
+              </mat-form-field>
+            </div>
+          </div> -->
+                </div>
+
+                <!-- <div class="row">
+          <div class="col-sm-3">
+            <div class="example-container">
+              <mat-form-field>
+                <input class="captilize" matInput placeholder="Contact Person*" name="contact_person"
+                  [autocomplete]="'off'" [(ngModel)]="formData.contact_person">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="example-container">
+              <mat-form-field>
+                <input matInput placeholder="Contact Email" name="contactEmail" [autocomplete]="'off'"
+                  [(ngModel)]="formData.contactEmail" required [autocomplete]="'off'">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="example-container">
+              <mat-form-field>
+                <input matInput placeholder="Contact Number" name="contactNumber" [autocomplete]="'off'"
+                  [(ngModel)]="formData.contactNumber" required [autocomplete]="'off'">
+              </mat-form-field>
+            </div>
+          </div>
+        </div> -->
+
+
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <input class="captilize" matInput id="city" placeholder="City" name="city" (keypress)="alphabets_dot_space_only($event)" [autocomplete]="'off'" [(ngModel)]="formData.city" required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <input class="captilize" matInput id="locality" placeholder="Locality" name="area" (keypress)="alphabets_dot_space_only($event)" [autocomplete]="'off'" [(ngModel)]="formData.locality" required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <input matInput id="pincode" placeholder="Pincode" [minlength]="6" [maxlength]="6" name="Pincode" [autocomplete]="'off'" [(ngModel)]="formData.pincode" onkeypress='return event.charCode >= 48 && event.charCode <= 57' required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <input class="captilize" matInput placeholder="Display Name" maxlength="25" name="display_name" (keypress)="alphabets_dot_space_only($event)" [autocomplete]="'off'" [(ngModel)]="formData.display_name">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <input matInput placeholder="Contact Email" name="contactEmail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [autocomplete]="'off'" [(ngModel)]="formData.contactEmail" required [autocomplete]="'off'">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <input matInput placeholder="Contact Number" name="contactNumber" (keypress)="mobileNumberOnly($event)" minlength="10" maxlength="10" [autocomplete]="'off'" [(ngModel)]="formData.contactNumber" required [autocomplete]="'off'">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="example-container mTop20">
+                            <mat-checkbox class="example-margin" [(ngModel)]="formData.isContactDetailsSame" (ngModelChange)="getOrRemoveContactDetails()" [ngModelOptions]="{standalone: true}">Same as above
+                            </mat-checkbox>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <mat-select placeholder="Select Sports" multiple name="sports" [(ngModel)]="sportsList" required>
+                                    <mat-option *ngFor="let sport of masterSportsList" [value]="sport">{{sport.name}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <mat-select placeholder="Select Batches" multiple name="batches" [(ngModel)]="formData.batchList" required>
+                                    <mat-option *ngFor="let batch of batchesList" [value]="batch.id">{{batch.name}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="example-container">
+                            <div class="amenity">
+                                <label>Court Details</label>
+                            </div>
+                            <div class="sport">
+                                <mat-form-field>
+                                    <mat-select placeholder="Sport" (ngModelChange)="sportSelected($event)" name="sport" [(ngModel)]="sport">
+                                        <mat-option *ngFor="let sport of sportsList" [value]="sport">{{sport.name}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="type">
+                                <mat-form-field>
+                                    <mat-select placeholder="Type" name="court" [(ngModel)]="court">
+                                        <mat-option *ngFor="let court of masterCourtsList" [value]="court">{{court.name}}</mat-option>
+                                        <!-- <mat-option>vally ball</mat-option> -->
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="Number">
+                                <mat-form-field>
+                                    <input matInput placeholder="Number" name="count" [autocomplete]="'off'" [(ngModel)]="count" (keypress)="numberOnly($event)">
+                                </mat-form-field>
+                            </div>
+                            <div class="addbtn">
+                                <button type="button" *ngIf="!showCourtEdit" (click)=addCourt()>Add</button>
+                                <button type="button" *ngIf="showCourtEdit" (click)=updateCourt()>Update</button>
+                            </div>
+                        </div>
+                        <div class="tableview" *ngIf="court_details.length">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr *ngFor="let court of court_details; let i = index">
+                                        <td class="captilize">{{court.sport.name}}</td>
+                                        <td>{{court.court.name}}</td>
+                                        <td>{{court.count}}</td>
+                                        <td class="edit" (click)=editCourt(i)>Edit</td>
+                                        <td class="remove" (click)=removeCourt(i)>Remove</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <mat-select placeholder="Select Amenity" multiple name="amenities" [(ngModel)]="formData.amenities">
+                                    <mat-option *ngFor="let amenity of masterAmenities" [value]="amenity._id">{{amenity.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <!-- <div class="example-container">
+              <div class="amenity">
+                <label>Amenities</label>
+              </div>
+              <div class="amenityinput">
+                <mat-form-field>
+                  <input class="captilize" matInput placeholder="Amenity Name here (Ex:Car parking, Gym)" name="amenity"
+                    [autocomplete]="'off'" [(ngModel)]="amenity">
+                </mat-form-field>
+              </div>
+              <div class="addbtn">
+                <button type="button" *ngIf="!showAmenityEdit" (click)="addAmenity()">Add</button>
+                <button type="button" *ngIf="showAmenityEdit" (click)="updateAmenity()">Update</button>
+              </div>
+            </div>
+            <div class="tableview" *ngIf="formData.amenities.length">
+              <table class="table table-bordered">
+                <tbody>
+                  <tr *ngFor="let ameniti of formData.amenities; let i = index">
+                    <td class="captilize">{{ameniti}}</td>
+                    <td class="edit" (click)=editAmenity(i)>Edit</td>
+                    <td class="remove" (click)=removeAmenity(i)>Remove</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div> -->
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="example-container">
+                            <div class="amenity">
+                                <label>Timings</label>
+                            </div>
+                            <div class="sport">
+                                <mat-form-field>
+                                    <mat-select placeholder="Day" name="day" [(ngModel)]="day" multiple>
+                                        <mat-option *ngFor="let day of masterDaysList" [value]="day.name">{{day.name}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="type">
+                                <mat-form-field>
+                                    <input matInput placeholder="Start Time" atp-time-picker name="start_time" [autocomplete]="'off'" [(ngModel)]="start_time" readonly>
+                                </mat-form-field>
+                            </div>
+                            <div class="Number">
+                                <mat-form-field>
+                                    <input matInput placeholder="End Time" atp-time-picker name="end_time" [autocomplete]="'off'" [(ngModel)]="end_time" readonly>
+                                </mat-form-field>
+                            </div>
+                            <div class="addbtn">
+                                <button type="button" *ngIf="!showTimeEdit" (click)="addTime()">Add</button>
+                                <button type="button" *ngIf="showTimeEdit" (click)="updateTime()">Update</button>
+                            </div>
+                        </div>
+                        <div class="tableview" *ngIf="formData.timings.length">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr *ngFor="let time of formData.timings; let i = index">
+                                        <td>{{time.day}}</td>
+                                        <td>{{time.start_time}}</td>
+                                        <td>{{time.end_time}}</td>
+                                        <!-- <td class="edit" (click)="editTime(i)">Edit</td> -->
+                                        <td class="remove" (click)="removeTime(i)">Remove</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="example-container" style="margin-top: 60px;">
+                            <mat-form-field>
+                                <input matInput placeholder="Add Academy Intro Url (Youtube)" name="academyYoutubeVideo" [autocomplete]="'off'" [(ngModel)]="formData.academyYoutubeVideo">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <textarea class="captilize cursor" maxlength="500" matInput placeholder="Brief About Academy " name="about" rows="4" [(ngModel)]="formData.about"></textarea>
+                                <!-- <input matInput placeholder="About Academy" name="about" [(ngModel)]="formData.about"> -->
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <label for="upload" class="file-upload__label">Upload Academy Images *</label>
+                    <span class="total-count">Total Images : {{qImgLocalPath.length}}</span>
+                    <div class="uplbtns">
+                        <div class="file-upload">
+                            <input id="upload" class="file-upload__input" type="file" (change)="uploadProfilePic($event)" name="logo" id="logo" accept=".jpeg,.jpg,.png" multiple #fileUpload required>
+                            <p class="imgformat-1">(JPG, PNG...(W:500 X H:300))</p>
+                        </div><br>
+                    </div>
+
+                    <div class="col-sm-3" *ngFor="let image of qImgLocalPath; let i = index">
+                        <div class="hovereffect">
+                            <img class="img-responsive acdmy_upload" [src]="image" alt="">
+                            <div class="overlay">
+                                <h2>{{fileName[i]}}</h2>
+                                <a class="info rmv" (click)="removeImage(i)">Remove</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</section>
+
+<section class="academies" *ngIf="!showCreateForm">
+    <div class=" container-fluid">
+        <div class="main_heading">
+            <h3>Update academy</h3>
+        </div>
+        <form #aF="ngForm">
+            <div class="create_academy scrollbar cre_scroll" id="style-3">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <h5>Update academy</h5>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="submitcnacel">
+                            <!-- <button type="button" data-toggle="modal" (click)=getAcademyTimings() data-target="#editTimings" class="edittime">Edit
+                Timings</button>
+                            <button type="button" data-toggle="modal" data-target="#editCourts" class="editcourt">Edit
+                Courts</button> -->
+                            <button type="button" class="editcourt" *ngIf="disableInputs" (click)="editData()">Edit</button>
+                            <button type="button [disabled]=disableSubmit" class="sub" appDebounceClick (debounceClick)='updateAcademy()' [debounceTime]="1000 " *ngIf="!disableInputs">
+                <div>Update</div>
+              </button>
+                            <a routerLink="/Sidemenu/academies/academiesList" *ngIf="!disableInputs || !academyLogin"> <button type="button " class="cancl ">Cancel</button></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-sm-3 ">
+                        <div class="example-container ">
+                            <mat-form-field>
+                                <mat-select placeholder="Select Parent Academy " name="parentAcademy " [(ngModel)]="updateAcademyDetails.parentAcademy " [disabled]="parentAcademies.length===0 || academyLogin">
+                                    <mat-option value="">No parent academy</mat-option>
+                                    <mat-option *ngFor="let parent of parentAcademies " [value]="parent._id ">{{parent.name}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-sm-3 ">
+                        <div class="example-container ">
+                            <mat-form-field>
+                                <input class="captilize " matInput [disabled]="disableInputs" (keypress)="alphabets_dot_space_number_only($event)" minlength="3" maxlength="25" placeholder="Academy Name" name="name " [autocomplete]=" 'off' " [(ngModel)]="updateAcademyDetails.name " required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 ">
+                        <div class="example-container ">
+                            <mat-form-field>
+                                <input matInput placeholder="Email " name="email " pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [autocomplete]=" 'off' " [(ngModel)]="updateAcademyDetails.email " disabled="true ">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 ">
+                        <div class="example-container ">
+                            <mat-form-field>
+                                <input matInput placeholder="Mobile " minlength="10" maxlength="10 " name="mobile " [autocomplete]=" 'off' " [(ngModel)]="updateAcademyDetails.mobile " disabled="true " (keypress)="mobileNumberOnly($event)">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 ">
+                        <div class="example-container ">
+                            <mat-form-field>
+                                <input matInput [disabled]="disableInputs" placeholder="Alternate Mobile Number " minlength="10" maxlength="10 " name="alternate_number " [autocomplete]=" 'off' " [(ngModel)]="updateAcademyDetails.alternate_number " (keypress)="mobileNumberOnly($event) ">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-sm-3 ">
+                        <div class="example-container" style="margin-top: 20px; ">
+                            <mat-form-field>
+                                <input matInput [disabled]="disableInputs" [matDatepicker]="picker" (click)="picker.open()" placeholder="Established on" name="established_on " [max]="now" [(ngModel)]="updateAcademyDetails.established_on " (dateChange)="ClearSubscriptionDates() " readonly
+                                    required>
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <!-- <div class="col-sm-3 ">
+            <div class="example-container ">
+              <mat-form-field>
+                <mat-label>Subscription Type</mat-label>
+                <mat-select name="years " [(ngModel)]="updateAcademyDetails.years "
+                  (ngModelChange)="subscriptionYearsUpdateChange($event) ">
+                  <mat-option [value]="1 ">1 Year</mat-option>
+                  <mat-option [value]="2 ">2 Years</mat-option>
+                  <mat-option [value]="3 ">3 Years</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-sm-3 ">
+            <div class="example-container ">
+              <mat-form-field>
+                <input matInput [matDatepicker]="picker1 " (click)="picker1.open() "
+                  (ngModelChange)="subscriptionStartUpdateChange($event) " placeholder="Subscription Start "
+                  name="subscription_start " [(ngModel)]="updateAcademyDetails.subscription_start " readonly>
+                <mat-datepicker-toggle matSuffix [for]="picker1 "></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-sm-3 ">
+            <div class="example-container ">
+              <mat-form-field>
+                <input matInput [matDatepicker]="picker2 " (click)="picker2.open() " placeholder="Subscription End "
+                  name="subscription_end " [(ngModel)]="updateAcademyDetails.subscription_end " readonly disabled="true ">
+                <mat-datepicker-toggle matSuffix [for]="picker2 "></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div> -->
+                    <div class="col-sm-3 ">
+                        <div class="example-container" style="margin-top: 20px; ">
+                            <mat-form-field>
+                                <input class="captilize " matInput [disabled]="disableInputs" (keypress)="alphabets_dot_space_only($event)" minlength="3" maxlength="20" placeholder="Contact Person*" name="contact_person " [autocomplete]=" 'off' " [(ngModel)]="updateAcademyDetails.contact_person"
+                                    required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 ">
+                        <div class="example-container ">
+                            <mat-form-field>
+                                <textarea id="updateAddress " [disabled]="disableInputs" class="adderssview captilize cursor " matInput placeholder="Address" name="address" [(ngModel)]="updateAcademyDetails.address " required></textarea>
+                                <!-- <input matInput placeholder="Address " name="address " [(ngModel)]="formData.address "> -->
+                                <button type="button " class="mapview " data-toggle="modal" data-target="#myModal2" [disabled]="disableInputs">
+                                    <i class="fa fa-map-marker " aria-hidden="true "></i>Map View</button>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <!-- <div class="col-sm-3 ">
+            <div class="example-container ">
+              <mat-form-field>
+                <input matInput placeholder="Contact Email " name="contactEmail " [autocomplete]=" 'off' "
+                  [(ngModel)]="updateAcademyDetails.contactEmail " required [autocomplete]=" 'off' ">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-sm-3 ">
+            <div class="example-container ">
+              <mat-form-field>
+                <input matInput placeholder="Contact Number " name="contactNumber " [autocomplete]=" 'off' "
+                  [(ngModel)]="updateAcademyDetails.contactNumber " required [autocomplete]=" 'off' ">
+              </mat-form-field>
+            </div>
+          </div> -->
+                </div>
+
+                <!-- <div class="row ">
+          <div class="col-sm-3 ">
+            <div class="example-container ">
+              <mat-form-field>
+                <input class="captilize " matInput placeholder="Contact Person* " name="contact_person "
+                  [autocomplete]=" 'off' " [(ngModel)]="updateAcademyDetails.contact_person ">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-sm-3 ">
+            <div class="example-container ">
+              <mat-form-field>
+                <input matInput placeholder="Contact Email " name="contactEmail " [autocomplete]=" 'off' "
+                  [(ngModel)]="updateAcademyDetails.contactEmail " required [autocomplete]=" 'off' ">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-sm-3 ">
+            <div class="example-container ">
+              <mat-form-field>
+                <input matInput placeholder="Contact Number " name="contactNumber " [autocomplete]=" 'off' "
+                  [(ngModel)]="updateAcademyDetails.contactNumber " required [autocomplete]=" 'off' ">
+              </mat-form-field>
+            </div>
+          </div>
+        </div> -->
+
+
+                <div class="row ">
+                    <div class="col-sm-3 ">
+                        <div class="example-container ">
+                            <mat-form-field>
+                                <input class="captilize " matInput [disabled]="disableInputs" (keypress)="alphabets_dot_space_only($event)" id="updateCity " placeholder="City " name="city " [autocomplete]=" 'off' " [(ngModel)]="updateAcademyDetails.city " required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 ">
+                        <div class="example-container ">
+                            <mat-form-field>
+                                <input class="captilize " matInput [disabled]="disableInputs" (keypress)="alphabets_dot_space_only($event)" id="updateLocality " placeholder="Locality " name="area " [autocomplete]=" 'off' " [(ngModel)]="updateAcademyDetails.locality " required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 ">
+                        <div class="example-container ">
+                            <mat-form-field>
+                                <input matInput [disabled]="disableInputs" id="updatePincode " placeholder="Pincode " name="Pincode" [minlength]="6" [maxlength]="6" [autocomplete]=" 'off' " [(ngModel)]="updateAcademyDetails.pincode " onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                                    required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 ">
+                        <div class="example-container ">
+                            <mat-form-field>
+                                <input class="captilize " matInput [disabled]="disableInputs" placeholder="Display Name" maxlength="25" (keypress)="alphabets_dot_space_only($event)" name="display_name " [autocomplete]=" 'off' " [(ngModel)]="updateAcademyDetails.display_name ">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-sm-3 ">
+                        <div class="example-container ">
+                            <mat-form-field>
+                                <input matInput [disabled]="disableInputs" placeholder="Contact Email " name="contactEmail " pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [autocomplete]=" 'off' " [(ngModel)]="updateAcademyDetails.contactEmail " required [autocomplete]=" 'off' ">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 ">
+                        <div class="example-container ">
+                            <mat-form-field>
+                                <input matInput [disabled]="disableInputs" placeholder="Contact Number " name="contactNumber " [autocomplete]=" 'off' " [(ngModel)]="updateAcademyDetails.contactNumber" (keypress)="mobileNumberOnly($event)" required [autocomplete]=" 'off' " minlength="10"
+                                    maxlength="10 ">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 ">
+                        <div class="example-container mTop20 ">
+                            <mat-checkbox class="example-margin " [(ngModel)]="updateAcademyDetails.isContactDetailsSame " (ngModelChange)="getOrRemoveContactDetails() " [ngModelOptions]="{standalone: true} " [disabled]="disableInputs">Same as above
+                            </mat-checkbox>
+                        </div>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-sm-3 ">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <mat-select placeholder="Select Sports " [disabled]="disableInputs" multiple name="sports " [(ngModel)]="updateSportsList " required>
+                                    <mat-option *ngFor="let sport of masterSportsList " [value]="sport ">{{sport.name}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 ">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <mat-select placeholder="Select Batches " [disabled]="disableInputs" multiple name="batches " [(ngModel)]="updateAcademyDetails.batchList " required>
+                                    <mat-option *ngFor="let batch of batchesList " [value]="batch.id ">{{batch.name}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <mat-select placeholder="Select amenity " [disabled]="disableInputs" multiple name="amenities " [(ngModel)]="updateAcademyDetails.amenities ">
+                                    <mat-option *ngFor="let amenity of masterAmenities " [value]="amenity._id ">{{amenity.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- <div class="col-sm-6">
+                        <div class="example-container " style="margin-top: 14px; ">
+                            <mat-form-field>
+                                <mat-select placeholder="Select amenity " [disabled]="disableInputs" multiple name="amenities " [(ngModel)]="updateAcademyDetails.amenities ">
+                                    <mat-option *ngFor="let amenity of masterAmenities " [value]="amenity._id ">{{amenity.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div> -->
+                    <!-- <div class="example-container ">
+              <div class="amenity ">
+                <label>Amenities</label>
+              </div>
+              <div class="amenityinput ">
+                <mat-form-field>
+                  <input class="captilize " matInput placeholder="Amenity Name here (Ex:Car parking, Gym) " name="amenity "
+                    [autocomplete]=" 'off' " [(ngModel)]="amenity ">
+                </mat-form-field>
+              </div>
+              <div class="addbtn ">
+                <button type="button " *ngIf="!showAmenityEdit " (click)="addUpdateAmenity() ">Add</button>
+                <button type="button " *ngIf="showAmenityEdit " (click)="updateEditAmenity() ">Update</button>
+              </div>
+            </div>
+            <div class="tableview " *ngIf="updateAcademyDetails.amenities?.length ">
+              <table class="table table-bordered ">
+                <tbody>
+                  <tr *ngFor="let ameniti of updateAcademyDetails.amenities; let i=i ndex ">
+                    <td class="captilize ">{{ameniti}}</td>
+                    <td class="edit " (click)=editUpdateAmenity(i)>Edit</td>
+                    <td class="remove " data-toggle="modal " data-target="#aminitydeleteConfirmation "
+                      (click)="currentAminityIndex=i ">Remove</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div> -->
+
+                    <div class="col-sm-6">
+                        <div class="example-container" style="margin-top: 60px;">
+                            <mat-form-field>
+                                <input matInput [disabled]="disableInputs" placeholder="Add Academy Intro Url (Youtube) " name="academyYoutubeVideo " [autocomplete]=" 'off' " [(ngModel)]="updateAcademyDetails.academyYoutubeVideo ">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="example-container ">
+                            <mat-form-field>
+                                <textarea class="captilize cursor " matInput [disabled]="disableInputs" placeholder="Brief About Academy " maxlength="500 " name="about " rows="4" [(ngModel)]="updateAcademyDetails.about "></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row ">
+                    <!-- <div class="col-sm-6 ">
+                <div class="example-container ">
+                  <mat-form-field>
+                    <textarea class="captilize " matInput placeholder="About Academy " maxlength="200 " name="about " rows="4 "
+                      [(ngModel)]="updateAcademyDetails.about "></textarea>
+                  </mat-form-field>
+                </div>
+              </div> -->
+
+                    <div class="col-sm-12 ">
+                        <label for="upload " class="file-upload__label ">Upload Academy Images *</label>
+                        <span class="total-count ">Total Images :
+              {{updateAcademyDetails.images?.length+qImgLocalPath.length}}</span>
+                        <div class="uplbtns ">
+                            <div class="file-upload ">
+                                <input id="upload" [disabled]="disableInputs" class="file-upload__input " type="file" (change)="uploadProfilePic($event) " name="logo " id="logo " accept=".jpeg,.jpg,.png " multiple #fileUpload required>
+                                <p class="imgformat-1 ">(JPG, PNG...(W:500 X H:300))</p>
+                            </div><br>
+                        </div>
+                        <div class="row ">
+                            <div class="col-sm-3 " *ngFor="let image of qImgLocalPath; let i=i ndex ">
+                                <div class="hovereffect ">
+                                    <img class="img-responsive acdmy_upload " [src]="image " alt=" ">
+                                    <div class="overlay ">
+                                        <h2>{{fileName[i]}}</h2>
+                                        <a class="info " (click)="removeImage(i) ">Remove</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 " *ngFor="let image of updateAcademyDetails.images; let i=index " [ngClass]="{'disableClick': disableInputs}">
+                                <div class="hovereffect ">
+                                    <img class="img-responsive acdmy_upload " [src]="image " alt=" ">
+                                    <div class="overlay ">
+                                        <!-- <h2>{{image.split('/')[image.split('/').length-1]}}</h2> -->
+                                        <h2 *ngIf="updateAcademyDetails.imageNames.length> 0">{{updateAcademyDetails.imageNames[i]}}</h2>
+                                        <a class="info" data-toggle="modal" data-target="#deleteConfirmation" (click)="getCurrentImageIndex(i)">Remove</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!--  Map View model  -->
+<div id="myModal2" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content mdl-cnt">
+            <div class="modal-header mdl-head">
+                <button type="button" class="close cls-1" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Select Location</h4>
+            </div>
+            <div class="clearfix"></div>
+            <div class="modal-body">
+                <div class="form-group searchloc">
+                    <input placeholder="search for location" type="text" class="form-control" #search id="locationSearch" [autocomplete]="'on'">
+                    <div class="location">
+                        <button (click)="clearMapDetails(type)" data-dismiss="modal">Apply Location</button>
+                    </div>
+                </div>
+                <agm-map [latitude]="lat" [longitude]="lng" [zoom]=zoom (mapClick)="mapClicked($event)" (dragEnd)="markerDragEnd($event)">
+                    <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="true">
+                    </agm-marker>
+                </agm-map>
+            </div>
+            <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div> -->
+        </div>
+
+    </div>
+</div>
+
+
+<div id="editTimings" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content mdl-cnt">
+            <div class="modal-header mdl-head">
+                <button type="button" class="close cls-1" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit Timings</h4>
+            </div>
+            <div class="clearfix"></div>
+            <div class="modal-body">
+                <div class="amenity-1">
+                    <label>Timings</label>
+                </div>
+                <div class="sport">
+                    <mat-form-field>
+                        <mat-select placeholder="Day" name="day" [(ngModel)]="day" multiple>
+                            <mat-option *ngFor="let day of masterDaysList" [value]="day.name">{{day.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="type">
+                    <mat-form-field>
+                        <input matInput placeholder="Start Time" atp-time-picker name="start_time" [autocomplete]="'off'" [(ngModel)]="start_time" readonly>
+                    </mat-form-field>
+                </div>
+                <div class="Number">
+                    <mat-form-field>
+                        <input matInput placeholder="End Time" atp-time-picker name="end_time" [autocomplete]="'off'" [(ngModel)]="end_time" readonly>
+                    </mat-form-field>
+                </div>
+                <div class="addbtn-1">
+                    <button type="button" class="add" (click)="addTime()">Add</button>
+                    <button type="button" class="update" (click)="updateTime()">Update</button>
+                </div>
+                <table class="table table-bordered edittbl">
+                    <thead class="theadbg">
+                        <tr>
+                            <th class="day">Day</th>
+                            <th class="starttime">Start Time</th>
+                            <th class="endtime">End Time</th>
+                            <th class="actn">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let day of updateTimings">
+                            <table class="table table-bordered mar0">
+                                <tr *ngFor="let time of day.time">
+                                    <td class="day">{{day.day}}</td>
+                                    <td class="starttime">{{time.start_time}}</td>
+                                    <td class="endtime">{{time.end_time}}</td>
+                                    <td class="actn">
+                                        <i class="fa fa-pencil eidtic" aria-hidden="true" (click)="editTimings(time.id)"></i>
+                                        <i class="fa fa-trash-o deleteic" aria-hidden="true" (click)="deleteTimings(time.id)"></i>
+                                        <!-- <button (click)="editTimings(time.id)">Edit</button>
+                    <button (click)="deleteTimings(time.id)">Delete</button> -->
+                                    </td>
+                                </tr>
+                            </table>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- updateTimings -->
+                <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div> -->
+            </div>
+
+        </div>
+    </div>
+</div>
+<div id="editCourts" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content mdl-cnt">
+            <div class="modal-header mdl-head">
+                <button type="button" class="close cls-1" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit Courts</h4>
+            </div>
+            <div class="clearfix"></div>
+            <div class="modal-body">
+
+                <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div> -->
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div id="deleteConfirmation" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content mdl_content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title title-1">Are you sure you want delete this file</h4>
+            </div>
+            <div class="modal-body model-bdy">
+                <button type="button" class="yes" data-dismiss="modal" (click)="removeUpdateImage()">Yes</button>
+                <button type="button" class="no" data-dismiss="modal" (click)="cancelRemoveUpdateImage()">No</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="aminitydeleteConfirmation" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content mdl_content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title title-1">Are you sure you want delete this file</h4>
+            </div>
+            <div class="modal-body model-bdy">
+                <button type="button" class="yes" data-dismiss="modal" (click)="removeUpdateAmenity(currentAminityIndex)">Yes</button>
+                <button type="button" class="no" data-dismiss="modal">No</button>
+            </div>
+        </div>
+
+    </div>
+</div>

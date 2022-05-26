@@ -1,0 +1,186 @@
+.coach-list {
+    background-color: #fff;
+    margin: 10px 0px;
+    padding: 0px 10px 10px 10px;
+    border-radius: 4px;
+}
+
+.coach-listmain h5 {
+    text-transform: capitalize;
+    font-family: Aller_Bold;
+    padding-top: 10px;
+}
+
+.coach-listmain {
+    margin-bottom: 10px;
+}
+
+.addcoach {
+    float: right;
+    margin-top: 14px;
+}
+
+
+/* .statuswidth {
+    width: 280px;
+} */
+
+.addcoach button {
+    text-transform: capitalize;
+    padding: 8px 30px;
+    border: none;
+    border-radius: 36px;
+    background-color: #ff0000;
+    color: #fff;
+}
+
+.addcoach a button:hover {
+    background-color: #da0808;
+}
+
+.addcoach a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.coach-listview thead {
+    background-color: #fff;
+}
+
+.view i {
+    cursor: pointer;
+    color: #30b7d6;
+    font-size: 16px;
+    /* padding-right: 10px; */
+}
+
+.editicon i {
+    color: #ffc107;
+    font-size: 16px;
+    padding-left: 10px;
+    cursor: pointer;
+}
+
+.switch {
+    display: inline-block;
+    height: 10px;
+    position: relative;
+    width: 60px;
+    top: 8px;
+}
+
+.switch input {
+    display: none;
+}
+
+.slider {
+    background-color: #dc4040;
+    bottom: 0px;
+    cursor: pointer;
+    left: 14px;
+    position: absolute;
+    right: -2px;
+    top: -12px;
+    transition: .4s;
+}
+
+.slider:before {
+    background-color: #fff;
+    bottom: 4px;
+    content: "";
+    height: 14px;
+    left: 4px;
+    position: absolute;
+    transition: .4s;
+    width: 14px;
+}
+
+.enbledisable input:checked+.slider {
+    background-color: #85bd18;
+}
+
+.enbledisable input:checked+.slider:before {
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+
+/*
+     src/styles.css (i.e. your global style)
+  */
+
+.dataTables_empty {
+    display: none;
+}
+
+.coach-listview table {
+    width: 100% !important;
+}
+
+.coach-listview table thead th {
+    color: #191919;
+    font-weight: 400;
+    border-bottom: transparent;
+}
+
+.scrool-y {
+    overflow-y: scroll;
+    /* display: block; */
+    max-height: 400px;
+}
+
+.coach_email {
+    word-break: break-all;
+    width: 300px;
+}
+
+.timeDiv {
+    float: left;
+    width: 25%;
+    border-style: solid;
+    border-color: #f1ecec;
+    border-width: 0.5px;
+    text-align: center;
+    padding: 6px 0px;
+}
+
+
+/*For timings in popup*/
+
+.timing {
+    height: 30px;
+    padding: 5px;
+}
+
+.timeHeadDiv {
+    background-color: #616060;
+    color: #fff;
+    float: left;
+    width: 25%;
+    border-style: solid;
+    border-color: #f1ecec;
+    border-width: 0.5px;
+    height: 30px;
+    text-align: center;
+    padding: 5px;
+}
+
+.chiefCoachIcon {
+    width: 16px;
+}
+
+
+/* .coach-listview table tr td {
+    word-break: break-word;
+} */
+
+.word-break {
+    word-break: initial;
+}

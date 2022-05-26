@@ -1,0 +1,134 @@
+<app-header></app-header>
+<div class="login">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-7">
+            </div>
+            <div class="col-sm-5">
+                <form name="loginForm" class="login_border" [ngClass]="{ 'emailLoginBoredr' : (!otpLogin || emailLogin || otpSent) && !superAdminLogin }">
+                    <div class="login-form">
+                        <div class="login_types col-sm-2" *ngIf="otpLogin || emailLogin">
+                            <button type="button" class="active" *ngIf="!emailLogin" (click)="changeLoginType('email')">Login with
+                  email</button>
+                            <button type="button" class="active" *ngIf="emailLogin" (click)="changeLoginType('otp')">Login with
+                  otp</button>
+                        </div>
+                        <h3>login</h3>
+                        <div *ngIf="otpLogin || emailLogin" class="role">
+                            <!-- <h4>Role : </h4> -->
+                            <!-- <select name="loginRole" [(ngModel)]="loginRole" (ngModelChange)="changeLoginRole()">
+                <option value="ACADEMY">Academy</option>
+                <option value="PARENT_ACADEMY">Parent Academy</option>
+              </select> -->
+                            <mat-radio-group aria-label="Select an option" name="loginRole" [(ngModel)]="loginRole" (ngModelChange)="changeLoginRole()">
+                                <mat-radio-button value="ACADEMY" class="acdmy">Academy</mat-radio-button>
+                                <mat-radio-button value="PARENT_ACADEMY" class="pacdmy">Parent Academy</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+
+
+
+                        <div *ngIf="!otpLogin || emailLogin">
+                            <mat-form-field class="example-full-width width75">
+                                <input matInput placeholder="Email Id" [(ngModel)]="loginData.email" name="email">
+                            </mat-form-field><br>
+
+                            <mat-form-field class="example-full-width width75">
+                                <input matInput type="password" placeholder="Password" [(ngModel)]="loginData.password" name="password">
+                            </mat-form-field>
+                            <div class="forgotpawd" *ngIf="emailLogin">
+                                <!-- <a (click)="changeLoginTypeToOtp()" class="otp">Login with OTP ?</a> -->
+                                <a href="" data-toggle="modal" data-target="#myModal">Forgot Password ?</a>
+                            </div>
+                        </div>
+                        <div *ngIf="otpLogin">
+                            <mat-form-field class="example-full-width width75">
+                                <input matInput placeholder=" Mobile Number" [(ngModel)]="loginData.mobile" name="mobile" minlength="10" maxlength="10" (keypress)="mobileNumberOnly($event)">
+                            </mat-form-field><br>
+
+                            <mat-form-field class="example-full-width width75" *ngIf="otpSent">
+                                <input matInput type="text" placeholder="OTP" [(ngModel)]="loginData.otp" name="password">
+                            </mat-form-field>
+                            <div class="forgotpawd resendOtp" *ngIf="otpSent">
+                                <p><a (click)="getAcademyOtp()">Resend OTP</a></p>
+                            </div>
+                        </div>
+                        <div class="loginbtn">
+                            <button (click)="login()" *ngIf="!otpLogin && !emailLogin && !parentAcademyLogin && !academyLogin">login</button>
+                            <button (click)="loginAcademyWithEmail()" *ngIf="!otpLogin && emailLogin && academyLogin">Login</button>
+                            <button (click)="getAcademyOtp()" *ngIf="otpLogin && !otpSent && academyLogin">Send OTP</button>
+                            <button (click)="loginWithOtp()" *ngIf="otpLogin && otpSent && academyLogin">Login</button>
+                            <button (click)="getParentAcademyOtp()" *ngIf="otpLogin && !otpSent && parentAcademyLogin">Send
+                OTP</button>
+                            <button (click)="loginParentWithOtp()" *ngIf="otpLogin && otpSent && parentAcademyLogin">Login</button>
+                            <button (click)="loginParentAcademyWithEmail()" *ngIf="!otpLogin && emailLogin && parentAcademyLogin">Login</button>
+                        </div>
+                    </div>
+                </form>
+                <!-- <form name="loginForm" class="login_border" [ngClass]="{ 'emailLoginBoredr' : !otpLogin || emailLogin || otpSent }" *ngIf="router.url === '/parentAcademy/Login'">
+                    <div class="login-form">
+                        <div class="login_types" *ngIf="otpLogin || academyParentEmailLogin">
+                            <button type="button" class="active" *ngIf="!academyParentEmailLogin" (click)="changeLoginType('email')">Login with email Parent</button>
+                            <button type="button" class="active" *ngIf="academyParentEmailLogin" (click)="changeLoginType('otp')">Login with otp Parent</button>
+                        </div>
+                        <h3>login</h3>
+                        <div *ngIf="!otpLogin || academyParentEmailLogin">
+                            <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Email Id" [(ngModel)]="loginData.email" name="email">
+                            </mat-form-field><br>
+
+                            <mat-form-field class="example-full-width">
+                                <input matInput type="password" placeholder="Password" [(ngModel)]="loginData.password" name="password">
+                            </mat-form-field>
+                            <div class="forgotpawd" *ngIf="academyParentEmailLogin">
+                                <a href="" data-toggle="modal" data-target="#myModal">Forgot Password ?</a>
+                            </div>
+                        </div>
+                        <div *ngIf="otpLogin">
+                            <mat-form-field class="example-full-width">
+                                <input matInput placeholder=" Mobile Number" [(ngModel)]="loginData.mobile" name="email">
+                            </mat-form-field><br>
+
+                            <mat-form-field class="example-full-width" *ngIf="otpSent">
+                                <input matInput type="text" placeholder="OTP" [(ngModel)]="loginData.otp" name="password">
+                            </mat-form-field>
+                            <div class="forgotpawd resendOtp" *ngIf="otpSent">
+                                <p><a (click)="getParentAcademyOtp()">Resend OTP</a></p>
+                            </div>
+                        </div>
+                        <div class="loginbtn">
+                            <button (click)="login()" *ngIf="!otpLogin && !academyParentEmailLogin">login</button>
+                            <button (click)="loginParentAcademyWithEmail()" *ngIf="!otpLogin && academyParentEmailLogin">Login</button>
+                            <button (click)="getParentAcademyOtp()" *ngIf="otpLogin && !otpSent">Send OTP</button>
+                            <button (click)="loginParentWithOtp()" *ngIf="otpLogin && otpSent">Login</button>
+                        </div>
+                    </div>
+                </form> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content mdl-content-1">
+            <div class="modal-header mdl-head">
+                <button type="button" class="close cls-1" data-dismiss="modal" (click)="clearforgotpassword()" #closeAddExpenseModal>&times;</button>
+                <h4 class="modal-title title">forgot password</h4>
+            </div>
+            <div class="modal-body">
+                <div class="chabge_pswd">
+                    <label>Enter Email Id</label>
+                    <span><b>:</b></span>
+                    <input type="email" name="email" placeholder="Enter Registered Email Id" [(ngModel)]="forgotpassWord.email" autocomplete="off">
+                </div>
+                <div class="send">
+                    <button type="button" (click)="forgotpassword()" *ngIf="!parentAcademyLogin">Send</button>
+                    <button type="button" (click)="forgotParentpassword()" *ngIf="parentAcademyLogin">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

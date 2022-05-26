@@ -1,0 +1,118 @@
+<router-outlet (activate)="onActivate($event)"></router-outlet>
+<section class="sports">
+    <div class="container-fluid">
+        <div class="main_heading">
+            <h3>Sports</h3>
+        </div>
+        <div class="sports-list">
+            <h5>List of Sports </h5>
+            <div class="row">
+                <div class="col-sm-7">
+                    <div *ngIf="this.userDetails?.type?.toLowerCase() != 'academyadmin' && !parentacademy">
+                        <form #aF="ngForm">
+                            <div class="addsports">
+                                <mat-form-field>
+                                    <input class="captilize" matInput (keypress)="alphabetsAndSpaceOnly($event)" placeholder="Enter Sport Name *" maxlength="20" [autocomplete]="'off'" [(ngModel)]='sportName' name='sportName'>
+                                </mat-form-field>
+                            </div>
+                            <!-- <div [hidden]="!hideImgUploadBtn" class="sportImg">
+                                <img class="profilrpic" class="img-responsive qImg" *ngIf="qImgLocalPath" [src]="qImgLocalPath" alt="profile image">
+                                <button (click)="removeSportImg()">Remove</button>
+                            </div> -->
+                            <div class="hovereffect sportImg" [hidden]="!hideImgUploadBtn">
+                                <img class="profilrpic" class="img-responsive qImg" *ngIf="qImgLocalPath" [src]="qImgLocalPath" alt="profile image">
+                                <div class="overlay">
+                                    <a class="info" data-toggle="modal" data-toggle="modal" data-target="#myModal3">Remove</a>
+                                </div>
+                            </div>
+                            <div class="file-upload" [hidden]="hideImgUploadBtn">
+                                <label for="logo" class="file-upload__label">Upload</label>
+                                <input class="file-upload__input" type="file" accept=".jpeg,.jpg,.png,.pdf" (change)="uploadProfilePic($event)" name="logo" id="logo" #fileUpload>
+                                <p class="imgformat">(JPG, PNG...(W:500 X H:300))</p>
+                                <!-- <p class="imgformat"></p> -->
+                            </div>
+                            <div class="addbtn">
+                                <button *ngIf="!showsportEdit" type="button" appDebounceClick (debounceClick)='addSport()' [debounceTime]="1000" class="addsport">Add Sport</button>
+                                <button *ngIf="showsportEdit" type="button" appDebounceClick (debounceClick)='updateSport()' [debounceTime]="1000" class="update">Update</button>
+                                <button *ngIf="showsportEdit" type="button" (click)="cancelUpdate()" class="cancel-1">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="sportslistview">
+                        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="style-3" class="row-border table-striped hover scrool-spt sports_view scrollbar">
+                            <thead>
+                                <tr>
+                                    <th class="sno">S.No</th>
+                                    <th class="spt_name spt_name_1">Sport Name</th>
+                                    <th class="spt_name" style="width: 100px;">Added On</th>
+                                    <th class="spt_name spt_name_1 text-center">Image</th>
+                                    <th class="spt_name" *ngIf="userDetails?.type?.toLowerCase() != 'academyadmin' && userDetails?.type?.toLowerCase() != 'parentacademy'">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="dtSportsList?.length == 0">
+                                <tr>
+                                    <td colspan="9" class="nodata">No data found</td>
+                                </tr>
+                            </tbody>
+                            <tbody *ngIf="dtSportsList?.length != 0" class="table table-striped hover scrool-y scrollbar dataTable no-footer">
+                                <tr *ngFor="let sport of dtSportsList">
+                                    <td>{{ sport.slNo }}</td>
+                                    <td class="captilize wrd-brk" style="width: 120px;">{{ sport.name }}</td>
+                                    <td class="captilize" style="width: 100px;">{{ sport.created_date }}</td>
+                                    <td class="captilize wrd-brk text-center" style="width: 120px;">
+                                        <img class="profilrpic tableSportImg" [src]="sport.imgUrl" alt="profile image">
+                                    </td>
+                                    <td *ngIf="userDetails?.type?.toLowerCase() != 'academyadmin' && userDetails?.type?.toLowerCase() != 'parentacademy'"><span class="editicon"><i class="fa fa-pencil" aria-hidden="true"
+                                                matTooltip="Edit" matTooltipPosition="above"
+                                                (click)="edidSport(sport)"></i></span>
+                                        <span class="delete"><i class="fa fa-trash-o" aria-hidden="true"
+                                                matTooltip="Delete" (click)="deleteId = sport._id" data-toggle="modal"
+                                                data-target="#myModal2" matTooltipPosition="above"></i></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal 2-->
+<div id="myModal2" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content mdl_content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title title-1">Are you sure you want delete this file</h4>
+            </div>
+            <div class="modal-body model-bdy">
+                <button type="button" class="yes" data-dismiss="modal" (click)="deleteSport(deleteId)">Yes</button>
+                <button type="button" class="no" data-dismiss="modal">No</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal 3-->
+<div id="myModal3" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content mdl_content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title title-1">Are you sure you want delete this file</h4>
+            </div>
+            <div class="modal-body model-bdy">
+                <button type="button" class="yes" data-dismiss="modal" (click)="removeSportImg()">Yes</button>
+                <button type="button" class="no" data-dismiss="modal">No</button>
+            </div>
+        </div>
+
+    </div>
+</div>

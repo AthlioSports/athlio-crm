@@ -1,0 +1,382 @@
+.academies_count {
+    /* border: 1px solid #9e9c9c; */
+    padding: 14px 20px;
+    /* background: linear-gradient(to right, #ffffff 44%, #99ccff 145%); */
+    background: white;
+    border: 0px;
+    /* box-shadow: 3px 18px 10px 1px #ddd; */
+    box-shadow: 6px 10px 10px 0px #ddd;
+}
+
+.graphHeading {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.width699 {
+    width: 699px !important;
+}
+
+.disableClick {
+    background-color: #80808075 !important;
+    cursor: no-drop !important;
+}
+
+.disableClick2 {
+    pointer-events: none;
+}
+
+.branchAcademiesDropDown {
+    width: 300px;
+    margin-bottom: 20px;
+    height: 40px;
+    border-radius: 4px;
+    margin-right: 10px;
+    text-transform: capitalize;
+    color: #000;
+    padding: 0px 10px;
+}
+
+.img-container {
+    text-align: center;
+    display: block;
+}
+
+.verticalLine {
+    height: 36px;
+    border-right: 1px solid;
+    margin-top: 20px;
+}
+
+.dashboard_lists {
+    text-decoration: none;
+    font-size: 13px;
+}
+
+
+/* .dashboard_lists:hover {
+    color: #fff;
+} */
+
+.academies_count span {
+    padding-right: 16px;
+}
+
+.icon {
+    float: right;
+    margin-top: 2px;
+    font-size: 24px;
+    color: #e20b0b;
+}
+
+.yearsDropDown {
+    float: right;
+    width: 79px;
+    margin-bottom: 20px;
+    height: 30px;
+    border-radius: 4px;
+    margin-right: 10px;
+    text-transform: capitalize;
+    color: #000;
+}
+
+.scrool-y {
+    overflow-y: scroll;
+    /* display: block;
+    height: 360px; */
+    max-height: 370;
+}
+
+.upTo {
+    width: 30px;
+    font-weight: bold;
+}
+
+.tblsty thead {
+    background-color: #fff;
+    color: #000;
+}
+
+.mtop50 {
+    margin-top: 50px;
+}
+
+.tblsty thead th {
+    font-weight: normal;
+    border: none;
+}
+
+.mtop {
+    margin-top: 30px;
+}
+
+.mbtm {
+    margin-bottom: 20px;
+}
+
+
+/* .studt_spt {
+    width: 80px !important;
+}
+
+.student_level {
+    width: 112px !important;
+} */
+
+.dashboard_mqain {
+    margin-top: 10px;
+}
+
+.studentssportslevel h5 {
+    text-transform: capitalize;
+    font-size: 14px;
+    /* width: 48%; */
+    float: left;
+    margin-top: 20px;
+}
+
+.martopbtm {
+    margin: 20px 0px
+}
+
+.marbottom {
+    margin-bottom: 30px;
+}
+
+.bg-clor {
+    padding: 2px 10px;
+    background-color: #fff;
+    border-radius: 6px;
+    color: #000;
+    height: 316px;
+}
+
+.bg-clor:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+.bg-clor-1 {
+    padding: 2px 10px;
+    background-color: #fff;
+    border-radius: 6px;
+    color: #000;
+    /* margin-top: 36px; */
+}
+
+.bg-clor-1:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+.bg-clor-2 {
+    padding: 2px 10px;
+    background-color: #fff;
+    border-radius: 6px;
+    color: #000;
+    height: 316px;
+}
+
+.bg-clor-2:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+.hsty {
+    text-transform: capitalize;
+    font-size: 14px;
+    float: left;
+    margin-bottom: 20px;
+    margin-left: 18px;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.padlr {
+    padding: 0px 20px 0px 20px;
+}
+
+.bg-clor-3 {
+    padding: 2px 10px;
+    background-color: #fff;
+    border-radius: 6px;
+    color: #000;
+    height: 474px;
+    /* margin-top: 36px; */
+}
+
+.bg-clor-3 h5 {
+    text-transform: capitalize;
+    font-size: 16px;
+    border-radius: 6px;
+    margin-top: 30px;
+}
+
+.bg-clor-3:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+.padright {
+    padding: 0px 20px 0px 0px;
+}
+
+.dtable {
+    display: table;
+    width: 100%;
+}
+
+.dtcell {
+    display: table-cell;
+    vertical-align: middle;
+    /* border-right: 1px solid #ddd; */
+    width: 100px;
+    margin: auto;
+    height: 83px !important;
+    font-weight: bold;
+    text-align: center;
+}
+
+.height100 {
+    height: 100px !important;
+}
+
+.marginLeft10 {
+    text-align: center;
+}
+
+.txtstyleofSPorts {
+    /* text-align: center; */
+    width: 184px;
+    border-right: 0px;
+    font-size: 16px;
+    color: black;
+    font-weight: bold;
+}
+
+.borderwidth {
+    border: 2px solid #4eb6ab;
+    width: 100%;
+    margin: auto;
+}
+
+.borderwidth1 {
+    border: 2px solid #e64a19;
+    width: 100%;
+    margin: auto;
+}
+
+.borderwidth2 {
+    border: 2px solid #5a7683;
+    width: 100%;
+    margin: auto;
+}
+
+.borderwidth3 {
+    border: 2px solid #ff9c0b;
+    width: 100%;
+    margin: auto;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+    margin-left: 0.5em;
+    width: 118px !important;
+}
+
+.stdreport {
+    /* height: 410px !important; */
+    overflow-y: auto;
+}
+
+
+/* .borderwidth{
+    display: inline-block;
+    color: #000;
+    text-decoration: none;
+} */
+
+.ddd::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 4px;
+    background: #4eb6ab;
+    transition: width .3s;
+}
+
+.ddd:hover::after {
+    width: 100%;
+    transition: width .3s;
+}
+
+.ddd1::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 4px;
+    background: #e64a19;
+    transition: width .3s;
+}
+
+.ddd1:hover::after {
+    width: 100%;
+    transition: width .3s;
+}
+
+.ddd2::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 4px;
+    background: #5a7683;
+    transition: width .3s;
+}
+
+.ddd2:hover::after {
+    width: 100%;
+    transition: width .3s;
+}
+
+.ddd3::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 4px;
+    background: #ff9c0b;
+    transition: width .3s;
+}
+
+.ddd3:hover::after {
+    width: 100%;
+    transition: width .3s;
+}
+
+.ddd4::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 4px;
+    background: #ff9c0b;
+    transition: width .3s;
+}
+
+.ddd4:hover::after {
+    width: 100%;
+    transition: width .3s;
+}
+
+.ddd5::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 4px;
+    background: #ff9c0b;
+    transition: width .3s;
+}
+
+.ddd5:hover::after {
+    width: 100%;
+    transition: width .3s;
+}

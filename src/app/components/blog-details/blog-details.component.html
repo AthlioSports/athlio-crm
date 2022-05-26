@@ -1,0 +1,94 @@
+<ngx-spinner></ngx-spinner>
+<router-outlet (activate)="onActivate($event)"></router-outlet>
+<section class="courts">
+    <div class="container-fluid">
+        <div class="main_heading">
+            <h3> Blogs</h3>
+        </div>
+        <div class="others">
+            <form name="otherForm" #aF="ngForm">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <!-- <h5>List of Blogs </h5> -->
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="submitcnacel">
+                            <button type="button" class="editcourt" *ngIf="this.currentBlogId && disableInputs" (click)="editData()">Edit</button>
+                            <button type="button" class="sub" *ngIf="!this.currentBlogId && !disableInputs" appDebounceClick (debounceClick)='submitBlogData()' [debounceTime]="1000">
+                <div>Submit</div>
+              </button>
+                            <button type="button" class="sub" *ngIf="this.currentBlogId && !disableInputs" appDebounceClick (debounceClick)='UpdateBlog()' [debounceTime]="1000">
+                <div >Update</div>
+              </button>
+                            <a routerLink="/Sidemenu/blogs"> <button type="button" class="cancl">Cancel</button></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3 others_fields">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Blog Heading" maxlength="70" name="heading" [disabled]="disableInputs" [(ngModel)]="blogData.heading" [autocomplete]="'off'" class="captilize" required="true">
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 others_fields">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Author" name="author" maxlength="20" (keypress)="alphabets_dot_space_only($event)" [disabled]="disableInputs" [(ngModel)]="blogData.author" [autocomplete]="'off'" class="captilize" required="true">
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 others_fields">
+                    <mat-form-field>
+                        <mat-label>Select Category</mat-label>
+                        <mat-select name="category" [disabled]="disableInputs" [(ngModel)]="blogData.category" required>
+                            <mat-option [value]="category.id" *ngFor="let category of blogCategoriesData"> {{ category.name }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 others_fields">
+                    <mat-form-field>
+                        <mat-label>Select Sport</mat-label>
+                        <mat-select name="sport" [disabled]="disableInputs" [(ngModel)]="blogData.sport" required>
+                            <mat-option [value]="sport.id" *ngFor="let sport of sportsData"> {{ sport.name }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-sm-9 others_fields">
+                    <mat-form-field class="example-full-width">
+                        <textarea matInput placeholder="About" name="about" minlength="20" maxlength="145" [disabled]="disableInputs" [(ngModel)]="blogData.about" class="captilize cursor" required="true"></textarea>
+                    </mat-form-field>
+                </div>
+                <div class=" col-sm-3">
+                    <div class="file-upload ptop" [hidden]="fileName || blogData.blogImageName">
+                        <label for="upload1" class="file-upload__label">Upload Blog Image</label>
+                        <input id="upload1" class="file-upload__input" [disabled]="disableInputs" (change)="uploadBlogImage($event)" type="file" #blogImage accept=".jpeg,.jpg,.png,.pdf" />
+                        <!-- <p class="imgformat">(JPG, PNG, GIF...(W:500 X H:300))</p> -->
+                    </div>
+                    <div class="file-upload" [hidden]="!fileName && !blogData.blogImageName">
+                        <label class="file-upload__label" *ngIf="fileName">{{ fileName }}</label>
+                        <label class="file-upload__label" *ngIf="blogData.blogImageName" [ngClass]="{'disableClick': disableInputs}">{{ blogData.blogImageName }}</label>
+                        <button (click)="removeBlogImage()" [disabled]="disableInputs">Remove</button>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group has-feedback ptop col-sm-9">
+                    <ckeditor [(ngModel)]="blogData.content" [readonly]="disableInputs" maxlength="10" name="content" required [config]="ckeConfig">
+                    </ckeditor>
+                </div>
+                <div class="col-sm-3 others_fields ptop">
+                    <!-- <mat-form-field class="example-full-width">
+                            <input matInput placeholder="keywords" name="keywords" [autocomplete]="'off'" class="captilize" required="true">
+                        </mat-form-field> -->
+                    <mat-form-field class="example-full-width">
+                        <mat-chip-list #keyWordsList aria-label="Fruit selection" [disabled]="disableInputs">
+                            <mat-chip *ngFor="let keyWord of blogData.keyWords" [selectable]="selectable" [removable]="removable" (removed)="removeKeyWord(keyWord)">
+                                {{keyWord.length > 16? keyWord.substring(0, 16) + '...': keyWord}}
+                                <mat-icon matChipRemove *ngIf="removable"></mat-icon>
+                            </mat-chip>
+                            <input placeholder="Add Keywords" [matChipInputFor]="keyWordsList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addKeyWord($event)" required>
+                        </mat-chip-list>
+                    </mat-form-field>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
