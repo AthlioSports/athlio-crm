@@ -161,7 +161,7 @@
                                 <h5>Content</h5>
                                 <b>:</b>
 
-                                <span [innerHTML]="selectedBlog.content"></span>
+                                <span [innerHTML]="selectedBlog.content | sanitizeHtml"></span>
 
                             </div>
                         </div>
@@ -180,5 +180,4 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </div></div>

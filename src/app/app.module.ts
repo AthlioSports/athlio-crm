@@ -78,6 +78,7 @@ import { VgOverlayPlayModule } from 'videogular2/overlay-play';
 import { VgBufferingModule } from 'videogular2/buffering';
 import { VideosComponent } from './components/videos/videos.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
+import { SanitizeHtmlPipe } from './pipes/sanitize-html.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -120,6 +121,7 @@ import { NotificationsComponent } from './components/notifications/notifications
     DebounceClickDirective,
     VideosComponent,
     NotificationsComponent,
+    SanitizeHtmlPipe,
   ],
   imports: [
     BrowserModule,
