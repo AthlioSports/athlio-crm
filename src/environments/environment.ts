@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   // apiendpoint: 'http://172.104.179.6:3000/api/',
   apiendpoint: 'http://localhost:3000/api/',
+  googleMapsApiKey: 'YOUR_GOOGLE_MAPS_API_KEY',
 };
 
 /*
