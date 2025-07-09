@@ -19,9 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCheckboxModule, MatInputModule } from '@angular/material';
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule } from '@angular/forms';
-import { HttpModule, Http } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { DataTableModule } from "angular-6-datatable";
 import { DataTablesModule } from 'angular-datatables';
@@ -139,7 +137,6 @@ import { NotificationsComponent } from './components/notifications/notifications
     MatNativeDateModule,
     MatSelectModule,
     FormsModule,
-    HttpModule,
     HttpClientModule,
     sportRouter,
     AmazingTimePickerModule,
