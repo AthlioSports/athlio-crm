@@ -27,6 +27,7 @@ import { DataTableModule } from "angular-6-datatable";
 import { DataTablesModule } from 'angular-datatables';
 import { CookieService } from 'angular2-cookie/core';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { environment } from '../environments/environment';
 
 
 import { HeaderComponent } from './components/header/header.component';
@@ -156,9 +157,7 @@ import { NotificationsComponent } from './components/notifications/notifications
     }), // ToastrModule added
     DataTablesModule,
     AgmCoreModule.forRoot({
-      // please get your own API key here:
-      // https://developers.google.com/maps/documentation/javascript/get-api-key?hl=en
-      apiKey: 'AIzaSyAcdenESpDJVD3v4kPYTD9rSpZqFG2spIk',
+      apiKey: environment.googleMapsApiKey,
       libraries: ['places', 'geometry']
     }),
     UserIdleModule.forRoot({idle: 1200, timeout: 300, ping: 180})
@@ -170,5 +169,4 @@ import { NotificationsComponent } from './components/notifications/notifications
 })
 export class AppModule { }
 export function cookieServiceFactory() {
-  return new CookieService();
-}
+  return new CookieService();}
