@@ -1,4 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
+import { environment } from '../../../environments/environment';
 import { CookieService } from 'angular2-cookie/core';
 import { UserIdleService } from 'angular-user-idle';
 import { Router } from '@angular/router';
@@ -38,7 +39,11 @@ export class SidemenuComponent implements OnInit {
     this.userIdle.startWatching();
     
     // Start watching when user idle is starting.
-    this.userIdle.onTimerStart().subscribe(count => console.log(count));
+    this.userIdle.onTimerStart().subscribe(count => {
+      if (!environment.production) {
+        console.log(count);
+      }
+    });
     
     // Start watch when time is up.
 

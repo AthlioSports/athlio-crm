@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { environment } from '../../../environments/environment';
 import { CookieService } from 'angular2-cookie/core';
 import { MasterDataService } from '../../services/master_data/master-data.service';
 import { ToastrService } from 'ngx-toastr';
@@ -216,7 +217,9 @@ export class SubheaderComponent implements OnInit {
 
   newNotificationsCount = 0;
   getNewNotificationsCount(data){
-    console.log(data);
+    if (!environment.production) {
+      console.log(data);
+    }
     this.academyService.getNewNotificationsCount(data).subscribe(
       (data: any) => {
         this.newNotificationsCount = data.data.count;
